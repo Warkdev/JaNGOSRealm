@@ -1,0 +1,16 @@
+language: java
+services:
+ - mysql
+jdk:
+ - openjdk7
+ - oraclejdk8
+ - oraclejdk7
+branches:
+ only:
+   - master
+before_install:
+ - cd ../..
+ - git clone --depth=50 --branch=master https://github.com/Warkdev/JaNGOSAuth.git Warkdev/JaNGOSAuth
+ - mysql --user root < /home/travis/build/Warkdev/JaNGOSAuth/database/structure.sql
+ - mysql --user root jangosauth < /home/travis/build/Warkdev/JaNGOSAuth/database/data.sql
+ - cd Warkdev/JaNGOSManager
