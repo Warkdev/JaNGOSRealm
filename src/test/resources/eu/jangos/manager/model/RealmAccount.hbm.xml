@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-f?vr.-2016 19:53:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.RealmAccount" table="realm_account" catalog="jangosauth" optimistic-lock="version">
+        <composite-id name="id" class="eu.jangos.realm.model.RealmAccountId">
+            <key-property name="fkAccount" type="int">
+                <column name="fk_account" />
+            </key-property>
+            <key-property name="fkRealm" type="int">
+                <column name="fk_realm" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="account" class="eu.jangos.realm.model.Account" update="false" insert="false" fetch="select">
+            <column name="fk_account" not-null="true">
+                <comment>Foreign key to the account.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="realm" class="eu.jangos.realm.model.Realm" update="false" insert="false" fetch="select">
+            <column name="fk_realm" not-null="true">
+                <comment>Foreign key to the realm.</comment>
+            </column>
+        </many-to-one>
+        <property name="numChars" type="byte">
+            <column name="numChars" not-null="true">
+                <comment>Provides the number of characters for this realm.</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jangoscharacters</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.show_sql">false</property>
+    <mapping resource="eu/jangos/realm/model/characters/Characters.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/GuildRank.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Equipment.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/GuildEventType.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Spell.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/GuildEvents.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/ItemInstance.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Mail.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Reputation.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Whispers.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/ItemStorageType.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Ticket.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Social.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Actionbar.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Skills.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/characters/Guild.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

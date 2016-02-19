@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.Equipment" table="equipment" catalog="jangoscharacters" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="characters" class="eu.jangos.realm.model.characters.Characters" fetch="select">
+            <column name="fk_character" not-null="true">
+                <comment>Foreign key to the character who has equipped this item.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="itemInstance" class="eu.jangos.realm.model.characters.ItemInstance" fetch="select">
+            <column name="fk_item" not-null="true">
+                <comment>Foreign key to the object for which this item is equipped.</comment>
+            </column>
+        </many-to-one>
+        <property name="fkSlot" type="byte">
+            <column name="fk_slot" not-null="true">
+                <comment>Foreign key to the slot where this object is equipped.</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

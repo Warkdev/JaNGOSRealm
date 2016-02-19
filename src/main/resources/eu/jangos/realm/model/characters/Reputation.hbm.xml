@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.Reputation" table="reputation" catalog="jangoscharacters" optimistic-lock="version">
+        <composite-id name="id" class="eu.jangos.realm.model.characters.ReputationId">
+            <key-property name="fkGuid" type="int">
+                <column name="fk_guid" />
+            </key-property>
+            <key-property name="fkDbcFaction" type="int">
+                <column name="fk_dbc_faction" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="characters" class="eu.jangos.realm.model.characters.Characters" update="false" insert="false" fetch="select">
+            <column name="fk_guid" not-null="true">
+                <comment>Global Unique Identifier of the character. Foreign key to characters.</comment>
+            </column>
+        </many-to-one>
+        <property name="standing" type="int">
+            <column name="standing" not-null="true">
+                <comment>The current reputation value that the character has.</comment>
+            </column>
+        </property>
+        <property name="visible" type="byte">
+            <column name="visible" not-null="true">
+                <comment>This field is a bitmask containing flags that apply to the faction.</comment>
+            </column>
+        </property>
+        <property name="war" type="byte">
+            <column name="war" not-null="true" />
+        </property>
+        <property name="hidden" type="byte">
+            <column name="hidden" not-null="true" />
+        </property>
+        <property name="invisible" type="byte">
+            <column name="invisible" not-null="true" />
+        </property>
+        <property name="peace" type="byte">
+            <column name="peace" not-null="true" />
+        </property>
+        <property name="inactive" type="byte">
+            <column name="inactive" not-null="true" />
+        </property>
+        <property name="rival" type="byte">
+            <column name="rival" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

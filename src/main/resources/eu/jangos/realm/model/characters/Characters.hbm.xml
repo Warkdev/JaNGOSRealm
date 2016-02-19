@@ -1,0 +1,586 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.Characters" table="characters" catalog="jangoscharacters" optimistic-lock="version">
+        <id name="guid" type="int">
+            <column name="guid" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="guildRank" class="eu.jangos.realm.model.characters.GuildRank" fetch="select">
+            <column name="fk_guild_rank_guild">
+                <comment>Foreign key to guild_rank table.</comment>
+            </column>
+            <column name="fk_guild_rank">
+                <comment>Foreign key to the rank.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="itemInstance" class="eu.jangos.realm.model.characters.ItemInstance" fetch="select">
+            <column name="fk_petition">
+                <comment>Foreign key to the petition item that this character has signed.</comment>
+            </column>
+        </many-to-one>
+        <property name="fkAccount" type="int">
+            <column name="fk_account" not-null="true">
+                <comment>The account ID in which this character resides. Foreign key to account.</comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="12" not-null="true">
+                <comment>The name of the character.</comment>
+            </column>
+        </property>
+        <property name="race" type="byte">
+            <column name="race" not-null="true">
+                <comment>The race of the character. 1 1 Human 2 2 Orc 3 4 Dwarf 4 8 Night Elf 5 16 Undead 6 32 Tauren 7 64 Gnome 8 128 Troll</comment>
+            </column>
+        </property>
+        <property name="fkDbcClass" type="byte">
+            <column name="fk_dbc_class" not-null="true">
+                <comment>The Class Id of the character. Foreign key to ChrClasses.dbc</comment>
+            </column>
+        </property>
+        <property name="gender" type="byte">
+            <column name="gender" not-null="true">
+                <comment>The Sex/Gender of the character. Value Gender 0 Male 1 Female</comment>
+            </column>
+        </property>
+        <property name="level" type="byte">
+            <column name="level" not-null="true">
+                <comment>The current level of the designated player.</comment>
+            </column>
+        </property>
+        <property name="xp" type="int">
+            <column name="xp" not-null="true">
+                <comment>The total amount of xp that the signified player has.</comment>
+            </column>
+        </property>
+        <property name="money" type="int">
+            <column name="money" not-null="true">
+                <comment>This is the amount of copper the character possesses.</comment>
+            </column>
+        </property>
+        <property name="positionX" type="float">
+            <column name="position_x" precision="12" scale="0" not-null="true">
+                <comment>The x position of the character&#146;s location.</comment>
+            </column>
+        </property>
+        <property name="positionY" type="float">
+            <column name="position_y" precision="12" scale="0" not-null="true">
+                <comment>The y position of the character&#146;s location.</comment>
+            </column>
+        </property>
+        <property name="positionZ" type="float">
+            <column name="position_z" precision="12" scale="0" not-null="true">
+                <comment>The z position of the character&#146;s location.</comment>
+            </column>
+        </property>
+        <property name="fkDbcMap" type="int">
+            <column name="fk_dbc_map" not-null="true">
+                <comment>Map Identifier, Foreign key to Map.dbc</comment>
+            </column>
+        </property>
+        <property name="orientation" type="float">
+            <column name="orientation" precision="12" scale="0" not-null="true">
+                <comment>The orientation the character is facing. (North = 0.0, South = 3.14159)</comment>
+            </column>
+        </property>
+        <property name="online" type="byte">
+            <column name="online" not-null="true">
+                <comment>Records whether the character is online (1) or offline (0).</comment>
+            </column>
+        </property>
+        <property name="cinematic" type="byte">
+            <column name="cinematic" not-null="true">
+                <comment>Boolean 1 or 0 controlling whether the start cinematic has been shown or not.</comment>
+            </column>
+        </property>
+        <property name="totaltime" type="int">
+            <column name="totaltime" not-null="true">
+                <comment>The total time that the character has been active in the world, measured in seconds.</comment>
+            </column>
+        </property>
+        <property name="leveltime" type="int">
+            <column name="leveltime" not-null="true">
+                <comment>The total time the character has spent in the world at the current level, measured in seconds.</comment>
+            </column>
+        </property>
+        <property name="logoutTime" type="long">
+            <column name="logout_time" not-null="true">
+                <comment>The time when the character last logged out, measured in Unix time.</comment>
+            </column>
+        </property>
+        <property name="restBonus" type="float">
+            <column name="rest_bonus" precision="12" scale="0" not-null="true">
+                <comment>The remaining amount of XP bonus for rested characters.</comment>
+            </column>
+        </property>
+        <property name="resettalentsCost" type="int">
+            <column name="resettalents_cost" not-null="true">
+                <comment>The cost for the character to reset its talents, measured in copper.</comment>
+            </column>
+        </property>
+        <property name="resettalentsTime" type="long">
+            <column name="resettalents_time" not-null="true">
+                <comment>The last time the character has performed a reset of his talents.</comment>
+            </column>
+        </property>
+        <property name="transX" type="float">
+            <column name="trans_x" precision="12" scale="0" not-null="true">
+                <comment>The X position of the character if he's on a transport.</comment>
+            </column>
+        </property>
+        <property name="transY" type="float">
+            <column name="trans_y" precision="12" scale="0" not-null="true">
+                <comment>The Y position of the character if he's on a transport.</comment>
+            </column>
+        </property>
+        <property name="transZ" type="float">
+            <column name="trans_z" precision="12" scale="0" not-null="true">
+                <comment>The Z position of the character if he's on a transport.</comment>
+            </column>
+        </property>
+        <property name="transO" type="float">
+            <column name="trans_o" precision="12" scale="0" not-null="true">
+                <comment>The O position of the character if he's on a transport.</comment>
+            </column>
+        </property>
+        <property name="fkTransguid" type="long">
+            <column name="fk_transguid" not-null="true">
+                <comment>The global unique ID of the transport if applicable. Foreign key to transport.</comment>
+            </column>
+        </property>
+        <property name="stableSlots" type="boolean">
+            <column name="stable_slots" not-null="true">
+                <comment>The number of stable slots the player has available. Maximum is 2.</comment>
+            </column>
+        </property>
+        <property name="fkDbcZone" type="int">
+            <column name="fk_dbc_zone" not-null="true">
+                <comment>The zone ID the character is in. Foreign key to WorldMapArea.dbc</comment>
+            </column>
+        </property>
+        <property name="deathExpireTime" type="long">
+            <column name="death_expire_time" not-null="true">
+                <comment>Time when a character can be resurrected in case of a server crash or client exit while in ghost form.</comment>
+            </column>
+        </property>
+        <property name="fkDbcTaxiPath" type="string">
+            <column name="fk_dbc_taxi_path" length="65535">
+                <comment>Stores the players current taxi path (TaxiPath.dbc) if logged off while on one.</comment>
+            </column>
+        </property>
+        <property name="honorHighestRank" type="int">
+            <column name="honor_highest_rank" not-null="true">
+                <comment>Internal honor rank for mangos (value 0 to 18).</comment>
+            </column>
+        </property>
+        <property name="honorStanding" type="int">
+            <column name="honor_standing" not-null="true">
+                <comment>Displayed rank in game (-4 to 14, Pariah to High Warlord)</comment>
+            </column>
+        </property>
+        <property name="storedHonorRating" type="float">
+            <column name="stored_honor_rating" precision="12" scale="0" not-null="true">
+                <comment>Amount of stored honor so far.</comment>
+            </column>
+        </property>
+        <property name="storedDishonorableKills" type="int">
+            <column name="stored_dishonorable_kills" not-null="true">
+                <comment>Amount of stored dishonorable kills so far.</comment>
+            </column>
+        </property>
+        <property name="storedHonorableKills" type="int">
+            <column name="stored_honorable_kills" not-null="true">
+                <comment>Amount of stored honorable kills so far.</comment>
+            </column>
+        </property>
+        <property name="fkDbcWatchedFaction" type="int">
+            <column name="fk_dbc_watchedFaction" not-null="true">
+                <comment>ID of the watched faction by this character. Foreign key to Faction.dbc.</comment>
+            </column>
+        </property>
+        <property name="drunk" type="short">
+            <column name="drunk" not-null="true">
+                <comment>Boolean flag indicating whether the character is drunk or not.</comment>
+            </column>
+        </property>
+        <property name="health" type="int">
+            <column name="health" not-null="true">
+                <comment>Current health of the character.</comment>
+            </column>
+        </property>
+        <property name="power1" type="int">
+            <column name="power1" not-null="true">
+                <comment>The amount of mana for this character.</comment>
+            </column>
+        </property>
+        <property name="power2" type="int">
+            <column name="power2" not-null="true">
+                <comment>The amount of rage for this character.</comment>
+            </column>
+        </property>
+        <property name="power3" type="int">
+            <column name="power3" not-null="true">
+                <comment>The amount of focus for this character.</comment>
+            </column>
+        </property>
+        <property name="power4" type="int">
+            <column name="power4" not-null="true">
+                <comment>The amount of energy for this character.</comment>
+            </column>
+        </property>
+        <property name="power5" type="int">
+            <column name="power5" not-null="true">
+                <comment>The amount of happiness for this character.</comment>
+            </column>
+        </property>
+        <property name="fkAmmoId" type="int">
+            <column name="fk_ammoId" not-null="true">
+                <comment>ID of the ammo item. Foreign key to item_instance.</comment>
+            </column>
+        </property>
+        <property name="deleted" type="java.lang.Byte">
+            <column name="deleted">
+                <comment>Boolean value indicatiing whether this character is deleted or not.</comment>
+            </column>
+        </property>
+        <property name="deleteDate" type="java.lang.Long">
+            <column name="deleteDate">
+                <comment>The date at which the account was deleted.</comment>
+            </column>
+        </property>
+        <property name="skin" type="java.lang.Byte">
+            <column name="skin">
+                <comment>Byte value for this character's skin. This value is part of the playerBytes information.</comment>
+            </column>
+        </property>
+        <property name="face" type="java.lang.Byte">
+            <column name="face">
+                <comment>Byte value for this character's face. This value is part of the playerBytes information.</comment>
+            </column>
+        </property>
+        <property name="hairstyle" type="java.lang.Byte">
+            <column name="hairstyle">
+                <comment>Byte value for this character's hairstyle. This value is part of the playerBytes information.</comment>
+            </column>
+        </property>
+        <property name="haircolor" type="java.lang.Byte">
+            <column name="haircolor">
+                <comment>Byte value for this character's haircolor. This value is part of the playerBytes information.</comment>
+            </column>
+        </property>
+        <property name="facialhair" type="java.lang.Byte">
+            <column name="facialhair">
+                <comment>Byte value for this character's facial hair. This value is part of the playerBytes2 information.</comment>
+            </column>
+        </property>
+        <property name="unknownByte" type="java.lang.Byte">
+            <column name="unknownByte">
+                <comment>Byte value -- unknown usage. This value is part of the playerBytes2 information.</comment>
+            </column>
+        </property>
+        <property name="bankbagslot" type="java.lang.Byte">
+            <column name="bankbagslot">
+                <comment>Byte value for this character's bank bag slot count. This value is part of the playerBytes2 information.</comment>
+            </column>
+        </property>
+        <property name="resttype" type="java.lang.Byte">
+            <column name="resttype">
+                <comment>Byte value for this character's rest type. This value is part of the playerBytes2 information. Possible values are from 0 to 7 (values can be combined
+                together): 1 - RESTED 2 - NORMAL 4 - RAF-LINKED</comment>
+            </column>
+        </property>
+        <property name="changename" type="java.lang.Byte">
+            <column name="changename">
+                <comment>Force the character to change name at login. This value is part of the at_login_flag information.</comment>
+            </column>
+        </property>
+        <property name="resetspell" type="java.lang.Byte">
+            <column name="resetspell">
+                <comment>Boolean value indicating whether the character will have spell reset at login or not. This value is part of the at_login_flag information.</comment>
+            </column>
+        </property>
+        <property name="resettalents" type="java.lang.Byte">
+            <column name="resettalents">
+                <comment>Boolean value indicating whether the character will have talents reset at login or not. This value is part of the at_login_flag information.</comment>
+            </column>
+        </property>
+        <property name="charcustom" type="java.lang.Byte">
+            <column name="charcustom">
+                <comment>Boolean value at login, unknown effect. This value is part of the at_login_flag information.</comment>
+            </column>
+        </property>
+        <property name="groupleader" type="java.lang.Byte">
+            <column name="groupleader">
+                <comment>Flag value indicating whether this character is group leader or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="afk" type="java.lang.Byte">
+            <column name="afk">
+                <comment>Flag value indicating whether this character is afk or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="dnd" type="java.lang.Byte">
+            <column name="dnd">
+                <comment>Flag value indicating whether this character is dnd or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="gm" type="java.lang.Byte">
+            <column name="gm">
+                <comment>Flag value indicating whether this character is gm or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="ghost" type="java.lang.Byte">
+            <column name="ghost">
+                <comment>Flag value indicating whether this character is ghost or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="resting" type="java.lang.Byte">
+            <column name="resting">
+                <comment>Flag value indicating whether this character is resting or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="unknown7" type="java.lang.Byte">
+            <column name="unknown7">
+                <comment>Unknown flag usage. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="ffapvp" type="java.lang.Byte">
+            <column name="ffapvp">
+                <comment>Flag value indicating whether this character is in ffa pvp mode or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="contestedpvp" type="java.lang.Byte">
+            <column name="contestedpvp">
+                <comment>Flag value indicating whether this character is in contested pvp mode or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="inpvp" type="java.lang.Byte">
+            <column name="inpvp">
+                <comment>Flag value indicating whether this character is in pvp or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="hidehelm" type="java.lang.Byte">
+            <column name="hidehelm">
+                <comment>Flag value indicating whether this character is hidding helm or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="hidecloak" type="java.lang.Byte">
+            <column name="hidecloak">
+                <comment>Flag value indicating whether this character is hidding cloak or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="partialplaytime" type="java.lang.Byte">
+            <column name="partialplaytime">
+                <comment>Flag value indicating whether this character has played a long time or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="noplaytime" type="java.lang.Byte">
+            <column name="noplaytime">
+                <comment>Flag value indicating whether this character has played too long or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="unknown15" type="java.lang.Byte">
+            <column name="unknown15">
+                <comment>Unknown usage. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="unknown16" type="java.lang.Byte">
+            <column name="unknown16">
+                <comment>Unknown usage. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="sanctuary" type="java.lang.Byte">
+            <column name="sanctuary">
+                <comment>Flag value indicating whether this character is in a sanctuary zone or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="taxibenchmark" type="java.lang.Byte">
+            <column name="taxibenchmark">
+                <comment>Flag value indicating whether this character is in taxi benchmarking mode or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="pvptimer" type="java.lang.Byte">
+            <column name="pvptimer">
+                <comment>Flag value indicating whether this character has the pvp timer enabled or not. This field is part of the playerFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmon" type="java.lang.Byte">
+            <column name="gmon">
+                <comment>Flag value indicating whether this character has the gm mode enabled or not. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmaccepttickets" type="java.lang.Byte">
+            <column name="gmaccepttickets">
+                <comment>Flag value indicating whether this character is accepting tickets or not. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmacceptwhispers" type="java.lang.Byte">
+            <column name="gmacceptwhispers">
+                <comment>Flag value indicating whether this character is accepting whispers or not. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmtaxicheat" type="java.lang.Byte">
+            <column name="gmtaxicheat">
+                <comment>Flag value indicating whether this character is using taxi cheats or not. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gminvisible" type="java.lang.Byte">
+            <column name="gminvisible">
+                <comment>Flag value indicating whether this character is invisible or not. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmchat" type="java.lang.Byte">
+            <column name="gmchat">
+                <comment>Flag value indicating whether this character shows is GM badge in the chat or not. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmauctionneutral" type="java.lang.Byte">
+            <column name="gmauctionneutral">
+                <comment>Neutral auction flag. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="gmauctionenemy" type="java.lang.Byte">
+            <column name="gmauctionenemy">
+                <comment>Enemy auction flag. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="pvpdeath" type="java.lang.Byte">
+            <column name="pvpdeath">
+                <comment>Store the PvP status until the corpse is created. This field is part of the ExtraFlags information.</comment>
+            </column>
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="60">
+                <comment>The guild note of this player, visible by everybody.</comment>
+            </column>
+        </property>
+        <property name="officernote" type="string">
+            <column name="officernote" length="60">
+                <comment>The officer note for this character, visible only by allowed ranks.</comment>
+            </column>
+        </property>
+        <set name="equipments" table="equipment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_character" not-null="true">
+                    <comment>Foreign key to the character who has equipped this item.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Equipment" />
+        </set>
+        <set name="mailsForFkFrom" table="mail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_from" not-null="true">
+                    <comment>Character Global Unique Identifier of the sender. Foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Mail" />
+        </set>
+        <set name="skillses" table="skills" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_guid" not-null="true">
+                    <comment>Global Unique Identifier, foreign key to the characters table.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Skills" />
+        </set>
+        <set name="itemInstances" table="item_instance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_owner">
+                    <comment>Foreign key to the owner of this item.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.ItemInstance" />
+        </set>
+        <set name="guildEventsesForFkEventReceiver" table="guild_events" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_event_receiver">
+                    <comment>The receiver of this event.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.GuildEvents" />
+        </set>
+        <set name="mailsForFkTo" table="mail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_to" not-null="true">
+                    <comment>Character Global Unique Identifier of the receiver. Foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Mail" />
+        </set>
+        <set name="reputations" table="reputation" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_guid" not-null="true">
+                    <comment>Global Unique Identifier of the character. Foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Reputation" />
+        </set>
+        <set name="spells" table="spell" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_owner" not-null="true">
+                    <comment>The GUID (Global Unique Identifier) of the character. Foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Spell" />
+        </set>
+        <set name="socialsForFkOwner" table="social" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_owner" not-null="true">
+                    <comment>Character Global Unique Identifier. Foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Social" />
+        </set>
+        <set name="socialsForFkRelation" table="social" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_relation" not-null="true">
+                    <comment>Friend Global Unique Identifier, foreign key to the characters table.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Social" />
+        </set>
+        <set name="whispersesForFkFrom" table="whispers" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_from" not-null="true">
+                    <comment>guid of sender of the whisper</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Whispers" />
+        </set>
+        <set name="actionbars" table="actionbar" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_guid" not-null="true">
+                    <comment>Global Unique Identifier, foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Actionbar" />
+        </set>
+        <set name="guildEventsesForFkEventSender" table="guild_events" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_event_sender">
+                    <comment>The initiator of the event.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.GuildEvents" />
+        </set>
+        <set name="tickets" table="ticket" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_character" not-null="true">
+                    <comment>The GUID of the character sending the ticket. Foreign key to characters.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Ticket" />
+        </set>
+        <set name="whispersesForFkTo" table="whispers" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_to" not-null="true">
+                    <comment>guid of receiver of the whisper</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Whispers" />
+        </set>
+    </class>
+</hibernate-mapping>

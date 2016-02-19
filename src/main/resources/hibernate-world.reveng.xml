@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="jangosworld"/>
+  <table-filter match-name="slot"/>
+  <table-filter match-name="item"/>
+  <table-filter match-name="itemsubclass"/>
+  <table-filter match-name="race"/>
+  <table-filter match-name="inventorytype"/>
+  <table-filter match-name="professions"/>
+  <table-filter match-name="startingequipment"/>
+  <table-filter match-name="gender"/>
+  <table-filter match-name="language"/>
+  <table-filter match-name="itemclass"/>
+  <table-filter match-name="itemquality"/>
+</hibernate-reverse-engineering>

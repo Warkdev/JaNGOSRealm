@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-f?vr.-2016 19:53:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.Locale" table="locale" catalog="jangosauth" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="locale" type="string">
+            <column name="locale" length="30" not-null="true">
+                <comment>Locale common name.</comment>
+            </column>
+        </property>
+        <property name="localeString" type="string">
+            <column name="localeString" length="45" not-null="true">
+                <comment>String like the WoW client is sending it to the server.</comment>
+            </column>
+        </property>
+        <set name="accounts" table="account" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_locale">
+                    <comment>The locale used by this client</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.Account" />
+        </set>
+    </class>
+</hibernate-mapping>

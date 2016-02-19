@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-f?vr.-2016 19:53:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="jangosauth" name="eu.jangos.realm.model.auth.Parameter1" optimistic-lock="version" table="parameter1">
+    <id name="id" type="java.lang.Integer">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <property name="param" type="string">
+      <column length="50" name="param" not-null="true">
+        <comment>key of the parameter</comment>
+      </column>
+    </property>
+    <property name="val" type="string">
+      <column name="val" not-null="true">
+        <comment>Value of the parameter.</comment>
+      </column>
+    </property>
+  </class>
+</hibernate-mapping>

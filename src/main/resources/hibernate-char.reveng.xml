@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="jangoscharacters"/>
+  <table-filter match-name="social"/>
+  <table-filter match-name="guild"/>
+  <table-filter match-name="characters"/>
+  <table-filter match-name="skills"/>
+  <table-filter match-name="item_instance"/>
+  <table-filter match-name="spell"/>
+  <table-filter match-name="mail"/>
+  <table-filter match-name="reputation"/>
+  <table-filter match-name="whispers"/>
+  <table-filter match-name="item_storage_type"/>
+  <table-filter match-name="guild_rank"/>
+  <table-filter match-name="guild_event_type"/>
+  <table-filter match-name="ticket"/>
+  <table-filter match-name="guild_events"/>
+  <table-filter match-name="actionbar"/>
+  <table-filter match-name="equipment"/>
+</hibernate-reverse-engineering>

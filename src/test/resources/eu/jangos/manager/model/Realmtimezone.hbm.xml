@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-f?vr.-2016 19:53:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.Realmtimezone" table="realmtimezone" catalog="jangosauth" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="25">
+                <comment>Meaning of the id.</comment>
+            </column>
+        </property>
+        <set name="realms" table="realm" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_timezone" not-null="true">
+                    <comment>Foreign key to the timezone.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.Realm" />
+        </set>
+    </class>
+</hibernate-mapping>

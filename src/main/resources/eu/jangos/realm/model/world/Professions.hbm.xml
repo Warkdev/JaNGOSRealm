@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:00:57 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.world.Professions" table="professions" catalog="jangosworld" optimistic-lock="version">
+        <id name="id" type="byte">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="professions" type="string">
+            <column name="professions" length="15" not-null="true" />
+        </property>
+        <set name="startingequipments" table="startingequipment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_class" not-null="true" />
+            </key>
+            <one-to-many class="eu.jangos.realm.model.world.Startingequipment" />
+        </set>
+    </class>
+</hibernate-mapping>

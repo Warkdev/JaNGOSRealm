@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jangosworld</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.show_sql">false</property>
+    <mapping resource="eu/jangos/realm/model/world/Slot.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Itemclass.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Language.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Gender.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Itemsubclass.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Startingequipment.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Inventorytype.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Professions.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Item.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Race.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Itemquality.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

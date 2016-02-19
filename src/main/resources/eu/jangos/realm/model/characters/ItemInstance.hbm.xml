@@ -1,0 +1,323 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.ItemInstance" table="item_instance" catalog="jangoscharacters" optimistic-lock="version">
+        <id name="objectGuid" type="int">
+            <column name="object_guid" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="characters" class="eu.jangos.realm.model.characters.Characters" fetch="select">
+            <column name="fk_owner">
+                <comment>Foreign key to the owner of this item.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="itemInstanceByFkWrappedIn" class="eu.jangos.realm.model.characters.ItemInstance" fetch="select">
+            <column name="fk_wrapped_in">
+                <comment>Foreign key to the item in which this item is wrapped into.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="itemInstanceByFkStorageBag" class="eu.jangos.realm.model.characters.ItemInstance" fetch="select">
+            <column name="fk_storage_bag">
+                <comment>ID to the bag into which this item is. NULL if this item is not stored in a bag.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="itemStorageType" class="eu.jangos.realm.model.characters.ItemStorageType" fetch="select">
+            <column name="fk_storage_type">
+                <comment>The type of the main storage. Foreign key to item_storage_type.</comment>
+            </column>
+        </many-to-one>
+        <property name="objectType" type="java.lang.Byte">
+            <column name="object_type">
+                <comment>The type of the object, flag based. The following masks are applied (and combined) on it to determine the exact object type: 1 - Object 2 - Item 4 -
+                Container 8 - Unit 16 - Player 32 - Gameobject 64 - Dynamicobject 128 - Corpse</comment>
+            </column>
+        </property>
+        <property name="fkObjectEntry" type="java.lang.Integer">
+            <column name="fk_object_entry">
+                <comment>Foreign key to the id of the original item_template.</comment>
+            </column>
+        </property>
+        <property name="objectScaleX" type="java.lang.Float">
+            <column name="object_scale_x" precision="12" scale="0" />
+        </property>
+        <property name="objectPadding" type="java.lang.Integer">
+            <column name="object_padding">
+                <comment>The object padding. - Provide more info if known ! -</comment>
+            </column>
+        </property>
+        <property name="fkCreatorGuid" type="java.lang.Integer">
+            <column name="fk_creator_guid">
+                <comment>Foreign key to the creator of this item. It is used in case of crafted item.</comment>
+            </column>
+        </property>
+        <property name="fkGiftGuid" type="java.lang.Integer">
+            <column name="fk_gift_guid">
+                <comment>Foreign key to the creator of this item. It is used in case of wrapped item.</comment>
+            </column>
+        </property>
+        <property name="duration" type="java.lang.Integer">
+            <column name="duration">
+                <comment>The remaining time for this object. (in ms).</comment>
+            </column>
+        </property>
+        <property name="spellCharges1" type="java.lang.Integer">
+            <column name="spell_charges1">
+                <comment>The number of remaining charges for the spell nr 1 of the item.</comment>
+            </column>
+        </property>
+        <property name="spellCharges2" type="java.lang.Integer">
+            <column name="spell_charges2">
+                <comment>The number of remaining charges for the spell nr 2 of the item.</comment>
+            </column>
+        </property>
+        <property name="spellCharges3" type="java.lang.Integer">
+            <column name="spell_charges3">
+                <comment>The number of remaining charges for the spell nr 3 of the item.</comment>
+            </column>
+        </property>
+        <property name="spellCharges4" type="java.lang.Integer">
+            <column name="spell_charges4">
+                <comment>The number of remaining charges for the spell nr 4 of the item.</comment>
+            </column>
+        </property>
+        <property name="spellCharges5" type="java.lang.Integer">
+            <column name="spell_charges5">
+                <comment>The number of remaining charges for the spell nr 5 of the item.</comment>
+            </column>
+        </property>
+        <property name="binded" type="java.lang.Byte">
+            <column name="binded">
+                <comment>Flag value indicating whether this item is bind or not.</comment>
+            </column>
+        </property>
+        <property name="unknown1" type="java.lang.Byte">
+            <column name="unknown1">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unlocked" type="java.lang.Byte">
+            <column name="unlocked">
+                <comment>Flag value indicating whether this item is locked or not.</comment>
+            </column>
+        </property>
+        <property name="wrapped" type="java.lang.Byte">
+            <column name="wrapped">
+                <comment>Flag value indicating whether this item is wrapped or not.</comment>
+            </column>
+        </property>
+        <property name="unknown4" type="java.lang.Byte">
+            <column name="unknown4">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown5" type="java.lang.Byte">
+            <column name="unknown5">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown6" type="java.lang.Byte">
+            <column name="unknown6">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown7" type="java.lang.Byte">
+            <column name="unknown7">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown8" type="java.lang.Byte">
+            <column name="unknown8">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="readable" type="java.lang.Byte">
+            <column name="readable" />
+        </property>
+        <property name="unknown10" type="java.lang.Byte">
+            <column name="unknown10">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown11" type="java.lang.Byte">
+            <column name="unknown11">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown12" type="java.lang.Byte">
+            <column name="unknown12">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown13" type="java.lang.Byte">
+            <column name="unknown13">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown14" type="java.lang.Byte">
+            <column name="unknown14">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown15" type="java.lang.Byte">
+            <column name="unknown15">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown16" type="java.lang.Byte">
+            <column name="unknown16">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="unknown17" type="java.lang.Byte">
+            <column name="unknown17">
+                <comment>This flag has an unknown meaning, please find me !</comment>
+            </column>
+        </property>
+        <property name="fkDbcPermEnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_perm_enchant_id">
+                <comment>Foreign key to the enchantment id of SpellItemEnchantement.dbc.</comment>
+            </column>
+        </property>
+        <property name="permEnchantDuration" type="java.lang.Integer">
+            <column name="perm_enchant_duration">
+                <comment>Remaining time of the permanent enchantment.</comment>
+            </column>
+        </property>
+        <property name="permEnchantCharges" type="java.lang.Byte">
+            <column name="perm_enchant_charges">
+                <comment>Remaining charges of the enchantement.</comment>
+            </column>
+        </property>
+        <property name="fkDbcTempEnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_temp_enchant_id">
+                <comment>Foreign key to the enchantment id of SpellItemEnchantement.dbc.</comment>
+            </column>
+        </property>
+        <property name="tempEnchantDuration" type="java.lang.Integer">
+            <column name="temp_enchant_duration">
+                <comment>Remaining time of the temporary enchantment.</comment>
+            </column>
+        </property>
+        <property name="tempEnchantCharges" type="java.lang.Byte">
+            <column name="temp_enchant_charges">
+                <comment>Remaining charges of the enchantement.</comment>
+            </column>
+        </property>
+        <property name="fkDbcProp0EnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_prop0_enchant_id">
+                <comment>Foreign key to the enchantment id of SpellItemEnchantement.dbc.</comment>
+            </column>
+        </property>
+        <property name="prop0EnchantDuration" type="java.lang.Integer">
+            <column name="prop0_enchant_duration" />
+        </property>
+        <property name="prop0EnchantCharges" type="java.lang.Byte">
+            <column name="prop0_enchant_charges" />
+        </property>
+        <property name="fkDbcProp1EnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_prop1_enchant_id" />
+        </property>
+        <property name="prop1EnchantDuration" type="java.lang.Integer">
+            <column name="prop1_enchant_duration" />
+        </property>
+        <property name="prop1EnchantCharges" type="java.lang.Byte">
+            <column name="prop1_enchant_charges" />
+        </property>
+        <property name="fkDbcProp2EnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_prop2_enchant_id" />
+        </property>
+        <property name="prop2EnchantDuration" type="java.lang.Integer">
+            <column name="prop2_enchant_duration" />
+        </property>
+        <property name="prop2EnchantCharges" type="java.lang.Byte">
+            <column name="prop2_enchant_charges" />
+        </property>
+        <property name="fkDbcProp3EnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_prop3_enchant_id" />
+        </property>
+        <property name="prop3EnchantDuration" type="java.lang.Integer">
+            <column name="prop3_enchant_duration" />
+        </property>
+        <property name="prop3EnchantCharges" type="java.lang.Byte">
+            <column name="prop3_enchant_charges" />
+        </property>
+        <property name="fkDbcProp4EnchantId" type="java.lang.Integer">
+            <column name="fk_dbc_prop4_enchant_id" />
+        </property>
+        <property name="prop4EnchantDuration" type="java.lang.Integer">
+            <column name="prop4_enchant_duration" />
+        </property>
+        <property name="prop4EnchantCharges" type="java.lang.Byte">
+            <column name="prop4_enchant_charges" />
+        </property>
+        <property name="propertySeed" type="java.lang.Integer">
+            <column name="property_seed">
+                <comment>Suffix factor.</comment>
+            </column>
+        </property>
+        <property name="fkDbcRandomPropertyId" type="java.lang.Integer">
+            <column name="fk_dbc_random_property_id">
+                <comment>Foreign key to the random property ID.</comment>
+            </column>
+        </property>
+        <property name="fkItemTextId" type="java.lang.Integer">
+            <column name="fk_item_text_id">
+                <comment>Foreign key to the item text.</comment>
+            </column>
+        </property>
+        <property name="durability" type="java.lang.Integer">
+            <column name="durability">
+                <comment>The remaining durability for this item.</comment>
+            </column>
+        </property>
+        <property name="slot" type="java.lang.Byte">
+            <column name="slot">
+                <comment>The slot in which this item is stored relative</comment>
+            </column>
+        </property>
+        <property name="stackCount" type="java.lang.Byte">
+            <column name="stack_count">
+                <comment>Amount of object for this stack.</comment>
+            </column>
+        </property>
+        <property name="guildPetitionName" type="string">
+            <column name="guild_petition_name" length="24">
+                <comment>The temporary guild name attached to the petition item.</comment>
+            </column>
+        </property>
+        <set name="equipments" table="equipment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_item" not-null="true">
+                    <comment>Foreign key to the object for which this item is equipped.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Equipment" />
+        </set>
+        <set name="itemInstancesForFkWrappedIn" table="item_instance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_wrapped_in">
+                    <comment>Foreign key to the item in which this item is wrapped into.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.ItemInstance" />
+        </set>
+        <set name="itemInstancesForFkStorageBag" table="item_instance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_storage_bag">
+                    <comment>ID to the bag into which this item is. NULL if this item is not stored in a bag.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.ItemInstance" />
+        </set>
+        <set name="characterses" table="characters" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_petition">
+                    <comment>Foreign key to the petition item that this character has signed.</comment>
+                </column>
+            </key>
+            <one-to-many class="eu.jangos.realm.model.characters.Characters" />
+        </set>
+    </class>
+</hibernate-mapping>
