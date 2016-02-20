@@ -1,36 +1,27 @@
 package eu.jangos.realm.controller;
 
-/**
- * jE4W is a featured server emulator for World of Warcraft 1.12.x.
+/*
+ * Copyright 2016 Talendrys.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * World of Warcraft, and all World of Warcraft or Warcraft art, images, and
- * lore are copyrighted by Blizzard Entertainment, Inc.
- *
- * A lot of credits goes to MaNGOS project from which several ideas (but not
- * all) were included in this project.
- *
- * Copyright (C) 2015-2015 jE4W project Copyright (C) 2005-2014 MaNGOS project
- * <http://getmangos.eu>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
+import eu.jangos.realm.hibernate.HibernateUtil;
 import eu.jangos.realm.model.auth.Locale;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import eu.jangos.realm.utils.AuthParameterConstants;
 import javax.persistence.NoResultException;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,10 +31,7 @@ import org.slf4j.LoggerFactory;
  * @version v0.1 BETA.
  */
 public class LocaleService {     
-    private static final Logger logger = LoggerFactory.getLogger(LocaleService.class);
-    
-    private static final EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jE4WAuthPU");;
-    private EntityManager em = emf.createEntityManager();        
+    private static final Logger logger = LoggerFactory.getLogger(LocaleService.class);        
     
     private AuthParameterService ps = new AuthParameterService();
     
@@ -59,8 +47,10 @@ public class LocaleService {
             return getDefaultLocale();
         }        
         
-        try{
-            Locale l = (Locale) this.em.createNamedQuery("Locale.findByLocaleString").setParameter("localeString", locale).getSingleResult();
+        try (Session session = HibernateUtil.getAuthSession().openSession()) {
+            Locale l = (Locale) session.createCriteria(Locale.class)
+                    .add(Restrictions.like("localeString", locale))
+                    .uniqueResult();                    
             logger.debug("Locale found, returning "+l.getLocale());
             return l;
         } catch (NoResultException nre) {
@@ -75,7 +65,16 @@ public class LocaleService {
      */
     private Locale getDefaultLocale() {
         logger.debug("Locale not supported, providing default.");
-        Locale l = (Locale) this.em.createNamedQuery("Locale.findByLocaleString").setParameter("localeString", this.ps.getParameter("defaultLocale")).getSingleResult();
-        return l;
+        try (Session session = HibernateUtil.getAuthSession().openSession()) {
+            Locale l = (Locale) session.createCriteria(Locale.class)
+                    .add(Restrictions.like("localeString", this.ps.getParameter(AuthParameterConstants.KEY_DEFAULT_LOCALE)))
+                    .uniqueResult();                    
+            logger.debug("Locale found, returning "+l.getLocale());
+            return l;
+        } catch (NoResultException nre) {
+            logger.debug("Locale not found.");
+        }    
+        
+        return null;
     }
 }

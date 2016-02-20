@@ -1,36 +1,26 @@
 package eu.jangos.realm.controller;
 
-/**
- * jE4W is a featured server emulator for World of Warcraft 1.12.x.
+/*
+ * Copyright 2016 Talendrys.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * World of Warcraft, and all World of Warcraft or Warcraft art, images, and
- * lore are copyrighted by Blizzard Entertainment, Inc.
- *
- * A lot of credits goes to MaNGOS project from which several ideas (but not
- * all) were included in this project.
- *
- * Copyright (C) 2015-2015 jE4W project Copyright (C) 2005-2014 MaNGOS project
- * <http://getmangos.eu>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 import eu.jangos.realm.enums.characters.GenderEnum;
-import eu.jangos.realm.model.realm.Gender;
+import eu.jangos.realm.hibernate.HibernateUtil;
+import eu.jangos.realm.model.world.Gender;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,11 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class GenderService {
 
-    private static final Logger logger = LoggerFactory.getLogger(GenderService.class);
-
-    private static final EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("jE4WRealmPU");
-
-    private EntityManager em = emf.createEntityManager();
+    private static final Logger logger = LoggerFactory.getLogger(GenderService.class);   
 
     /**
      * Returns all genders available in database.
@@ -57,8 +43,8 @@ public class GenderService {
     public List<Gender> getAllGenders() {
         List<Gender> listGenders = null;
 
-        try {
-            listGenders = (List<Gender>) this.em.createNamedQuery("Gender.findAll").getResultList();
+        try  (Session session = HibernateUtil.getWorldSession().openSession()) {
+            listGenders = (List<Gender>) session.createCriteria(Gender.class).list();
         } catch (Exception e) {
             logger.debug("No gender found.");
         }
@@ -72,8 +58,10 @@ public class GenderService {
      * @return The corresponding gender.
      */
     public Gender getGenderById(Integer id) {
-        try {
-            Gender gender = (Gender) this.em.createNamedQuery("Gender.findById").setParameter("id", id).getSingleResult();
+        
+        try  (Session session = HibernateUtil.getWorldSession().openSession()) {
+            Gender gender = (Gender) session.createCriteria(Gender.class)
+                    .add(Restrictions.like("id", id)).uniqueResult();
             return gender;
         } catch (Exception e) {
             System.out.println(e);
@@ -88,8 +76,9 @@ public class GenderService {
      * @return The entity object Gender corresponding to the value, null otherwise.
      */
     public Gender getGenderByValue(GenderEnum value) {
-        try {
-            Gender gender = (Gender) this.em.createNamedQuery("Gender.findByValue").setParameter("value", value).getSingleResult();
+        try  (Session session = HibernateUtil.getWorldSession().openSession()) {
+            Gender gender = (Gender) session.createCriteria(Gender.class)
+                    .add(Restrictions.like("value", value)).uniqueResult();
             return gender;
         } catch (Exception e) {
             System.out.println(e);

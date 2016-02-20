@@ -1,31 +1,21 @@
 package eu.jangos.realm.controller;
 
-/**
- * jE4W is a featured server emulator for World of Warcraft 1.12.x.
+/*
+ * Copyright 2016 Talendrys.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * World of Warcraft, and all World of Warcraft or Warcraft art, images, and
- * lore are copyrighted by Blizzard Entertainment, Inc.
- *
- * A lot of credits goes to MaNGOS project from which several ideas (but not
- * all) were included in this project.
- *
- * Copyright (C) 2015-2015 jE4W project Copyright (C) 2005-2014 MaNGOS project
- * <http://getmangos.eu>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 import eu.jangos.realm.enums.characters.ClassEnum;
 import eu.jangos.realm.enums.characters.GenderEnum;
 import eu.jangos.realm.enums.characters.RaceEnum;
@@ -58,12 +48,12 @@ public class CharacterService {
     private static final Logger logger = LoggerFactory.getLogger(CharacterService.class);
     
     // TODO - Make this a realm parameter.
-    private static final int START_LEVEL = 1;        
+    private static final byte START_LEVEL = 1;        
     
     private static final RaceService raceService = new RaceService();
-    private static final ClassService classService = new ClassService();
+    private static final ProfessionService professionService = new ProfessionService();
     private static final GenderService genderService = new GenderService();
-    private static final StartingItemService startingItemService = new StartingItemService();
+    private static final StartingEquipmentService startingEquipmentService = new StartingEquipmentService();
     
     private Characters loggedCharacter;
     
@@ -83,8 +73,7 @@ public class CharacterService {
      */
     public synchronized CharCreateEnum createChar(String name, int raceID, int classID, int genderID, byte skin, byte face, byte hairStyle, byte hairColor, byte facialHair, Account account)
     {        
-        // TODO:
-        // Check whether the character creation is disabled for the given faction via parameters.
+        // TODO:        
         // Check whether the name is a reserved name.
         // Check whether the realm limit is reached.
         // Check whether the account limit is reached.
@@ -106,19 +95,19 @@ public class CharacterService {
         
         Characters character = new Characters();
         Race race = raceService.getRaceByValue(RaceEnum.convert(raceID));
-        Professions charClass = classService.getClassByValue(ClassEnum.convert(classID));
+        Professions profession = professionService.getClassByValue(ClassEnum.convert(classID));
         Gender gender = genderService.getGenderByValue(GenderEnum.convert(genderID));
         
         character.setName(Character.toUpperCase(name.charAt(0)) + name.substring(1));
-        character.setFkRace(race);
-        character.setFkClass(charClass);
-        character.setFkGender(gender);
+        character.setRace(race.getId());
+        character.setFkDbcClass(profession.getId());
+        character.setGender(gender.getId());
         character.setFkAccount(account.getId());
         character.setSkin(skin);
         character.setFace(face);
-        character.setHairStyle(hairStyle);
-        character.setHairColor(hairColor);
-        character.setFacialHair(facialHair);
+        character.setHairstyle(hairStyle);
+        character.setHaircolor(hairColor);
+        character.setFacialhair(facialHair);
         character.setLevel(START_LEVEL);
         // Setting default position.
         character.setPosx(race.getPosx());
@@ -149,16 +138,16 @@ public class CharacterService {
         // Adding default equipment.
         List<Equipment> listEquipment = new ArrayList<>(); 
         
-        for(Startingitem i : startingItemService.getStartingItems(race, charClass, gender))
+        for(Startingequipment i : startingEquipmentService.getStartingEquipment(race, profession, gender))
         {
             Equipment equipment = new Equipment();
             equipment.setFkItem(i.getItems());
-            equipment.setFkSlot(i.getItemslot());
-            equipment.setFkChar(character);
+            equipment.setFkSlot(i.get);
+            equipment.setCharacters(character);
             listEquipment.add(equipment);
         }
         
-        character.setEquipmentCollection(listEquipment);
+        character.setEquipments(listEquipment);
         
         try{
             this.em.getTransaction().begin();
@@ -225,9 +214,9 @@ public class CharacterService {
      * @param account The account for which the list of characters must be retrieved.
      * @return The list of characters for this account or an empty list.
      */
-    public List<Pchars> getCharactersForAccount(Account account)
+    public List<Characters> getCharactersForAccount(Account account)
     {
-        List<Pchars> listChars = new ArrayList<>();
+        List<Characters> listChars = new ArrayList<>();
         
         if(account == null){
             logger.debug("Account parameter is empty, exiting.");
@@ -249,7 +238,7 @@ public class CharacterService {
      * Getter of the logged character.
      * @return The logged character.
      */
-    public Pchars getLoggedCharacter() {
+    public Characters getLoggedCharacter() {
         return loggedCharacter;
     }
 
@@ -257,7 +246,7 @@ public class CharacterService {
      * Setter of the logged character.
      * @param loggedCharacter The character to be logged.
      */
-    public void setLoggedCharacter(Pchars loggedCharacter) {
+    public void setLoggedCharacter(Characters loggedCharacter) {
         this.loggedCharacter = loggedCharacter;
     }    
     
@@ -273,7 +262,7 @@ public class CharacterService {
         }
         
         try {            
-            this.em.getEntityManagerFactory().getCache().evict(Pchars.class);
+            this.em.getEntityManagerFactory().getCache().evict(Characters.class);
             em.createNamedQuery("Pchars.findByName").setParameter("name", name).getSingleResult();            
         } catch (NoResultException nre) {
             logger.error("The character " + name + " doesn't exist, exiting.");
