@@ -1,8 +1,24 @@
 package eu.jangos.realm.network.handler;
 
+/*
+ * Copyright 2016 Warkdev.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import eu.jangos.realm.authstep.AuthStep;
-import eu.jangos.realm.controller.CharacterService;
-import eu.jangos.realm.controller.WorldService;
+import eu.jangos.realm.controller.characters.CharacterService;
+import eu.jangos.realm.controller.world.WorldService;
 import eu.jangos.realm.controller.factory.WorldServiceFactory;
 import static eu.jangos.realm.network.handler.RealmAuthHandler.ACCOUNT;
 import static eu.jangos.realm.network.handler.RealmAuthHandler.AUTH;
@@ -90,7 +106,7 @@ public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
                                 ((CMSG_CHAR_CREATE) request).getHairStyle(),
                                 ((CMSG_CHAR_CREATE) request).getHairColor(),
                                 ((CMSG_CHAR_CREATE) request).getFacialHair(),
-                                ctx.pipeline().get(RealmAuthHandler.class).getAccountService().getAccount()
+                                ctx.pipeline().get(RealmAuthHandler.class).getAccount()
                         )
                 );
 
@@ -101,7 +117,7 @@ public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
                 ((SMSG_CHAR_DELETE) response).setResult(
                         characterService.deleteChar(
                                 ((CMSG_CHAR_DELETE) request).getId(),
-                                ctx.pipeline().get(RealmAuthHandler.class).getAccountService().getAccount()
+                                ctx.pipeline().get(RealmAuthHandler.class).getAccount()
                         )
                 );
 
@@ -109,14 +125,14 @@ public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
 
             case CMSG_PLAYER_LOGIN:
                 if (characterService.loginChar(((CMSG_PLAYER_LOGIN) request).getId(), 
-                        ctx.pipeline().get(RealmAuthHandler.class).getAccountService().getAccount())) {
+                        ctx.pipeline().get(RealmAuthHandler.class).getAccount())) {
                     SMSG_LOGIN_VERIFY_WORLD packet = new SMSG_LOGIN_VERIFY_WORLD();
                     
-                    packet.setMap(characterService.getLoggedCharacter().getMap());
-                    packet.setPosX(characterService.getLoggedCharacter().getPosx());
-                    packet.setPosY(characterService.getLoggedCharacter().getPosy());
-                    packet.setPosZ(characterService.getLoggedCharacter().getPosz());
-                    packet.setOrientation(characterService.getLoggedCharacter().getOrientation());
+                    /**packet.setMap(characterService.getLoggedCharacter().getFkDbcMap());
+                    packet.setPosX(characterService.getLoggedCharacter().getPositionX());
+                    packet.setPosY(characterService.getLoggedCharacter().getPositionY());
+                    packet.setPosZ(characterService.getLoggedCharacter().getPositionZ());
+                    packet.setOrientation(characterService.getLoggedCharacter().getOrientation());*/
                     
                     ctx.write(packet);
                     
@@ -147,8 +163,8 @@ public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        if (ctx.pipeline().get(RealmAuthHandler.class).getAccountService().getAccount() != null) {
-            worldService.removeSession(ctx.pipeline().get(RealmAuthHandler.class).getAccountService().getAccount().getId());
+        if (ctx.pipeline().get(RealmAuthHandler.class).getAccount() != null) {
+            worldService.removeSession(ctx.pipeline().get(RealmAuthHandler.class).getAccount().getId());
         }
     }
 }

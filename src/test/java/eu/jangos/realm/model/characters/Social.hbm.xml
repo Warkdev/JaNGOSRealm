@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.Social" table="social" catalog="jangoscharacters" optimistic-lock="version">
+        <composite-id name="id" class="eu.jangos.realm.model.characters.SocialId">
+            <key-property name="fkOwner" type="int">
+                <column name="fk_owner" />
+            </key-property>
+            <key-property name="fkRelation" type="int">
+                <column name="fk_relation" />
+            </key-property>
+            <key-property name="ignored" type="boolean">
+                <column name="ignored" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="charactersByFkOwner" class="eu.jangos.realm.model.characters.Characters" update="false" insert="false" fetch="select">
+            <column name="fk_owner" not-null="true">
+                <comment>Character Global Unique Identifier. Foreign key to characters.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="charactersByFkRelation" class="eu.jangos.realm.model.characters.Characters" update="false" insert="false" fetch="select">
+            <column name="fk_relation" not-null="true">
+                <comment>Friend Global Unique Identifier, foreign key to the characters table.</comment>
+            </column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

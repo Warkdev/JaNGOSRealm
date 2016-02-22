@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.GuildEvents" table="guild_events" catalog="jangoscharacters" optimistic-lock="version">
+        <composite-id name="id" class="eu.jangos.realm.model.characters.GuildEventsId">
+            <key-property name="id" type="int">
+                <column name="id" />
+            </key-property>
+            <key-property name="fkGuild" type="int">
+                <column name="fk_guild" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="charactersByFkEventReceiver" class="eu.jangos.realm.model.characters.Characters" fetch="select">
+            <column name="fk_event_receiver">
+                <comment>The receiver of this event.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="charactersByFkEventSender" class="eu.jangos.realm.model.characters.Characters" fetch="select">
+            <column name="fk_event_sender">
+                <comment>The initiator of the event.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="guild" class="eu.jangos.realm.model.characters.Guild" update="false" insert="false" fetch="select">
+            <column name="fk_guild" not-null="true">
+                <comment>Foreign key to the guild to which this event belongs.</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="guildEventType" class="eu.jangos.realm.model.characters.GuildEventType" fetch="select">
+            <column name="fk_event_type">
+                <comment>Foreign key to the type of event.</comment>
+            </column>
+        </many-to-one>
+        <property name="rank" type="java.lang.Byte">
+            <column name="rank">
+                <comment>The new rank in case of demote/promote actions.</comment>
+            </column>
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="19">
+                <comment>The date at which this event occured.</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

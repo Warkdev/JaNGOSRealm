@@ -1,7 +1,8 @@
 package eu.jangos.realm.model.characters;
-// Generated 19-févr.-2016 21:17:55 by Hibernate Tools 4.3.1
+// Generated 19-fï¿½vr.-2016 21:17:55 by Hibernate Tools 4.3.1
 
 
+import eu.jangos.realm.model.world.Item;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -153,7 +154,7 @@ public class ItemInstance  implements java.io.Serializable {
        this.equipments = equipments;
        this.itemInstancesForFkWrappedIn = itemInstancesForFkWrappedIn;
        this.itemInstancesForFkStorageBag = itemInstancesForFkStorageBag;
-       this.characterses = characterses;
+       this.characterses = characterses;    
     }
    
     public int getObjectGuid() {

@@ -1,10 +1,27 @@
 package eu.jangos.realm.network.handler;
 
+/*
+ * Copyright 2016 Warkdev.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import eu.jangos.realm.authstep.AuthStep;
-import eu.jangos.realm.controller.AccountService;
-import eu.jangos.realm.controller.CharacterService;
-import eu.jangos.realm.controller.AuthParameterService;
-import eu.jangos.realm.controller.WorldService;
+import eu.jangos.realm.controller.auth.AccountService;
+import eu.jangos.realm.controller.characters.CharacterService;
+import eu.jangos.realm.controller.auth.AuthParameterService;
+import eu.jangos.realm.controller.world.WorldService;
+import eu.jangos.realm.controller.factory.WorldServiceFactory;
 import eu.jangos.realm.model.auth.Account;
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.opcode.result.AuthEnum;
@@ -52,7 +69,8 @@ public class RealmAuthHandler extends ChannelInboundHandlerAdapter {
     private static final AuthParameterService parameterService = new AuthParameterService();
 
     private CMSG_AUTH_SESSION cAuthSession;
-
+    private Account account;
+    
     // Seed is used for auth challenge request.
     private final byte[] seed;
 
@@ -115,22 +133,24 @@ public class RealmAuthHandler extends ChannelInboundHandlerAdapter {
                     break;
                 }
 
+                account = this.accountService.getAccount(this.cAuthSession.getAccount());
+                
                 // Checking if this account is the one logging into the authentication server.
-                if (!this.accountService.getAccount().getLastIP().equals(((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress())) {
+                if (!account.getLastIp().equals(((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress())) {
                     logger.debug("Context: " + ctx.name() + ", account: " + this.cAuthSession.getAccount() + " : IP is not the same one than the one used to authenticate.");
                     ((SMSG_AUTH_RESPONSE) response).setResult(AuthEnum.AUTH_FAIL_FAIL_NOACCESS);
                     break;
                 }
 
                 // Checking if account is locked.
-                if (this.accountService.isLocked()) {
+                if (account.isLocked()) {
                     logger.debug("Context: " + ctx.name() + ", account: " + this.cAuthSession.getAccount() + " : Account is locked.");
                     ((SMSG_AUTH_RESPONSE) response).setResult(AuthEnum.AUTH_FAIL_BANNED);
                     break;
                 }
 
                 // Checking if account is banned -- Includes IP & Account.
-                if (this.accountService.isBanned(((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress())) {
+                if (this.accountService.isBanned(account,((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress())) {
                     logger.debug("Context: " + ctx.name() + ", account: " + this.cAuthSession.getAccount() + " : Account is banned.");
                     ((SMSG_AUTH_RESPONSE) response).setResult(AuthEnum.AUTH_FAIL_BANNED);
                     break;
@@ -138,18 +158,18 @@ public class RealmAuthHandler extends ChannelInboundHandlerAdapter {
 
                 // At this step, we can start making the calculation.
                 try {
-                    BigNumber K = new BigNumber(this.accountService.getAccount().getSessionkey(), 16);
+                    BigNumber K = new BigNumber(account.getSessionkey(), 16);
 
                     if (AuthUtils.checkClientDigest(this.cAuthSession.getAccount(), seed, this.cAuthSession.getSeed(), K, this.cAuthSession.getDigest())) {
                         // We are happy that client could login.
                         logger.info("Context: " + ctx.name() + ", account: " + this.cAuthSession.getAccount() + " : Account is logged in.");
 
-                        worldService.addSession(this.accountService.getAccount().getId(), ctx);
+                        worldService.addSession(account.getId(), ctx);
 
                         // Initializing the crypt.
                         ctx.channel().attr(CRYPT).get().init(K.asByteArray());
                         ctx.channel().attr(AUTH).set(AuthStep.STEP_AUTHED);
-                        ctx.channel().attr(ACCOUNT).set(accountService.getAccount());
+                        ctx.channel().attr(ACCOUNT).set(account);
 
                         ((SMSG_AUTH_RESPONSE) response).setResult(AuthEnum.AUTH_SUCCESS);
 
@@ -187,12 +207,12 @@ public class RealmAuthHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        if (this.accountService.getAccount() != null) {
-            worldService.removeSession(this.accountService.getAccount().getId());
+        if (this.account != null) {
+            worldService.removeSession(account.getId());
         }
     }
 
-    public AccountService getAccountService() {
-        return this.accountService;
+    public Account getAccount() {
+        return this.account;
     }
 }

@@ -1,8 +1,13 @@
 package eu.jangos.realm.network.packet.server.character;
 
-import eu.jangos.realm.model.world.Equipment;
-import eu.jangos.realm.model.realm.Items;
-import eu.jangos.realm.model.realm.Pchars;
+import eu.jangos.realm.controller.characters.ItemInstanceService;
+import eu.jangos.realm.controller.factory.ItemServiceFactory;
+import eu.jangos.realm.controller.world.ItemService;
+import eu.jangos.realm.enums.characters.GenderEnum;
+import eu.jangos.realm.enums.characters.ProfessionsEnum;
+import eu.jangos.realm.enums.characters.RaceEnum;
+import eu.jangos.realm.model.characters.Characters;
+import eu.jangos.realm.model.characters.ItemInstance;
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmServerPacket;
 import io.netty.buffer.ByteBuf;
@@ -11,31 +16,20 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * jE4W is a featured server emulator for World of Warcraft 1.12.x.
+/*
+ * Copyright 2016 Warkdev.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * World of Warcraft, and all World of Warcraft or Warcraft art, images, and
- * lore are copyrighted by Blizzard Entertainment, Inc.
- *
- * A lot of credits goes to MaNGOS project from which several ideas (but not
- * all) were included in this project.
- *
- * Copyright (C) 2015-2015 jE4W project Copyright (C) 2005-2014 MaNGOS project
- * <http://getmangos.eu>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 /**
  * SMSG_CHAR_ENUM represents a message sent by the server a client is
@@ -49,7 +43,7 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
     /**
      * List of characters.
      */
-    private List<Pchars> listChars;
+    private List<Characters> listChars;
 
     /**
      * Number of characters.
@@ -69,9 +63,9 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
      *
      * @param character The character to be added.
      */
-    public void addCharacter(Pchars character) {
+    public void addCharacter(Characters character) {
         if (this.listChars.add(character)) {
-            this.size += character.getSize();
+            this.size += getCharacterLength(character);
             this.numChars++;
         }
     }
@@ -81,8 +75,8 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
      *
      * @param listChars The list of characters to be added.
      */
-    public void addCharacters(List<Pchars> listChars) {
-        for (Pchars c : listChars) {
+    public void addCharacters(List<Characters> listChars) {
+        for (Characters c : listChars) {
             addCharacter(c);
         }
     }
@@ -92,22 +86,26 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
      *
      * @param character The character to be removed.
      */
-    public void remCharacter(Pchars character) {
+    public void remCharacter(Characters character) {
         if (this.listChars.remove(character)) {
-            this.size -= character.getSize();
+            this.size -= getCharacterLength(character);
             this.numChars--;
         }
+    }
+
+    private int getCharacterLength(Characters character) {
+        return 159 + character.getName().length();
     }
 
     public String toString() {
         String toString = "[SMSG_CHAR_ENUM [ " + this.numChars + " character(s), size: " + this.size;
 
-        for (Pchars c : this.listChars) {
-            toString += "[ id: " + c.getId()
+        for (Characters c : this.listChars) {
+            toString += "[ id: " + c.getGuid()
                     + ", name: " + c.getName()
-                    + ", race: " + c.getFkRace().getValue()
-                    + ", class: " + c.getFkClass().getValue()
-                    + ", gender: " + c.getFkGender().getValue();
+                    + ", race: " + RaceEnum.convert(c.getRace())
+                    + ", class: " + ProfessionsEnum.convert(c.getFkDbcClass())
+                    + ", gender: " + GenderEnum.convert(c.getGender());
         }
 
         toString += " ]]";
@@ -131,30 +129,33 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
         // First bag display ID
         // First bag inventory type
 
+        ItemService itemService = ItemServiceFactory.getInstance();
+        ItemInstanceService iiService = new ItemInstanceService();
+
         buf.writeShort(this.size);
         buf.writeShort(this.code.getValue());
         buf.writeByte(this.numChars);
 
-        for (Pchars c : this.listChars) {
+        for (Characters c : this.listChars) {
             buf = buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.writeLong(c.getId());
+            buf.writeLong(c.getGuid());
             //buf = buf.order(ByteOrder.BIG_ENDIAN);
             ByteBufUtil.writeAscii(buf, c.getName());
             buf.writeByte((byte) 0);
-            buf.writeByte(c.getFkRace().getValue().getValue());
-            buf.writeByte(c.getFkClass().getValue().getValue());
-            buf.writeByte(c.getFkGender().getValue().getValue());
+            buf.writeByte(c.getRace());
+            buf.writeByte(c.getFkDbcClass());
+            buf.writeByte(c.getGender());
             buf.writeByte(c.getSkin());
             buf.writeByte(c.getFace());
-            buf.writeByte(c.getHairStyle());
-            buf.writeByte(c.getHairColor());
-            buf.writeByte(c.getFacialHair());
+            buf.writeByte(c.getHairstyle());
+            buf.writeByte(c.getHaircolor());
+            buf.writeByte(c.getFacialhair());
             buf.writeByte((byte) c.getLevel());
-            buf.writeInt(c.getZone());
-            buf.writeInt(c.getMap());
-            buf.writeFloat((float) c.getPosx()); // X
-            buf.writeFloat((float) c.getPosy()); // Y
-            buf.writeFloat((float) c.getPosz()); // Z
+            buf.writeInt(c.getFkDbcZone());
+            buf.writeInt(c.getFkDbcMap());
+            buf.writeFloat((float) c.getPositionX()); // X
+            buf.writeFloat((float) c.getPositionY()); // Y
+            buf.writeFloat((float) c.getPositionZ()); // Z
             buf.writeInt(0); // Guild ID
             buf.writeInt(0); // Char Flags
             buf.writeByte((byte) 1); // First login
@@ -162,25 +163,34 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
             buf.writeInt(0); // Pet Level
             buf.writeInt(0); // Pet family
 
-             // This can be optimized.
-            for(int i=0; i<=EQUIPMENT_SLOT_END; i++)
-            {
+            int count = 0;
+            for (ItemInstance item : iiService.getEquipment(c)) {
                 int displayID = 0;
                 byte inventoryType = 0;
-                for(Equipment e : c.getEquipmentCollection())
+                
+                for(int i=count; i<item.getSlot(); i++)
                 {
-                    if(e.getFkSlot().getId() == i && e.getFkItem().getFkInventorytype().getId() != 0)
-                    {
-                        // There's an equipment for this item slot.
-                        displayID = e.getFkItem().getDisplayid();
-                        inventoryType = e.getFkItem().getFkInventorytype().getId().byteValue();                        
-                    }
+                    buf.writeInt(displayID);
+                    buf.writeByte(inventoryType);
+                    count++;
                 }
+                                
+                displayID = itemService.getItemByID(item.getFkObjectEntry()).getDisplayid();
+                inventoryType = itemService.getItemByID(item.getFkObjectEntry()).getInventorytype().getId();                                
                 
                 buf.writeInt(displayID);
                 buf.writeByte(inventoryType);
+                
+                count++;
             }
-        }
-    }
 
+            for(int i=count; i<=EQUIPMENT_SLOT_END; i++)
+            {
+                buf.writeInt(0);
+                buf.writeByte(0);
+            }
+            
+        }
+
+    }
 }

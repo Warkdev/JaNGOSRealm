@@ -1,5 +1,5 @@
 package eu.jangos.realm.model.world;
-// Generated 19-févr.-2016 21:00:57 by Hibernate Tools 4.3.1
+// Generated 19-fï¿½vr.-2016 21:00:57 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -12,22 +12,41 @@ public class Race  implements java.io.Serializable {
 
 
      private byte id;
-     private String race;
+     private String race;     
+     private float positionX;
+     private float positionY;
+     private float positionZ;     
+     private float orientation;
+     private int fkDbcMap;
+     private int fkDbcZone;
+     
      private Set startingequipments = new HashSet(0);
 
     public Race() {
     }
 
-	
-    public Race(byte id, String race) {
+    public Race(byte id, String race, float positionX, float positionY, float positionZ, float orientation, int fkDbcMap, int fkDbcZone) {
         this.id = id;
         this.race = race;
-    }
-    public Race(byte id, String race, Set startingequipments) {
-       this.id = id;
-       this.race = race;
-       this.startingequipments = startingequipments;
-    }
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.orientation = orientation;
+        this.fkDbcMap = fkDbcMap;
+        this.fkDbcZone = fkDbcZone;
+    }	
+    
+    public Race(byte id, String race, float positionX, float positionY, float positionZ, float orientation, int fkDbcMap, int fkDbcZone, Set startingequipments) {
+        this.id = id;
+        this.race = race;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.orientation = orientation;
+        this.fkDbcMap = fkDbcMap;
+        this.fkDbcZone = fkDbcZone;
+        this.startingequipments = startingequipments;
+    }	        
    
     public byte getId() {
         return this.id;
@@ -43,6 +62,57 @@ public class Race  implements java.io.Serializable {
     public void setRace(String race) {
         this.race = race;
     }
+
+    public float getPositionX() {
+        return positionX;
+    }
+
+    public void setPositionX(float positionX) {
+        this.positionX = positionX;
+    }
+
+    public float getPositionY() {
+        return positionY;
+    }
+
+    public void setPositionY(float positionY) {
+        this.positionY = positionY;
+    }
+
+    public float getPositionZ() {
+        return positionZ;
+    }
+
+    public void setPositionZ(float positionZ) {
+        this.positionZ = positionZ;
+    }
+
+    public float getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(float orientation) {
+        this.orientation = orientation;
+    }
+
+    public int getFkDbcMap() {
+        return fkDbcMap;
+    }
+
+    public void setFkDbcMap(int fkDbcMap) {
+        this.fkDbcMap = fkDbcMap;
+    }
+
+    public int getFkDbcZone() {
+        return fkDbcZone;
+    }
+
+    public void setFkDbcZone(int fkDbcZone) {
+        this.fkDbcZone = fkDbcZone;
+    }
+    
+    
+    
     public Set getStartingequipments() {
         return this.startingequipments;
     }

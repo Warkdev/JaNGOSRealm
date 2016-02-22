@@ -1,6 +1,6 @@
 package eu.jangos.realm.controller.factory;
 
-import eu.jangos.realm.controller.CharacterService;
+import eu.jangos.realm.controller.characters.CharacterService;
 
 /**
  * jE4W is a featured server emulator for World of Warcraft 1.12.x.

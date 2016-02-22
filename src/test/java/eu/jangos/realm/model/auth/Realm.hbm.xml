@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-f?vr.-2016 19:53:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="jangosauth" name="eu.jangos.realm.model.auth.Realm" optimistic-lock="version" table="realm">
+    <id name="id" type="java.lang.Integer">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="eu.jangos.realm.model.auth.Realmtimezone" fetch="select" name="realmtimezone">
+      <column name="fk_timezone" not-null="true">
+        <comment>Foreign key to the timezone.</comment>
+      </column>
+    </many-to-one>
+    <many-to-one class="eu.jangos.realm.model.auth.Realmtype" fetch="select" name="realmtype">
+      <column name="fk_realmtype" not-null="true">
+        <comment>Foreign key to the Realm Type.</comment>
+      </column>
+    </many-to-one>
+    <property name="name" type="string">
+      <column length="32" name="name" not-null="true">
+        <comment>Name of the realm.</comment>
+      </column>
+    </property>
+    <property name="address" type="string">
+      <column length="32" name="address" not-null="true">
+        <comment>Address of the realm, may be a name of an ip.</comment>
+      </column>
+    </property>
+    <property name="port" type="int">
+      <column name="port" not-null="true">
+        <comment>Listen port of the realm.</comment>
+      </column>
+    </property>
+    <property name="population" type="float">
+      <column name="population" not-null="true" precision="12" scale="0">
+        <comment>Population calculated from (playerCount / maxPlayerCount * 2)</comment>
+      </column>
+    </property>
+    <property name="maxPlayers" type="int">
+      <column name="maxPlayers" not-null="true">
+        <comment>The maximum number of players allowed on this realm.</comment>
+      </column>
+    </property>
+    <property name="countPlayers" type="int">
+      <column name="countPlayers" not-null="true">
+        <comment>The number of players actually created on this realm.</comment>
+      </column>
+    </property>
+    <property name="invalid" type="boolean">
+      <column name="invalid" not-null="true">
+        <comment>Means that this realm is invalid and must not be shown to the client.</comment>
+      </column>
+    </property>
+    <property name="offline" type="boolean">
+      <column name="offline" not-null="true">
+        <comment>Means that this realm is offline.</comment>
+      </column>
+    </property>
+    <property name="showversion" type="boolean">
+      <column name="showversion" not-null="true">
+        <comment>Means that the version of this realm must be shown to the client.</comment>
+      </column>
+    </property>
+    <property name="newplayers" type="boolean">
+      <column name="newplayers" not-null="true">
+        <comment>Means that only the new players may join this realm.</comment>
+      </column>
+    </property>
+    <property name="recommended" type="boolean">
+      <column name="recommended" not-null="true">
+        <comment>Display the recommended option in the client.</comment>
+      </column>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="accounts" table="account">
+      <key>
+        <column name="fk_prefrealm">
+          <comment>ID of the preferred realm for this account.</comment>
+        </column>
+      </key>
+      <one-to-many class="eu.jangos.realm.model.auth.Account"/>
+    </set>
+    <set cascade="delete" fetch="select" inverse="true" lazy="true" name="realmAccounts" table="realm_account">
+      <key>
+        <column name="fk_realm" not-null="true">
+          <comment>Foreign key to the realm.</comment>
+        </column>
+      </key>
+      <one-to-many class="eu.jangos.realm.model.auth.RealmAccount"/>
+    </set>
+  </class>
+</hibernate-mapping>

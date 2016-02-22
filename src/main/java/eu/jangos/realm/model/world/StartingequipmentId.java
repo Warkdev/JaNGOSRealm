@@ -1,5 +1,5 @@
 package eu.jangos.realm.model.world;
-// Generated 19-févr.-2016 21:00:57 by Hibernate Tools 4.3.1
+
 
 
 

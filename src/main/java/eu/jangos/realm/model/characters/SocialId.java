@@ -1,5 +1,5 @@
 package eu.jangos.realm.model.characters;
-// Generated 19-févr.-2016 21:17:55 by Hibernate Tools 4.3.1
+
 
 
 

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="eu.jangos.realm.model.characters.Actionbar" table="actionbar" catalog="jangoscharacters" optimistic-lock="version">
+        <composite-id name="id" class="eu.jangos.realm.model.characters.ActionbarId">
+            <key-property name="fkGuid" type="int">
+                <column name="fk_guid" />
+            </key-property>
+            <key-property name="button" type="byte">
+                <column name="button" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="characters" class="eu.jangos.realm.model.characters.Characters" update="false" insert="false" fetch="select">
+            <column name="fk_guid" not-null="true">
+                <comment>Global Unique Identifier, foreign key to characters.</comment>
+            </column>
+        </many-to-one>
+        <property name="action" type="int">
+            <column name="action" not-null="true">
+                <comment>The action on this button, depends on the type.</comment>
+            </column>
+        </property>
+        <property name="type" type="byte">
+            <column name="type" not-null="true">
+                <comment>All the ActionType that exists for an action: SPELL, C, MACRO, CMACRO or ITEM.</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

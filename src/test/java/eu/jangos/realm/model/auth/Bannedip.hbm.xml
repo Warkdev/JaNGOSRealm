@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 07-f?vr.-2016 19:53:37 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="jangosauth" name="eu.jangos.realm.model.auth.Bannedip" optimistic-lock="version" table="bannedip">
+    <id name="id" type="java.lang.Integer">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="eu.jangos.realm.model.auth.Account" fetch="select" name="account">
+      <column name="fk_bannedby" not-null="true">
+        <comment>Foreign Key to account indicating who is the requestor of the ban.</comment>
+      </column>
+    </many-to-one>
+    <property name="ip" type="string">
+      <column length="30" name="ip" not-null="true">
+        <comment>The banned IP.</comment>
+      </column>
+    </property>
+    <property name="date" type="timestamp">
+      <column length="19" name="date" not-null="true">
+        <comment>Date of the ban.</comment>
+      </column>
+    </property>
+    <property name="unban" type="timestamp">
+      <column length="19" name="unban">
+        <comment>Date of the unban (may be null for unlimited ban).</comment>
+      </column>
+    </property>
+    <property name="reason" type="string">
+      <column name="reason" not-null="true">
+        <comment>Short message indicating why this account has been banned.</comment>
+      </column>
+    </property>
+    <property name="active" type="boolean">
+      <column name="active" not-null="true">
+        <comment>Indicate whether this ban record is active or not.</comment>
+      </column>
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,6 +1,6 @@
 package eu.jangos.realm.model.auth;
 
-import eu.jangos.realm.utils.ParameterConstants;
+import eu.jangos.realm.utils.WorldParameterConstants;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -83,7 +83,7 @@ public class Commands  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return this.name.split(ParameterConstants.COMMAND_SEPARATOR)[this.name.split(ParameterConstants.COMMAND_SEPARATOR).length-1];
+        return this.name.split(WorldParameterConstants.COMMAND_SEPARATOR)[this.name.split(WorldParameterConstants.COMMAND_SEPARATOR).length-1];
     }
 
 }

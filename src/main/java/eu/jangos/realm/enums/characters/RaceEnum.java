@@ -1,31 +1,21 @@
 package eu.jangos.realm.enums.characters;
 
-/**
- * jE4W is a featured server emulator for World of Warcraft 1.12.x.
+/*
+ * Copyright 2016 Talendrys.
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
- * Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * World of Warcraft, and all World of Warcraft or Warcraft art, images, and
- * lore are copyrighted by Blizzard Entertainment, Inc.
- *
- * A lot of credits goes to MaNGOS project from which several ideas (but not
- * all) were included in this project.
- *
- * Copyright (C) 2015-2015 jE4W project Copyright (C) 2005-2014 MaNGOS project
- * <http://getmangos.eu>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 /**
  * Race represents the races that the characters can have.
  *
@@ -34,23 +24,23 @@ package eu.jangos.realm.enums.characters;
  */
 public enum RaceEnum {
 
-    HUMAN(1),
-    ORC(2),
-    DWARF(3),
-    NIGHTELF(4),
-    UNDEAD(5),
-    TAUREN(6),
-    GNOME(7),
-    TROLL(8);
+    HUMAN((byte) 1),
+    ORC((byte) 2),
+    DWARF((byte) 3),
+    NIGHTELF((byte) 4),
+    UNDEAD((byte) 5),
+    TAUREN((byte) 6),
+    GNOME((byte) 7),
+    TROLL((byte) 8);
 
-    private final int value;
+    private final byte value;
 
     /**
      * Default constructor.
      *
      * @param value
      */
-    private RaceEnum(int value) {
+    private RaceEnum(byte value) {
         this.value = value;
     }
 
@@ -59,7 +49,7 @@ public enum RaceEnum {
      *
      * @return the backing int value.
      */
-    public int getValue() {
+    public byte getValue() {
         return this.value;
     }
 
@@ -70,7 +60,7 @@ public enum RaceEnum {
      * @return The Races corresponding to that value, null if there is no
      * match.
      */
-    public static RaceEnum convert(int value) {
+    public static RaceEnum convert(byte value) {
         for (RaceEnum v : RaceEnum.values()) {
             if (v.getValue() == value) {
                 return v;
@@ -85,7 +75,7 @@ public enum RaceEnum {
      * @param value The value to be checked.
      * @return True if the value exists.
      */
-    public static boolean exists(int value) {
+    public static boolean exists(byte value) {
         for (RaceEnum g : RaceEnum.values()) {
             if (g.getValue() == value) {
                 return true;

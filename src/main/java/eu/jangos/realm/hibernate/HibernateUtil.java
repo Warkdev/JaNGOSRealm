@@ -54,8 +54,8 @@ public class HibernateUtil {
         
         try {
             authSessionFactory = new MetadataSources(authRegistry).buildMetadata().buildSessionFactory();
-            charSessionFactory = new MetadataSources(worldRegistry).buildMetadata().buildSessionFactory();
-            worldSessionFactory = new MetadataSources(charRegistry).buildMetadata().buildSessionFactory();
+            charSessionFactory = new MetadataSources(charRegistry).buildMetadata().buildSessionFactory();            
+            worldSessionFactory = new MetadataSources(worldRegistry).buildMetadata().buildSessionFactory();
         } catch (Exception e) {
 		// The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
             // so destroy it manually.
