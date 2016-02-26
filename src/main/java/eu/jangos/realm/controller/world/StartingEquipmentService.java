@@ -58,6 +58,7 @@ public class StartingEquipmentService {
                             Restrictions.eq("professions", profession), 
                             Restrictions.eq("gender", gender))).list();                    
         } catch (Exception e) {
+            e.printStackTrace();
             logger.debug("Exception raised while querying the database.");
         }
         

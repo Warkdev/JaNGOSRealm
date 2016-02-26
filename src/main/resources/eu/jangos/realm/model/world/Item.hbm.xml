@@ -27,7 +27,7 @@
         <property name="flags" type="int">
             <column name="flags" not-null="true" />
         </property>
-        <property name="buycount" type="byte">
+        <property name="buycount" type="short">
             <column name="buycount" not-null="true" />
         </property>
         <property name="buyprice" type="int">

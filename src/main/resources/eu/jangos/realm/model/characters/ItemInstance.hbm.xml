@@ -277,7 +277,7 @@
                 <comment>The slot in which this item is stored relative</comment>
             </column>
         </property>
-        <property name="stackCount" type="java.lang.Byte">
+        <property name="stackCount" type="short">
             <column name="stack_count">
                 <comment>Amount of object for this stack.</comment>
             </column>

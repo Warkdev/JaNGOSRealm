@@ -22,9 +22,45 @@ package eu.jangos.realm.utils;
  * @since 12-02-2016
  */
 public class WorldParameterConstants {
+    /**
+     * Parameter indicating the World Name in Database.
+     */
     public static final String KEY_WORLD_NAME = "worldName";
+    
+    /**
+     * Parameter indicating the timeout of the connection for a WorldSession.
+     */
     public static final String KEY_WORLD_TIMEOUT = "worldTimeout";    
+    
+    /**
+     * Parameter indicating the World version.
+     */
     public static final String KEY_WORLD_VERSION = "worldVersion";
     
+    /**
+     * Parameter indicating the maximum amount of active characters that an account can have.
+     */
+    public static final String KEY_WORLD_MAX_CHARACTERS = "worldMaxCharacters";
+    
+    /**
+     * Parameter indicating the starting level of the characters on this realm.
+     */
+    public static final String KEY_WORLD_START_LEVEL = "worldStartLevel";
+    
+    /**
+     * Parameter indicating the maximum level of the characters on this realm.
+     */
+    public static final String KEY_WORLD_MAX_LEVEL = "worldMaxLevel";
+    
+    /**
+     * Parameter indicating the minimum length of a character name. (Default client = 3).
+     */
+    public static final String KEY_WORLD_MIN_LENGTH_NAME = "worldMinLengthName";
+    
+    /**
+     * Parameter indicating the maximum length of a character name. (Default client = 12).
+     */
+    public static final String KEY_WORLD_MAX_LENGTH_NAME = "worldMaxLengthName";
+            
     public static final String COMMAND_SEPARATOR = ":";
 }

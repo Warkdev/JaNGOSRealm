@@ -82,5 +82,5 @@ public enum RaceEnum {
             }
         }
         return false;
-    }
+    }    
 }

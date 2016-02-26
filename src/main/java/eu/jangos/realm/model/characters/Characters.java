@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Characters implements java.io.Serializable {
 
-    private int guid;
+    private long guid;
     private GuildRank guildRank;
     private ItemInstance itemInstance;
     private int fkAccount;
@@ -125,7 +125,7 @@ public class Characters implements java.io.Serializable {
     public Characters() {
     }
 
-    public Characters(int guid, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, byte online, byte cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, boolean stableSlots, int fkDbcZone, long deathExpireTime, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, short drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone) {
+    public Characters(long guid, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, byte online, byte cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, boolean stableSlots, int fkDbcZone, long deathExpireTime, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, short drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone) {
         this.guid = guid;
         this.fkAccount = fkAccount;
         this.name = name;
@@ -178,7 +178,7 @@ public class Characters implements java.io.Serializable {
         this.homeFkDbcZone = homeFkDbcZone;
     }
 
-    public Characters(int guid, GuildRank guildRank, ItemInstance itemInstance, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, byte online, byte cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, boolean stableSlots, int fkDbcZone, long deathExpireTime, String fkDbcTaxiPath, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, short drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, boolean deleted, Date deleteDate, Byte skin, Byte face, Byte hairstyle, Byte haircolor, Byte facialhair, Byte unknownByte, Byte bankbagslot, Byte resttype, Byte changename, Byte resetspell, Byte resettalents, Byte charcustom, Byte groupleader, Byte afk, Byte dnd, Byte gm, Byte ghost, Byte resting, Byte unknown7, Byte ffapvp, Byte contestedpvp, Byte inpvp, Byte hidehelm, Byte hidecloak, Byte partialplaytime, Byte noplaytime, Byte unknown15, Byte unknown16, Byte sanctuary, Byte taxibenchmark, Byte pvptimer, Byte gmon, Byte gmaccepttickets, Byte gmacceptwhispers, Byte gmtaxicheat, Byte gminvisible, Byte gmchat, Byte gmauctionneutral, Byte gmauctionenemy, Byte pvpdeath, String note, String officernote, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone, Set mailsForFkFrom, Set skillses, Set itemInstances, Set guildEventsesForFkEventReceiver, Set mailsForFkTo, Set reputations, Set spells, Set socialsForFkOwner, Set socialsForFkRelation, Set whispersesForFkFrom, Set actionbars, Set guildEventsesForFkEventSender, Set tickets, Set whispersesForFkTo) {
+    public Characters(long guid, GuildRank guildRank, ItemInstance itemInstance, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, byte online, byte cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, boolean stableSlots, int fkDbcZone, long deathExpireTime, String fkDbcTaxiPath, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, short drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, boolean deleted, Date deleteDate, Byte skin, Byte face, Byte hairstyle, Byte haircolor, Byte facialhair, Byte unknownByte, Byte bankbagslot, Byte resttype, Byte changename, Byte resetspell, Byte resettalents, Byte charcustom, Byte groupleader, Byte afk, Byte dnd, Byte gm, Byte ghost, Byte resting, Byte unknown7, Byte ffapvp, Byte contestedpvp, Byte inpvp, Byte hidehelm, Byte hidecloak, Byte partialplaytime, Byte noplaytime, Byte unknown15, Byte unknown16, Byte sanctuary, Byte taxibenchmark, Byte pvptimer, Byte gmon, Byte gmaccepttickets, Byte gmacceptwhispers, Byte gmtaxicheat, Byte gminvisible, Byte gmchat, Byte gmauctionneutral, Byte gmauctionenemy, Byte pvpdeath, String note, String officernote, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone, Set mailsForFkFrom, Set skillses, Set itemInstances, Set guildEventsesForFkEventReceiver, Set mailsForFkTo, Set reputations, Set spells, Set socialsForFkOwner, Set socialsForFkRelation, Set whispersesForFkFrom, Set actionbars, Set guildEventsesForFkEventSender, Set tickets, Set whispersesForFkTo) {
         this.guid = guid;
         this.guildRank = guildRank;
         this.itemInstance = itemInstance;
@@ -292,11 +292,11 @@ public class Characters implements java.io.Serializable {
         this.whispersesForFkTo = whispersesForFkTo;
     }
 
-    public int getGuid() {
+    public long getGuid() {
         return this.guid;
     }
 
-    public void setGuid(int guid) {
+    public void setGuid(long guid) {
         this.guid = guid;
     }
 

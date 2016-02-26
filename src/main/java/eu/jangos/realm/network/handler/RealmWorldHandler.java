@@ -117,7 +117,8 @@ public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
                 ((SMSG_CHAR_DELETE) response).setResult(
                         characterService.deleteChar(
                                 ((CMSG_CHAR_DELETE) request).getId(),
-                                ctx.pipeline().get(RealmAuthHandler.class).getAccount()
+                                ctx.pipeline().get(RealmAuthHandler.class).getAccount(),
+                                false
                         )
                 );
 

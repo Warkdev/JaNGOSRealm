@@ -44,6 +44,18 @@ public class AccountService {
     private final LocaleService ls = new LocaleService();
     private final AuthParameterService aps = new AuthParameterService();
 
+    public Account getAccount(int id) {
+        try (Session session = HibernateUtil.getAuthSession().openSession()) {
+            Account account = (Account) session.createCriteria(Account.class)
+                    .add(Restrictions.eq("id", id))                    
+                    .uniqueResult();            
+            return account;
+        } catch (HibernateException he) {            
+            logger.error("There was an error connecting to the database.");
+            return null;
+        }       
+    }
+    
     /**
      * Returns the account corresponding to the given name. The name must
      * contain only alphanumeric values.

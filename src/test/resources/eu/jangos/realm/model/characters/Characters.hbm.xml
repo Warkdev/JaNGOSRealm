@@ -4,7 +4,7 @@
 <!-- Generated 19-f?vr.-2016 21:17:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="eu.jangos.realm.model.characters.Characters" table="characters" catalog="jangoscharacters" optimistic-lock="version">
-        <id name="guid" type="int">
+        <id name="guid" type="long">
             <column name="guid" />
             <generator class="identity"/>
         </id>

@@ -15,10 +15,14 @@ package eu.jangos.realm.controller.characters;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import eu.jangos.realm.controller.auth.RealmAccountService;
+import eu.jangos.realm.controller.auth.RealmService;
 import eu.jangos.realm.controller.world.ProfessionService;
 import eu.jangos.realm.controller.world.GenderService;
 import eu.jangos.realm.controller.world.RaceService;
 import eu.jangos.realm.controller.world.StartingEquipmentService;
+import eu.jangos.realm.controller.world.WorldParameterService;
+import eu.jangos.realm.enums.characters.FactionEnum;
 import eu.jangos.realm.enums.characters.ProfessionsEnum;
 import eu.jangos.realm.enums.characters.GenderEnum;
 import eu.jangos.realm.enums.characters.RaceEnum;
@@ -27,8 +31,12 @@ import eu.jangos.realm.enums.items.ItemClassEnum;
 import eu.jangos.realm.enums.items.ItemStorageEnum;
 import eu.jangos.realm.enums.items.SlotEnum;
 import eu.jangos.realm.enums.object.ObjectTypeEnum;
+import eu.jangos.realm.enums.world.RealmTypeEnum;
 import eu.jangos.realm.hibernate.HibernateUtil;
 import eu.jangos.realm.model.auth.Account;
+import eu.jangos.realm.model.auth.Realm;
+import eu.jangos.realm.model.auth.RealmAccount;
+import eu.jangos.realm.model.auth.RealmAccountId;
 import eu.jangos.realm.model.world.Professions;
 import eu.jangos.realm.network.opcode.result.CharCreateEnum;
 import eu.jangos.realm.utils.StringUtils;
@@ -40,12 +48,15 @@ import eu.jangos.realm.model.world.Race;
 import eu.jangos.realm.model.world.Startingequipment;
 import eu.jangos.realm.network.opcode.result.CharDeleteEnum;
 import eu.jangos.realm.utils.ItemUtils;
+import eu.jangos.realm.utils.WorldParameterConstants;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,15 +72,18 @@ public class CharacterService {
 
     private static final Logger logger = LoggerFactory.getLogger(CharacterService.class);
 
-    // TODO - Make this a realm parameter.
-    private static final byte START_LEVEL = 1;
-
+    private static final RealmService realmService = new RealmService();
     private static final RaceService raceService = new RaceService();
     private static final ProfessionService professionService = new ProfessionService();
     private static final GenderService genderService = new GenderService();
     private static final StartingEquipmentService startingEquipmentService = new StartingEquipmentService();
     private static final ItemStorageService iss = new ItemStorageService();
+    private static final WorldParameterService wps = new WorldParameterService();
+    private static final RealmAccountService ras = new RealmAccountService();
 
+    private static final byte START_LEVEL = Byte.parseByte(wps.getParameter(WorldParameterConstants.KEY_WORLD_START_LEVEL));
+    private static final byte MIN_NAME_LENGTH = Byte.parseByte(wps.getParameter(WorldParameterConstants.KEY_WORLD_MIN_LENGTH_NAME));
+    private static final byte MAX_NAME_LENGTH = Byte.parseByte(wps.getParameter(WorldParameterConstants.KEY_WORLD_MAX_LENGTH_NAME));
     private Characters loggedCharacter;
 
     /**
@@ -88,20 +102,124 @@ public class CharacterService {
      * @return CharCreateEnum corresponding to the result to be sent to the
      * client.
      */
-    public synchronized CharCreateEnum createChar(String name, byte raceID, byte professionID, byte genderID, byte skin, byte face, byte hairStyle, byte hairColor, byte facialHair, Account account) {
-        // TODO:        
-        // Check whether the name is a reserved name.
-        // Check whether the realm limit is reached.
-        // Check whether the account limit is reached.
-        // Check whether this realm type allows cross-faction characters.
-        // Check whether account exists.
-        // Check name length (max 12 characters).
-        // Update character counter in DB.
+    public synchronized CharCreateEnum createChar(String name, byte raceID, byte professionID, byte genderID, byte skin, byte face, byte hairStyle, byte hairColor, byte facialHair, Account account) {                                          
+        Realm realm;
+        long characterCount;
+        RealmAccount accountInfo;
 
         // Checking that the race and the class exists in our enum.
         if (!ProfessionsEnum.exists(professionID) || !RaceEnum.exists(raceID) || !GenderEnum.exists(genderID)) {
             logger.debug("Class, Race or Gender doesn't exist, aborting character creation.");
             return CharCreateEnum.CHAR_CREATE_FAILED;
+        }
+
+        // Checking account.
+        if (account == null) {
+            logger.debug("The account is empty, can't create a character for this account");
+            return CharCreateEnum.CHAR_CREATE_ERROR;
+        }
+
+        // We check that this combination is allowed.
+        RaceEnum r = RaceEnum.convert(raceID);
+        ProfessionsEnum p = ProfessionsEnum.convert(professionID);
+
+        switch (r) {
+            case HUMAN:
+                switch (p) {
+                    case DRUID:
+                    case HUNTER:
+                    case SHAMAN:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case DWARF:
+                switch (p) {
+                    case MAGE:
+                    case SHAMAN:
+                    case WARLOCK:
+                    case DRUID:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case GNOME:
+                switch (p) {
+                    case DRUID:
+                    case SHAMAN:
+                    case HUNTER:
+                    case PRIEST:
+                    case PALADIN:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case NIGHTELF:
+                switch (p) {
+                    case PALADIN:
+                    case MAGE:
+                    case SHAMAN:
+                    case WARLOCK:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case ORC:
+                switch (p) {
+                    case DRUID:
+                    case MAGE:
+                    case PALADIN:
+                    case PRIEST:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case TAUREN:
+                switch (p) {
+                    case MAGE:
+                    case PALADIN:
+                    case PRIEST:
+                    case ROGUE:
+                    case WARLOCK:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case TROLL:
+                switch (p) {
+                    case WARLOCK:                    
+                    case PALADIN:
+                    case DRUID:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+            case UNDEAD:
+                switch (p) {
+                    case SHAMAN:
+                    case PALADIN:
+                    case HUNTER:
+                    case DRUID:
+                        return CharCreateEnum.CHAR_CREATE_FAILED;
+                }
+                break;
+        }
+
+        // Checking realm population.
+        realm = realmService.getRealmByName(wps.getParameter(WorldParameterConstants.KEY_WORLD_NAME));
+        if (realm.getMaxPlayers() <= realm.getCountPlayers()) {
+            logger.debug("The realm is already full, can't create new characters");
+            return CharCreateEnum.CHAR_CREATE_SERVER_LIMIT;
+        }
+
+        // Checking realm type and character creation.
+        // PVP realms doesn't allow creation of characters for both factions.
+        switch (RealmTypeEnum.convert(realm.getRealmtype().getId())) {
+            case PVP:
+            case RP_PVP:
+                if (hasCharacterInEnemyFaction(account, FactionEnum.getEnemyFactionForRace(RaceEnum.convert(raceID)))) {
+                    return CharCreateEnum.CHAR_CREATE_PVP_TEAMS_VIOLATION;
+                }
+        }
+
+        // Checking the number of characters for this account.
+        characterCount = getNumberOfCharacters(account);
+        if (characterCount >= Long.parseLong(wps.getParameter(WorldParameterConstants.KEY_WORLD_MAX_CHARACTERS))) {
+            logger.debug("The number of characters for this realm is already at the maximum authorized.");
+            return CharCreateEnum.CHAR_CREATE_ACCOUNT_LIMIT;
         }
 
         // Checking name.
@@ -147,7 +265,7 @@ public class CharacterService {
         Set<ItemInstance> listEquipment = new HashSet<>();
 
         byte bagslot = 0;
-        
+
         for (Startingequipment i : startingEquipmentService.getStartingEquipment(race, profession, gender)) {
             Item item = i.getItem();
             ItemInstance ii = new ItemInstance();
@@ -168,7 +286,7 @@ public class CharacterService {
                     break;
                 default:
                     ii.setItemStorageType(iss.getItemStorageByID(ItemStorageEnum.STORED.getValue()));
-                    ii.setSlot(bagslot);                    
+                    ii.setSlot(bagslot);
                     bagslot++;
                     break;
             }
@@ -180,9 +298,40 @@ public class CharacterService {
 
         character.setItemInstances(listEquipment);
 
+        // We update the account info for this account.
+        accountInfo = ras.getAccountInfo(account, realm);
+        if (accountInfo == null) {
+            accountInfo = new RealmAccount();
+            accountInfo.setAccount(account);
+            accountInfo.setRealm(realm);
+            accountInfo.setNumChars((byte) 1);
+            accountInfo.setId(new RealmAccountId(account.getId(), realm.getId()));
+        } else {
+            accountInfo.setNumChars((byte) (accountInfo.getNumChars() + 1));
+        }
+
+        if (accountInfo.getNumChars() == 1) {
+            // We update the realm count and population.
+            realm.setCountPlayers(realm.getCountPlayers() + 1);
+            realm.setPopulation(realm.getCountPlayers() * 1.0f / realm.getMaxPlayers() * 1.0f);
+        }
+
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             session.beginTransaction();
-            session.save(character);
+            session.merge(character);
+
+            try (Session authSession = HibernateUtil.getAuthSession().openSession()) {
+                authSession.beginTransaction();
+                authSession.merge(realm);
+                authSession.merge(accountInfo);
+                authSession.flush();
+                authSession.getTransaction().commit();
+            } catch (HibernateException he) {
+                logger.debug("Error while connecting to the auth database.");
+                session.getTransaction().rollback();
+                return CharCreateEnum.CHAR_CREATE_FAILED;
+            }
+
             session.flush();
             session.getTransaction().commit();
         } catch (HibernateException he) {
@@ -198,19 +347,48 @@ public class CharacterService {
      *
      * @param id The id of the character to be deleted.
      * @param account the account to which this character must belong.
+     * @param permanent Indicates whether this account must be deleted
+     * permanently or not.
      * @return The result of the deletion.
      */
-    public synchronized CharDeleteEnum deleteChar(long id, Account account) {
+    public synchronized CharDeleteEnum deleteChar(long id, Account account, boolean permanent) {
+        Realm realm = realmService.getRealmByName(wps.getParameter(WorldParameterConstants.KEY_WORLD_NAME));
+        RealmAccount accountInfo = ras.getAccountInfo(account, realm);
+
+        accountInfo.setNumChars((byte) (accountInfo.getNumChars() - 1));
+
+        if (accountInfo.getNumChars() == 0) {
+            realm.setCountPlayers(realm.getCountPlayers() - 1);
+            realm.setPopulation(realm.getCountPlayers() * 1.0f / realm.getMaxPlayers() * 1.0f);
+        }
+
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             Characters character = (Characters) session.createCriteria(Characters.class)
                     .add(Restrictions.and(
                                     Restrictions.eq("guid", id),
                                     Restrictions.eq("fkAccount", account.getId())))
                     .uniqueResult();
-            character.setDeleted(true);
-            character.setDeleteDate(new Date());
             session.beginTransaction();
-            session.save(character);
+            if (!permanent) {
+                character.setDeleted(true);
+                character.setDeleteDate(new Date());
+                session.merge(character);
+            } else {
+                session.delete(character);
+            }
+
+            // We update realm infos.
+            try (Session authSession = HibernateUtil.getAuthSession().openSession()) {
+                authSession.beginTransaction();
+                authSession.merge(realm);
+                authSession.merge(accountInfo);
+                authSession.flush();
+                authSession.getTransaction().commit();;
+            } catch (HibernateException he) {
+                session.getTransaction().rollback();
+                return CharDeleteEnum.CHAR_DELETE_FAILED;
+            }
+
             session.flush();
             session.getTransaction().commit();
         } catch (HibernateException he) {
@@ -261,10 +439,67 @@ public class CharacterService {
 
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             return session.createCriteria(Characters.class)
-                    .add(Restrictions.eq("fkAccount", account.getId())).list();
+                    .add(Restrictions.and(
+                                    Restrictions.eq("deleted", false),
+                                    Restrictions.eq("fkAccount", account.getId()
+                                    ))).list();
         } catch (HibernateException he) {
             logger.error("No result associated to the account: " + account.getId());
             return null;
+        }
+    }
+
+    /**
+     * Return the number of characters for this account.
+     *
+     * @param account The account for which the number of characters needs to be
+     * retrieved.
+     * @return The number of characters for this account.
+     */
+    public long getNumberOfCharacters(Account account) {
+        if (account == null) {
+            logger.debug("Account parameter is empty, exiting.");
+            return 0;
+        }
+
+        try (Session session = HibernateUtil.getCharSession().openSession()) {
+            return (long) session.createCriteria(Characters.class)
+                    .add(Restrictions.and(
+                                    Restrictions.eq("deleted", false),
+                                    Restrictions.eq("fkAccount", account.getId()
+                                    ))).setProjection(Projections.rowCount()).uniqueResult();
+        } catch (HibernateException he) {
+            logger.error("No result associated to the account: " + account.getId());
+            return 0;
+        }
+    }
+
+    /**
+     * Indicates whether the account given in parameter has characters already
+     * created in the opposite faction.
+     *
+     * @param account The account for which it needs to be checked.
+     * @param faction The faction for which this account is trying to create a
+     * character.
+     * @return True if the account has already created characters in the enemy
+     * faction.
+     */
+    private boolean hasCharacterInEnemyFaction(Account account, FactionEnum faction) {
+        try (Session session = HibernateUtil.getCharSession().openSession()) {
+            Disjunction or = Restrictions.disjunction();
+            for (RaceEnum race : FactionEnum.getRacesForFactions(faction)) {
+                or.add(Restrictions.eq("race", race.getValue()));
+            }
+
+            return (((long) session.createCriteria(Characters.class)
+                    .add(Restrictions.and(
+                                    Restrictions.eq("deleted", false),
+                                    Restrictions.eq("fkAccount", account.getId()),
+                                    or
+                            )).setProjection(Projections.rowCount()).uniqueResult()) != 0);
+
+        } catch (HibernateException he) {
+            return false;
         }
     }
 
@@ -281,7 +516,11 @@ public class CharacterService {
         }
 
         try (Session session = HibernateUtil.getCharSession().openSession()) {
-            Characters character = (Characters) session.createCriteria(Characters.class).add(Restrictions.like("name", name)).uniqueResult();
+            Characters character = (Characters) session.createCriteria(Characters.class)
+                    .add(Restrictions.and(
+                                    Restrictions.eq("deleted", false),
+                                    Restrictions.like("name", name)))
+                    .uniqueResult();
             logger.debug("The character " + name + " is found.");
             return (character != null);
         } catch (HibernateException he) {
@@ -297,9 +536,7 @@ public class CharacterService {
      * @return CharCreateEnum corresponding to the result of the check.
      */
     private CharCreateEnum checkName(String name) {
-        // TODO:        
-        // CHAR_NAME_TOO_SHORT((short) 0x44),
-        // CHAR_NAME_TOO_LONG((short) 0x45),           
+        // TODO:                 
         // CHAR_NAME_MIXED_LANGUAGES((short) 0x47),
         // CHAR_NAME_PROFANE((short) 0x48),
         // CHAR_NAME_RESERVED((short) 0x49),                
@@ -307,6 +544,14 @@ public class CharacterService {
         if (name == null || name.isEmpty()) {
             logger.debug("Name is empty, aborting character creation.");
             return CharCreateEnum.CHAR_NAME_NO_NAME;
+        }
+
+        if (name.length() < MIN_NAME_LENGTH) {
+            return CharCreateEnum.CHAR_NAME_TOO_SHORT;
+        }
+
+        if (name.length() > MAX_NAME_LENGTH) {
+            return CharCreateEnum.CHAR_NAME_TOO_LONG;
         }
 
         // Name must only be composed of letters.

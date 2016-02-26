@@ -73,7 +73,7 @@ public class ItemInstance  implements java.io.Serializable {
      private Integer fkItemTextId;
      private Integer durability;
      private Byte slot;
-     private Byte stackCount;
+     private short stackCount;
      private String guildPetitionName;
      private Set equipments = new HashSet(0);
      private Set itemInstancesForFkWrappedIn = new HashSet(0);
@@ -87,7 +87,7 @@ public class ItemInstance  implements java.io.Serializable {
     public ItemInstance(int objectGuid) {
         this.objectGuid = objectGuid;
     }
-    public ItemInstance(int objectGuid, Characters characters, ItemInstance itemInstanceByFkWrappedIn, ItemInstance itemInstanceByFkStorageBag, ItemStorageType itemStorageType, Byte objectType, Integer fkObjectEntry, Float objectScaleX, Integer objectPadding, Integer fkCreatorGuid, Integer fkGiftGuid, Integer duration, Integer spellCharges1, Integer spellCharges2, Integer spellCharges3, Integer spellCharges4, Integer spellCharges5, Byte binded, Byte unknown1, Byte unlocked, Byte wrapped, Byte unknown4, Byte unknown5, Byte unknown6, Byte unknown7, Byte unknown8, Byte readable, Byte unknown10, Byte unknown11, Byte unknown12, Byte unknown13, Byte unknown14, Byte unknown15, Byte unknown16, Byte unknown17, Integer fkDbcPermEnchantId, Integer permEnchantDuration, Byte permEnchantCharges, Integer fkDbcTempEnchantId, Integer tempEnchantDuration, Byte tempEnchantCharges, Integer fkDbcProp0EnchantId, Integer prop0EnchantDuration, Byte prop0EnchantCharges, Integer fkDbcProp1EnchantId, Integer prop1EnchantDuration, Byte prop1EnchantCharges, Integer fkDbcProp2EnchantId, Integer prop2EnchantDuration, Byte prop2EnchantCharges, Integer fkDbcProp3EnchantId, Integer prop3EnchantDuration, Byte prop3EnchantCharges, Integer fkDbcProp4EnchantId, Integer prop4EnchantDuration, Byte prop4EnchantCharges, Integer propertySeed, Integer fkDbcRandomPropertyId, Integer fkItemTextId, Integer durability, Byte slot, Byte stackCount, String guildPetitionName, Set equipments, Set itemInstancesForFkWrappedIn, Set itemInstancesForFkStorageBag, Set characterses) {
+    public ItemInstance(int objectGuid, Characters characters, ItemInstance itemInstanceByFkWrappedIn, ItemInstance itemInstanceByFkStorageBag, ItemStorageType itemStorageType, Byte objectType, Integer fkObjectEntry, Float objectScaleX, Integer objectPadding, Integer fkCreatorGuid, Integer fkGiftGuid, Integer duration, Integer spellCharges1, Integer spellCharges2, Integer spellCharges3, Integer spellCharges4, Integer spellCharges5, Byte binded, Byte unknown1, Byte unlocked, Byte wrapped, Byte unknown4, Byte unknown5, Byte unknown6, Byte unknown7, Byte unknown8, Byte readable, Byte unknown10, Byte unknown11, Byte unknown12, Byte unknown13, Byte unknown14, Byte unknown15, Byte unknown16, Byte unknown17, Integer fkDbcPermEnchantId, Integer permEnchantDuration, Byte permEnchantCharges, Integer fkDbcTempEnchantId, Integer tempEnchantDuration, Byte tempEnchantCharges, Integer fkDbcProp0EnchantId, Integer prop0EnchantDuration, Byte prop0EnchantCharges, Integer fkDbcProp1EnchantId, Integer prop1EnchantDuration, Byte prop1EnchantCharges, Integer fkDbcProp2EnchantId, Integer prop2EnchantDuration, Byte prop2EnchantCharges, Integer fkDbcProp3EnchantId, Integer prop3EnchantDuration, Byte prop3EnchantCharges, Integer fkDbcProp4EnchantId, Integer prop4EnchantDuration, Byte prop4EnchantCharges, Integer propertySeed, Integer fkDbcRandomPropertyId, Integer fkItemTextId, Integer durability, Byte slot, short stackCount, String guildPetitionName, Set equipments, Set itemInstancesForFkWrappedIn, Set itemInstancesForFkStorageBag, Set characterses) {
        this.objectGuid = objectGuid;
        this.characters = characters;
        this.itemInstanceByFkWrappedIn = itemInstanceByFkWrappedIn;
@@ -584,11 +584,11 @@ public class ItemInstance  implements java.io.Serializable {
     public void setSlot(Byte slot) {
         this.slot = slot;
     }
-    public Byte getStackCount() {
+    public short getStackCount() {
         return this.stackCount;
     }
     
-    public void setStackCount(Byte stackCount) {
+    public void setStackCount(short stackCount) {
         this.stackCount = stackCount;
     }
     public String getGuildPetitionName() {
