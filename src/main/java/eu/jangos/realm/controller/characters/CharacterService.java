@@ -84,7 +84,6 @@ public class CharacterService {
     private static final byte START_LEVEL = Byte.parseByte(wps.getParameter(WorldParameterConstants.KEY_WORLD_START_LEVEL));
     private static final byte MIN_NAME_LENGTH = Byte.parseByte(wps.getParameter(WorldParameterConstants.KEY_WORLD_MIN_LENGTH_NAME));
     private static final byte MAX_NAME_LENGTH = Byte.parseByte(wps.getParameter(WorldParameterConstants.KEY_WORLD_MAX_LENGTH_NAME));
-    private Characters loggedCharacter;
 
     /**
      * Create a character according to the parameters given.
@@ -260,7 +259,8 @@ public class CharacterService {
         character.setHomeOrientation(race.getOrientation());
         character.setHomeFkDbcMap(race.getFkDbcMap());
         character.setHomeFkDbcZone(race.getFkDbcZone());
-
+        character.setStableSlots((byte) 0);
+        
         // Adding default equipment.
         Set<ItemInstance> listEquipment = new HashSet<>();
 

@@ -26,8 +26,8 @@ public class Characters implements java.io.Serializable {
     private float positionZ;
     private int fkDbcMap;
     private float orientation;
-    private byte online;
-    private byte cinematic;
+    private boolean online;
+    private boolean cinematic;
     private int totaltime;
     private int leveltime;
     private long logoutTime;
@@ -39,7 +39,7 @@ public class Characters implements java.io.Serializable {
     private float transZ;
     private float transO;
     private long fkTransguid;
-    private boolean stableSlots;
+    private Byte stableSlots;
     private int fkDbcZone;
     private long deathExpireTime;
     private String fkDbcTaxiPath;
@@ -49,7 +49,7 @@ public class Characters implements java.io.Serializable {
     private int storedDishonorableKills;
     private int storedHonorableKills;
     private int fkDbcWatchedFaction;
-    private short drunk;
+    private boolean drunk;
     private int health;
     private int power1;
     private int power2;
@@ -67,38 +67,38 @@ public class Characters implements java.io.Serializable {
     private Byte unknownByte;
     private Byte bankbagslot;
     private Byte resttype;
-    private Byte changename;
-    private Byte resetspell;
-    private Byte resettalents;
-    private Byte charcustom;
-    private Byte groupleader;
-    private Byte afk;
-    private Byte dnd;
-    private Byte gm;
-    private Byte ghost;
-    private Byte resting;
-    private Byte unknown7;
-    private Byte ffapvp;
-    private Byte contestedpvp;
-    private Byte inpvp;
-    private Byte hidehelm;
-    private Byte hidecloak;
-    private Byte partialplaytime;
-    private Byte noplaytime;
-    private Byte unknown15;
-    private Byte unknown16;
-    private Byte sanctuary;
-    private Byte taxibenchmark;
-    private Byte pvptimer;
-    private Byte gmon;
-    private Byte gmaccepttickets;
-    private Byte gmacceptwhispers;
-    private Byte gmtaxicheat;
-    private Byte gminvisible;
-    private Byte gmchat;
-    private Byte gmauctionneutral;
-    private Byte gmauctionenemy;
-    private Byte pvpdeath;
+    private boolean changename;
+    private boolean resetspell;
+    private boolean resettalents;
+    private boolean charcustom;
+    private boolean groupleader;
+    private boolean afk;
+    private boolean dnd;
+    private boolean gm;
+    private boolean ghost;
+    private boolean resting;
+    private boolean unknown7;
+    private boolean ffapvp;
+    private boolean contestedpvp;
+    private boolean inpvp;
+    private boolean hidehelm;
+    private boolean hidecloak;
+    private boolean partialplaytime;
+    private boolean noplaytime;
+    private boolean unknown15;
+    private boolean unknown16;
+    private boolean sanctuary;
+    private boolean taxibenchmark;
+    private boolean pvptimer;
+    private boolean gmon;
+    private boolean gmaccepttickets;
+    private boolean gmacceptwhispers;
+    private boolean gmtaxicheat;
+    private boolean gminvisible;
+    private boolean gmchat;
+    private boolean gmauctionneutral;
+    private boolean gmauctionenemy;
+    private boolean pvpdeath;
     private String note;
     private String officernote;
     private float homeX;
@@ -125,7 +125,7 @@ public class Characters implements java.io.Serializable {
     public Characters() {
     }
 
-    public Characters(long guid, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, byte online, byte cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, boolean stableSlots, int fkDbcZone, long deathExpireTime, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, short drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone) {
+    public Characters(long guid, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, boolean online, boolean cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, byte stableSlots, int fkDbcZone, long deathExpireTime, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, boolean drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone) {
         this.guid = guid;
         this.fkAccount = fkAccount;
         this.name = name;
@@ -178,7 +178,7 @@ public class Characters implements java.io.Serializable {
         this.homeFkDbcZone = homeFkDbcZone;
     }
 
-    public Characters(long guid, GuildRank guildRank, ItemInstance itemInstance, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, byte online, byte cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, boolean stableSlots, int fkDbcZone, long deathExpireTime, String fkDbcTaxiPath, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, short drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, boolean deleted, Date deleteDate, Byte skin, Byte face, Byte hairstyle, Byte haircolor, Byte facialhair, Byte unknownByte, Byte bankbagslot, Byte resttype, Byte changename, Byte resetspell, Byte resettalents, Byte charcustom, Byte groupleader, Byte afk, Byte dnd, Byte gm, Byte ghost, Byte resting, Byte unknown7, Byte ffapvp, Byte contestedpvp, Byte inpvp, Byte hidehelm, Byte hidecloak, Byte partialplaytime, Byte noplaytime, Byte unknown15, Byte unknown16, Byte sanctuary, Byte taxibenchmark, Byte pvptimer, Byte gmon, Byte gmaccepttickets, Byte gmacceptwhispers, Byte gmtaxicheat, Byte gminvisible, Byte gmchat, Byte gmauctionneutral, Byte gmauctionenemy, Byte pvpdeath, String note, String officernote, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone, Set mailsForFkFrom, Set skillses, Set itemInstances, Set guildEventsesForFkEventReceiver, Set mailsForFkTo, Set reputations, Set spells, Set socialsForFkOwner, Set socialsForFkRelation, Set whispersesForFkFrom, Set actionbars, Set guildEventsesForFkEventSender, Set tickets, Set whispersesForFkTo) {
+    public Characters(long guid, GuildRank guildRank, ItemInstance itemInstance, int fkAccount, String name, byte race, byte fkDbcClass, byte gender, byte level, int xp, int money, float positionX, float positionY, float positionZ, int fkDbcMap, float orientation, boolean online, boolean cinematic, int totaltime, int leveltime, long logoutTime, float restBonus, int resettalentsCost, long resettalentsTime, float transX, float transY, float transZ, float transO, long fkTransguid, byte stableSlots, int fkDbcZone, long deathExpireTime, String fkDbcTaxiPath, int honorHighestRank, int honorStanding, float storedHonorRating, int storedDishonorableKills, int storedHonorableKills, int fkDbcWatchedFaction, boolean drunk, int health, int power1, int power2, int power3, int power4, int power5, int fkAmmoId, boolean deleted, Date deleteDate, Byte skin, Byte face, Byte hairstyle, Byte haircolor, Byte facialhair, Byte unknownByte, Byte bankbagslot, Byte resttype, boolean changename, boolean resetspell, boolean resettalents, boolean charcustom, boolean groupleader, boolean afk, boolean dnd, boolean gm, boolean ghost, boolean resting, boolean unknown7, boolean ffapvp, boolean contestedpvp, boolean inpvp, boolean hidehelm, boolean hidecloak, boolean partialplaytime, boolean noplaytime, boolean unknown15, boolean unknown16, boolean sanctuary, boolean taxibenchmark, boolean pvptimer, boolean gmon, boolean gmaccepttickets, boolean gmacceptwhispers, boolean gmtaxicheat, boolean gminvisible, boolean gmchat, boolean gmauctionneutral, boolean gmauctionenemy, boolean pvpdeath, String note, String officernote, float homeX, float homeY, float homeZ, float homeOrientation, int homeFkDbcMap, int homeFkDbcZone, Set mailsForFkFrom, Set skillses, Set itemInstances, Set guildEventsesForFkEventReceiver, Set mailsForFkTo, Set reputations, Set spells, Set socialsForFkOwner, Set socialsForFkRelation, Set whispersesForFkFrom, Set actionbars, Set guildEventsesForFkEventSender, Set tickets, Set whispersesForFkTo) {
         this.guid = guid;
         this.guildRank = guildRank;
         this.itemInstance = itemInstance;
@@ -420,19 +420,19 @@ public class Characters implements java.io.Serializable {
         this.orientation = orientation;
     }
 
-    public byte getOnline() {
-        return this.online;
+    public boolean isOnline() {
+        return online;
     }
 
-    public void setOnline(byte online) {
+    public void setOnline(boolean online) {
         this.online = online;
     }
 
-    public byte getCinematic() {
-        return this.cinematic;
+    public boolean isCinematic() {
+        return cinematic;
     }
 
-    public void setCinematic(byte cinematic) {
+    public void setCinematic(boolean cinematic) {
         this.cinematic = cinematic;
     }
 
@@ -524,11 +524,11 @@ public class Characters implements java.io.Serializable {
         this.fkTransguid = fkTransguid;
     }
 
-    public boolean isStableSlots() {
-        return this.stableSlots;
+    public Byte getStableSlots() {
+        return stableSlots;
     }
 
-    public void setStableSlots(boolean stableSlots) {
+    public void setStableSlots(Byte stableSlots) {
         this.stableSlots = stableSlots;
     }
 
@@ -604,13 +604,13 @@ public class Characters implements java.io.Serializable {
         this.fkDbcWatchedFaction = fkDbcWatchedFaction;
     }
 
-    public short getDrunk() {
-        return this.drunk;
+    public boolean isDrunk() {
+        return drunk;
     }
 
-    public void setDrunk(short drunk) {
+    public void setDrunk(boolean drunk) {
         this.drunk = drunk;
-    }
+    }    
 
     public int getHealth() {
         return this.health;
@@ -748,261 +748,261 @@ public class Characters implements java.io.Serializable {
         this.resttype = resttype;
     }
 
-    public Byte getChangename() {
-        return this.changename;
+    public boolean isChangename() {
+        return changename;
     }
 
-    public void setChangename(Byte changename) {
+    public void setChangename(boolean changename) {
         this.changename = changename;
     }
 
-    public Byte getResetspell() {
-        return this.resetspell;
+    public boolean isResetspell() {
+        return resetspell;
     }
 
-    public void setResetspell(Byte resetspell) {
+    public void setResetspell(boolean resetspell) {
         this.resetspell = resetspell;
     }
 
-    public Byte getResettalents() {
-        return this.resettalents;
+    public boolean isResettalents() {
+        return resettalents;
     }
 
-    public void setResettalents(Byte resettalents) {
+    public void setResettalents(boolean resettalents) {
         this.resettalents = resettalents;
     }
 
-    public Byte getCharcustom() {
-        return this.charcustom;
+    public boolean isCharcustom() {
+        return charcustom;
     }
 
-    public void setCharcustom(Byte charcustom) {
+    public void setCharcustom(boolean charcustom) {
         this.charcustom = charcustom;
     }
 
-    public Byte getGroupleader() {
-        return this.groupleader;
+    public boolean isGroupleader() {
+        return groupleader;
     }
 
-    public void setGroupleader(Byte groupleader) {
+    public void setGroupleader(boolean groupleader) {
         this.groupleader = groupleader;
     }
 
-    public Byte getAfk() {
-        return this.afk;
+    public boolean isAfk() {
+        return afk;
     }
 
-    public void setAfk(Byte afk) {
+    public void setAfk(boolean afk) {
         this.afk = afk;
     }
 
-    public Byte getDnd() {
-        return this.dnd;
+    public boolean isDnd() {
+        return dnd;
     }
 
-    public void setDnd(Byte dnd) {
+    public void setDnd(boolean dnd) {
         this.dnd = dnd;
     }
 
-    public Byte getGm() {
-        return this.gm;
+    public boolean isGm() {
+        return gm;
     }
 
-    public void setGm(Byte gm) {
+    public void setGm(boolean gm) {
         this.gm = gm;
     }
 
-    public Byte getGhost() {
-        return this.ghost;
+    public boolean isGhost() {
+        return ghost;
     }
 
-    public void setGhost(Byte ghost) {
+    public void setGhost(boolean ghost) {
         this.ghost = ghost;
     }
 
-    public Byte getResting() {
-        return this.resting;
+    public boolean isResting() {
+        return resting;
     }
 
-    public void setResting(Byte resting) {
+    public void setResting(boolean resting) {
         this.resting = resting;
     }
 
-    public Byte getUnknown7() {
-        return this.unknown7;
+    public boolean isUnknown7() {
+        return unknown7;
     }
 
-    public void setUnknown7(Byte unknown7) {
+    public void setUnknown7(boolean unknown7) {
         this.unknown7 = unknown7;
     }
 
-    public Byte getFfapvp() {
-        return this.ffapvp;
+    public boolean isFfapvp() {
+        return ffapvp;
     }
 
-    public void setFfapvp(Byte ffapvp) {
+    public void setFfapvp(boolean ffapvp) {
         this.ffapvp = ffapvp;
     }
 
-    public Byte getContestedpvp() {
-        return this.contestedpvp;
+    public boolean isContestedpvp() {
+        return contestedpvp;
     }
 
-    public void setContestedpvp(Byte contestedpvp) {
+    public void setContestedpvp(boolean contestedpvp) {
         this.contestedpvp = contestedpvp;
     }
 
-    public Byte getInpvp() {
-        return this.inpvp;
+    public boolean isInpvp() {
+        return inpvp;
     }
 
-    public void setInpvp(Byte inpvp) {
+    public void setInpvp(boolean inpvp) {
         this.inpvp = inpvp;
     }
 
-    public Byte getHidehelm() {
-        return this.hidehelm;
+    public boolean isHidehelm() {
+        return hidehelm;
     }
 
-    public void setHidehelm(Byte hidehelm) {
+    public void setHidehelm(boolean hidehelm) {
         this.hidehelm = hidehelm;
     }
 
-    public Byte getHidecloak() {
-        return this.hidecloak;
+    public boolean isHidecloak() {
+        return hidecloak;
     }
 
-    public void setHidecloak(Byte hidecloak) {
+    public void setHidecloak(boolean hidecloak) {
         this.hidecloak = hidecloak;
     }
 
-    public Byte getPartialplaytime() {
-        return this.partialplaytime;
+    public boolean isPartialplaytime() {
+        return partialplaytime;
     }
 
-    public void setPartialplaytime(Byte partialplaytime) {
+    public void setPartialplaytime(boolean partialplaytime) {
         this.partialplaytime = partialplaytime;
     }
 
-    public Byte getNoplaytime() {
-        return this.noplaytime;
+    public boolean isNoplaytime() {
+        return noplaytime;
     }
 
-    public void setNoplaytime(Byte noplaytime) {
+    public void setNoplaytime(boolean noplaytime) {
         this.noplaytime = noplaytime;
     }
 
-    public Byte getUnknown15() {
-        return this.unknown15;
+    public boolean isUnknown15() {
+        return unknown15;
     }
 
-    public void setUnknown15(Byte unknown15) {
+    public void setUnknown15(boolean unknown15) {
         this.unknown15 = unknown15;
     }
 
-    public Byte getUnknown16() {
-        return this.unknown16;
+    public boolean isUnknown16() {
+        return unknown16;
     }
 
-    public void setUnknown16(Byte unknown16) {
+    public void setUnknown16(boolean unknown16) {
         this.unknown16 = unknown16;
     }
 
-    public Byte getSanctuary() {
-        return this.sanctuary;
+    public boolean isSanctuary() {
+        return sanctuary;
     }
 
-    public void setSanctuary(Byte sanctuary) {
+    public void setSanctuary(boolean sanctuary) {
         this.sanctuary = sanctuary;
     }
 
-    public Byte getTaxibenchmark() {
-        return this.taxibenchmark;
+    public boolean isTaxibenchmark() {
+        return taxibenchmark;
     }
 
-    public void setTaxibenchmark(Byte taxibenchmark) {
+    public void setTaxibenchmark(boolean taxibenchmark) {
         this.taxibenchmark = taxibenchmark;
     }
 
-    public Byte getPvptimer() {
-        return this.pvptimer;
+    public boolean isPvptimer() {
+        return pvptimer;
     }
 
-    public void setPvptimer(Byte pvptimer) {
+    public void setPvptimer(boolean pvptimer) {
         this.pvptimer = pvptimer;
     }
 
-    public Byte getGmon() {
-        return this.gmon;
+    public boolean isGmon() {
+        return gmon;
     }
 
-    public void setGmon(Byte gmon) {
+    public void setGmon(boolean gmon) {
         this.gmon = gmon;
     }
 
-    public Byte getGmaccepttickets() {
-        return this.gmaccepttickets;
+    public boolean isGmaccepttickets() {
+        return gmaccepttickets;
     }
 
-    public void setGmaccepttickets(Byte gmaccepttickets) {
+    public void setGmaccepttickets(boolean gmaccepttickets) {
         this.gmaccepttickets = gmaccepttickets;
     }
 
-    public Byte getGmacceptwhispers() {
-        return this.gmacceptwhispers;
+    public boolean isGmacceptwhispers() {
+        return gmacceptwhispers;
     }
 
-    public void setGmacceptwhispers(Byte gmacceptwhispers) {
+    public void setGmacceptwhispers(boolean gmacceptwhispers) {
         this.gmacceptwhispers = gmacceptwhispers;
     }
 
-    public Byte getGmtaxicheat() {
-        return this.gmtaxicheat;
+    public boolean isGmtaxicheat() {
+        return gmtaxicheat;
     }
 
-    public void setGmtaxicheat(Byte gmtaxicheat) {
+    public void setGmtaxicheat(boolean gmtaxicheat) {
         this.gmtaxicheat = gmtaxicheat;
     }
 
-    public Byte getGminvisible() {
-        return this.gminvisible;
+    public boolean isGminvisible() {
+        return gminvisible;
     }
 
-    public void setGminvisible(Byte gminvisible) {
+    public void setGminvisible(boolean gminvisible) {
         this.gminvisible = gminvisible;
     }
 
-    public Byte getGmchat() {
-        return this.gmchat;
+    public boolean isGmchat() {
+        return gmchat;
     }
 
-    public void setGmchat(Byte gmchat) {
+    public void setGmchat(boolean gmchat) {
         this.gmchat = gmchat;
     }
 
-    public Byte getGmauctionneutral() {
-        return this.gmauctionneutral;
+    public boolean isGmauctionneutral() {
+        return gmauctionneutral;
     }
 
-    public void setGmauctionneutral(Byte gmauctionneutral) {
+    public void setGmauctionneutral(boolean gmauctionneutral) {
         this.gmauctionneutral = gmauctionneutral;
     }
 
-    public Byte getGmauctionenemy() {
-        return this.gmauctionenemy;
+    public boolean isGmauctionenemy() {
+        return gmauctionenemy;
     }
 
-    public void setGmauctionenemy(Byte gmauctionenemy) {
+    public void setGmauctionenemy(boolean gmauctionenemy) {
         this.gmauctionenemy = gmauctionenemy;
     }
 
-    public Byte getPvpdeath() {
-        return this.pvpdeath;
+    public boolean isPvpdeath() {
+        return pvpdeath;
     }
 
-    public void setPvpdeath(Byte pvpdeath) {
+    public void setPvpdeath(boolean pvpdeath) {
         this.pvpdeath = pvpdeath;
-    }
+    }    
 
     public String getNote() {
         return this.note;

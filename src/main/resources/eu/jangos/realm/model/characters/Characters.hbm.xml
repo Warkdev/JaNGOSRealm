@@ -86,12 +86,12 @@
                 <comment>The orientation the character is facing. (North = 0.0, South = 3.14159)</comment>
             </column>
         </property>
-        <property name="online" type="byte">
+        <property name="online" type="boolean">
             <column name="online" not-null="true">
                 <comment>Records whether the character is online (1) or offline (0).</comment>
             </column>
         </property>
-        <property name="cinematic" type="byte">
+        <property name="cinematic" type="boolean">
             <column name="cinematic" not-null="true">
                 <comment>Boolean 1 or 0 controlling whether the start cinematic has been shown or not.</comment>
             </column>
@@ -151,7 +151,7 @@
                 <comment>The global unique ID of the transport if applicable. Foreign key to transport.</comment>
             </column>
         </property>
-        <property name="stableSlots" type="boolean">
+        <property name="stableSlots" type="java.lang.Byte">
             <column name="stable_slots" not-null="true">
                 <comment>The number of stable slots the player has available. Maximum is 2.</comment>
             </column>
@@ -201,7 +201,7 @@
                 <comment>ID of the watched faction by this character. Foreign key to Faction.dbc.</comment>
             </column>
         </property>
-        <property name="drunk" type="short">
+        <property name="drunk" type="boolean">
             <column name="drunk" not-null="true">
                 <comment>Boolean flag indicating whether the character is drunk or not.</comment>
             </column>
@@ -292,162 +292,162 @@
                 together): 1 - RESTED 2 - NORMAL 4 - RAF-LINKED</comment>
             </column>
         </property>
-        <property name="changename" type="java.lang.Byte">
+        <property name="changename" type="boolean">
             <column name="changename">
                 <comment>Force the character to change name at login. This value is part of the at_login_flag information.</comment>
             </column>
         </property>
-        <property name="resetspell" type="java.lang.Byte">
+        <property name="resetspell" type="boolean">
             <column name="resetspell">
                 <comment>Boolean value indicating whether the character will have spell reset at login or not. This value is part of the at_login_flag information.</comment>
             </column>
         </property>
-        <property name="resettalents" type="java.lang.Byte">
+        <property name="resettalents" type="boolean">
             <column name="resettalents">
                 <comment>Boolean value indicating whether the character will have talents reset at login or not. This value is part of the at_login_flag information.</comment>
             </column>
         </property>
-        <property name="charcustom" type="java.lang.Byte">
+        <property name="charcustom" type="boolean">
             <column name="charcustom">
                 <comment>Boolean value at login, unknown effect. This value is part of the at_login_flag information.</comment>
             </column>
         </property>
-        <property name="groupleader" type="java.lang.Byte">
+        <property name="groupleader" type="boolean">
             <column name="groupleader">
                 <comment>Flag value indicating whether this character is group leader or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="afk" type="java.lang.Byte">
+        <property name="afk" type="boolean">
             <column name="afk">
                 <comment>Flag value indicating whether this character is afk or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="dnd" type="java.lang.Byte">
+        <property name="dnd" type="boolean">
             <column name="dnd">
                 <comment>Flag value indicating whether this character is dnd or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="gm" type="java.lang.Byte">
+        <property name="gm" type="boolean">
             <column name="gm">
                 <comment>Flag value indicating whether this character is gm or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="ghost" type="java.lang.Byte">
+        <property name="ghost" type="boolean">
             <column name="ghost">
                 <comment>Flag value indicating whether this character is ghost or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="resting" type="java.lang.Byte">
+        <property name="resting" type="boolean">
             <column name="resting">
                 <comment>Flag value indicating whether this character is resting or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="unknown7" type="java.lang.Byte">
+        <property name="unknown7" type="boolean">
             <column name="unknown7">
                 <comment>Unknown flag usage. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="ffapvp" type="java.lang.Byte">
+        <property name="ffapvp" type="boolean">
             <column name="ffapvp">
                 <comment>Flag value indicating whether this character is in ffa pvp mode or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="contestedpvp" type="java.lang.Byte">
+        <property name="contestedpvp" type="boolean">
             <column name="contestedpvp">
                 <comment>Flag value indicating whether this character is in contested pvp mode or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="inpvp" type="java.lang.Byte">
+        <property name="inpvp" type="boolean">
             <column name="inpvp">
                 <comment>Flag value indicating whether this character is in pvp or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="hidehelm" type="java.lang.Byte">
+        <property name="hidehelm" type="boolean">
             <column name="hidehelm">
                 <comment>Flag value indicating whether this character is hidding helm or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="hidecloak" type="java.lang.Byte">
+        <property name="hidecloak" type="boolean">
             <column name="hidecloak">
                 <comment>Flag value indicating whether this character is hidding cloak or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="partialplaytime" type="java.lang.Byte">
+        <property name="partialplaytime" type="boolean">
             <column name="partialplaytime">
                 <comment>Flag value indicating whether this character has played a long time or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="noplaytime" type="java.lang.Byte">
+        <property name="noplaytime" type="boolean">
             <column name="noplaytime">
                 <comment>Flag value indicating whether this character has played too long or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="unknown15" type="java.lang.Byte">
+        <property name="unknown15" type="boolean">
             <column name="unknown15">
                 <comment>Unknown usage. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="unknown16" type="java.lang.Byte">
+        <property name="unknown16" type="boolean">
             <column name="unknown16">
                 <comment>Unknown usage. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="sanctuary" type="java.lang.Byte">
+        <property name="sanctuary" type="boolean">
             <column name="sanctuary">
                 <comment>Flag value indicating whether this character is in a sanctuary zone or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="taxibenchmark" type="java.lang.Byte">
+        <property name="taxibenchmark" type="boolean">
             <column name="taxibenchmark">
                 <comment>Flag value indicating whether this character is in taxi benchmarking mode or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="pvptimer" type="java.lang.Byte">
+        <property name="pvptimer" type="boolean">
             <column name="pvptimer">
                 <comment>Flag value indicating whether this character has the pvp timer enabled or not. This field is part of the playerFlags information.</comment>
             </column>
         </property>
-        <property name="gmon" type="java.lang.Byte">
+        <property name="gmon" type="boolean">
             <column name="gmon">
                 <comment>Flag value indicating whether this character has the gm mode enabled or not. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gmaccepttickets" type="java.lang.Byte">
+        <property name="gmaccepttickets" type="boolean">
             <column name="gmaccepttickets">
                 <comment>Flag value indicating whether this character is accepting tickets or not. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gmacceptwhispers" type="java.lang.Byte">
+        <property name="gmacceptwhispers" type="boolean">
             <column name="gmacceptwhispers">
                 <comment>Flag value indicating whether this character is accepting whispers or not. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gmtaxicheat" type="java.lang.Byte">
+        <property name="gmtaxicheat" type="boolean">
             <column name="gmtaxicheat">
                 <comment>Flag value indicating whether this character is using taxi cheats or not. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gminvisible" type="java.lang.Byte">
+        <property name="gminvisible" type="boolean">
             <column name="gminvisible">
                 <comment>Flag value indicating whether this character is invisible or not. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gmchat" type="java.lang.Byte">
+        <property name="gmchat" type="boolean">
             <column name="gmchat">
                 <comment>Flag value indicating whether this character shows is GM badge in the chat or not. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gmauctionneutral" type="java.lang.Byte">
+        <property name="gmauctionneutral" type="boolean">
             <column name="gmauctionneutral">
                 <comment>Neutral auction flag. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="gmauctionenemy" type="java.lang.Byte">
+        <property name="gmauctionenemy" type="boolean">
             <column name="gmauctionenemy">
                 <comment>Enemy auction flag. This field is part of the ExtraFlags information.</comment>
             </column>
         </property>
-        <property name="pvpdeath" type="java.lang.Byte">
+        <property name="pvpdeath" type="boolean">
             <column name="pvpdeath">
                 <comment>Store the PvP status until the corpse is created. This field is part of the ExtraFlags information.</comment>
             </column>

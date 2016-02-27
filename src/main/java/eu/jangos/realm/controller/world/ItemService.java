@@ -17,10 +17,15 @@ package eu.jangos.realm.controller.world;
 
 import eu.jangos.realm.hibernate.HibernateUtil;
 import eu.jangos.realm.model.world.Item;
+import java.util.List;
 import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,13 +43,19 @@ public class ItemService {
      * @param id The id of the item to be found.
      * @return The corresponding item or null if the item is not found.
      */
-    public Item getItemByID(int id) {
+    public Object[] getItemByIDCharEnum(int id) {
         logger.debug("Loading information for the item with the id "+id);
         
         try(Session session = HibernateUtil.getWorldSession().openSession()) {
-            return (Item) session.createCriteria(Item.class)
-                    .setFetchMode("inventorytype", FetchMode.JOIN)
-                    .add(Restrictions.eq("entry", id)).uniqueResult();
+            ProjectionList proList = Projections.projectionList();
+            proList.add(Projections.property("displayid"), "displayid");  
+            proList.add(Projections.property("ivt.id"), "id");
+            
+            return (Object[]) session.createCriteria(Item.class)     
+                    .createAlias("inventorytype", "ivt")                    
+                    .setProjection(proList)
+                    .add(Restrictions.eq("entry", id))
+                    .uniqueResult();
             
         } catch (HibernateException he) {
             logger.debug("There was an error connecting to the database.");

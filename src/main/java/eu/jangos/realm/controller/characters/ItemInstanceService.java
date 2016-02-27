@@ -24,31 +24,65 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * ItemStorageService is the business layer for ItemStorage class.
+ *
  * @author Warkdev
  */
 public class ItemInstanceService {
-    
-    private static final Logger logger = LoggerFactory.getLogger(ItemInstanceService.class);     
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(ItemInstanceService.class);
+
     /**
-     * Return the equipment of the character in parameter.     
+     * Return the equipment of the character in parameter.
+     *
      * @param character
      * @return The corresponding entity or null if not found.
      */
-    public List<ItemInstance> getEquipment(Characters character)
-    {
-        logger.debug("getEquipment "+character.getName());
-        
-        try(Session session = HibernateUtil.getCharSession().openSession())
-        {
+    public List<ItemInstance> getEquipment(Characters character) {
+        logger.debug("getEquipment " + character.getName());
+
+        try (Session session = HibernateUtil.getCharSession().openSession()) {
             return (List<ItemInstance>) session.createCriteria(ItemInstance.class)
-                    .add(Restrictions.eq("itemStorageType.id",ItemStorageEnum.EQUIPPED.getValue()))
+                    .add(Restrictions.and(
+                                    Restrictions.eq("characters.guid", character.getGuid()),
+                                    Restrictions.eq("itemStorageType.id", ItemStorageEnum.EQUIPPED.getValue())
+                            ))
+                    .addOrder(Order.asc("slot"))
+                    .list();
+        } catch (HibernateException he) {
+            logger.debug("There was an error querying the database.");
+            return null;
+        }
+    }
+
+    /**
+     * Return only the necessary fields of the equipment of the character in parameter for the CharEnum packet.
+     *
+     * @param character
+     * @return A List of arrays of Object with the following structure: [slot,entry] where slot is the slot 
+     * into which this item is located and entry is the ID of the item_template.
+     */
+    public List getEquipmentCharEnum(Characters character) {
+        logger.debug("getEquipment " + character.getName());
+
+        try (Session session = HibernateUtil.getCharSession().openSession()) {
+            ProjectionList proList = Projections.projectionList();
+            proList.add(Projections.property("slot"), "slot");
+            proList.add(Projections.property("fkObjectEntry"), "entry");
+
+            return session.createCriteria(ItemInstance.class)
+                    .setProjection(proList)
+                    .add(Restrictions.and(
+                                    Restrictions.eq("characters.guid", character.getGuid()),
+                                    Restrictions.eq("itemStorageType.id", ItemStorageEnum.EQUIPPED.getValue())
+                            ))
                     .addOrder(Order.asc("slot"))
                     .list();
         } catch (HibernateException he) {

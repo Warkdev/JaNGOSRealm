@@ -7,7 +7,6 @@ import eu.jangos.realm.enums.characters.GenderEnum;
 import eu.jangos.realm.enums.characters.ProfessionsEnum;
 import eu.jangos.realm.enums.characters.RaceEnum;
 import eu.jangos.realm.model.characters.Characters;
-import eu.jangos.realm.model.characters.ItemInstance;
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmServerPacket;
 import io.netty.buffer.ByteBuf;
@@ -112,6 +111,69 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
         return toString;
     }
 
+    /**
+     * Build the field which represents the login flag.
+     * @param c The character for which the flags need to be created.
+     * @return An integer corresponding to the value of the character flag.
+     */
+    private byte convertLoginFlagsToByte(Characters c) {
+        byte flags = 0; // NONE
+        
+        flags+=(c.isChangename() ? 1 : 0); // RENAME
+        flags+=(c.isResetspell()? 2 : 0); // RESET SPELLS
+        flags+=(c.isResettalents()? 4 : 0); // RESET TALENTS
+        //flags+=(c.isCharcustom()? 8 : 0); // CUSTOMIZE -- Not used
+        //flags+=(c.isre() ? 16 : 0); // RESET PET TALENTS -- Not used
+        flags+=(c.getTotaltime() == 0 ? 32 : 0); // FIRST LOGIN        
+        
+        return flags;
+    }
+    
+    /**
+     * Build the field which represents the character flags.
+     *
+     * @param c The character for which the flags needs to be created.
+     * @return An integer corresponding to the value of the character flag.
+     */
+    private int convertPlayersFlagsToInt(Characters c) {
+        int flags = 0;
+
+        // flags+= (0*1) //UNKNOWN FLAG
+        // flags+= (0*2) // UNKNOWN FLAG
+        // flags+= (0*4) // UNKNOWN
+        // flags+= (0*8) // UNKNOWN
+        // flags+= (0*16) // UNKNOWN
+        // flags+= (0*32) // UNKNOWN
+        // flags+= (0*64) // UNKNOWN
+        // flags+= (0*128) // UNKNOWN
+        // flags+= (0*256) // UNKNOWN
+        // flags+= (0*512) // UNKNOWN
+        flags += (c.isHidehelm() ? 1024 : 0); // HIDE_HELM
+        flags += (c.isHidecloak() ? 2048 : 0); // HIDE_CLOAK
+        // flags+= (0*4096) // UNKNOWN
+        flags += (c.isGhost() ? 8192 : 0); // GHOST
+        flags += (c.isChangename() ? 16384 : 0); // RENAME
+        // flags+= (0*32768) // UNKNOWN
+        // flags+= (0*65536) // UNKNOWN
+        // flags+= (0*131072) // UNKNOWN
+        // flags+= (0*262144) // UNKNOWN
+        // flags+= (0*524288) // UNKNOWN
+        // flags+= (0*1048576) // UNKNOWN
+        // flags+= (0*2097152) // UNKNOWN
+        // flags+= (0*4194304) // UNKNOWN
+        // flags+= (0*8388608) // UNKNOWN        
+        // flags+= (0*16777216) // LOCKED_BY_BILLING        
+        // flags+= (0*33554432) // DECLINED     
+        // flags+= (0*67108864) // UNKNOWN
+        // flags+= (0*134217728) // UNKNOWN
+        // flags+= (0*268435456) // UNKNOWN
+        // flags+= (0*536870912) // UNKNOWN
+        // flags+= (0*1073741824) // UNKNOWN
+        // flags+= (0*2147483648) // UNKNOWN        
+        
+        return flags;
+    }
+
     @Override
     public void encode(ByteBuf buf) throws Exception {
         // Packet structure:
@@ -129,6 +191,13 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
         // First bag display ID
         // First bag inventory type
 
+        // TODO: 
+        // - Guild membership
+        // - Pet ID
+        // - Pet Level
+        // - Pet Family
+        
+        
         ItemService itemService = ItemServiceFactory.getInstance();
         ItemInstanceService iiService = new ItemInstanceService();
 
@@ -141,7 +210,7 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
             buf.writeLong(c.getGuid());
             //buf = buf.order(ByteOrder.BIG_ENDIAN);
             ByteBufUtil.writeAscii(buf, c.getName());
-            buf.writeByte((byte) 0);
+            buf.writeByte((byte) 0); // End of string
             buf.writeByte(c.getRace());
             buf.writeByte(c.getFkDbcClass());
             buf.writeByte(c.getGender());
@@ -157,39 +226,45 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
             buf.writeFloat((float) c.getPositionY()); // Y
             buf.writeFloat((float) c.getPositionZ()); // Z
             buf.writeInt(0); // Guild ID
-            buf.writeInt(0); // Char Flags
-            buf.writeByte((byte) 1); // First login
+            buf.writeInt(convertPlayersFlagsToInt(c)); // Char Flags            
+            buf.writeByte(convertLoginFlagsToByte(c)); // First login
             buf.writeInt(0); // Pet ID
             buf.writeInt(0); // Pet Level
             buf.writeInt(0); // Pet family
 
             int count = 0;
-            for (ItemInstance item : iiService.getEquipment(c)) {
+
+            // We get the list of data for the equipment.
+            for (Object data : iiService.getEquipmentCharEnum(c)) {
+                Object[] itemInstance = (Object[]) data;
                 int displayID = 0;
                 byte inventoryType = 0;
-                
-                for(int i=count; i<item.getSlot(); i++)
-                {
+
+                // We fill-in the data for the unoccupied slots.
+                for (int i = count; i < Integer.parseInt(itemInstance[0].toString()); i++) {
                     buf.writeInt(displayID);
                     buf.writeByte(inventoryType);
                     count++;
                 }
-                                
-                displayID = itemService.getItemByID(item.getFkObjectEntry()).getDisplayid();
-                inventoryType = itemService.getItemByID(item.getFkObjectEntry()).getInventorytype().getId();                                
-                
+
+                // We add the occupied slot.
+                Object[] item = itemService.getItemByIDCharEnum(Integer.parseInt(itemInstance[1].toString()));
+
+                displayID = Integer.parseInt(item[0].toString());
+                inventoryType = Byte.parseByte(item[1].toString());
+
                 buf.writeInt(displayID);
                 buf.writeByte(inventoryType);
-                
+
                 count++;
             }
 
-            for(int i=count; i<=EQUIPMENT_SLOT_END; i++)
-            {
+            // We fill in the data for the end of the equipment slot.
+            for (int i = count; i <= EQUIPMENT_SLOT_END; i++) {
                 buf.writeInt(0);
                 buf.writeByte(0);
             }
-            
+
         }
 
     }
