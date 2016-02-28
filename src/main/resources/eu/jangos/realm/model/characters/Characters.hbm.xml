@@ -540,7 +540,7 @@
             </key>
             <one-to-many class="eu.jangos.realm.model.characters.Reputation" />
         </set>
-        <set name="spells" table="spell" inverse="true" lazy="true" fetch="select">
+        <set name="spells" table="spell" cascade="all" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="fk_owner" not-null="true">
                     <comment>The GUID (Global Unique Identifier) of the character. Foreign key to characters.</comment>

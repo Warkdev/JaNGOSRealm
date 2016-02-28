@@ -1,5 +1,5 @@
 package eu.jangos.realm.model.world;
-
+// Generated 27-févr.-2016 16:07:33 by Hibernate Tools 4.3.1
 
 
 
@@ -54,27 +54,6 @@ public class StartingequipmentId  implements java.io.Serializable {
     }
 
 
-   public boolean equals(Object other) {
-         if ( (this == other ) ) return true;
-		 if ( (other == null ) ) return false;
-		 if ( !(other instanceof StartingequipmentId) ) return false;
-		 StartingequipmentId castOther = ( StartingequipmentId ) other; 
-         
-		 return (this.getFkClass()==castOther.getFkClass())
- && (this.getFkItem()==castOther.getFkItem())
- && (this.getFkRace()==castOther.getFkRace())
- && (this.getFkGender()==castOther.getFkGender());
-   }
-   
-   public int hashCode() {
-         int result = 17;
-         
-         result = 37 * result + this.getFkClass();
-         result = 37 * result + this.getFkItem();
-         result = 37 * result + this.getFkRace();
-         result = 37 * result + this.getFkGender();
-         return result;
-   }   
 
 
 }

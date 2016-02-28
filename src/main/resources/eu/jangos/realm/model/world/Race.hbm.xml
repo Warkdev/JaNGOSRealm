@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 19-f?vr.-2016 21:00:57 by Hibernate Tools 4.3.1 -->
+<!-- Generated 27-f?vr.-2016 16:07:34 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="eu.jangos.realm.model.world.Race" table="race" catalog="jangosworld" optimistic-lock="version">
+    <class name="eu.jangos.realm.model.world.Race" table="race" catalog="jangosworld">
         <id name="id" type="byte">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="assigned"></generator>
         </id>
         <property name="race" type="string">
             <column name="race" length="15" not-null="true" />
         </property>
         <property name="positionX" type="float">
             <column name="position_x" precision="12" scale="0" not-null="true">
-                <comment>The x position of the character&#146;s location.</comment>
+                <comment>The x position of the character?s location.</comment>
             </column>
         </property>
         <property name="positionY" type="float">
             <column name="position_y" precision="12" scale="0" not-null="true">
-                <comment>The y position of the character&#146;s location.</comment>
+                <comment>The y position of the character?s location.</comment>
             </column>
         </property>
         <property name="positionZ" type="float">
             <column name="position_z" precision="12" scale="0" not-null="true">
-                <comment>The z position of the character&#146;s location.</comment>
+                <comment>The z position of the character?s location.</comment>
             </column>
         </property>
         <property name="orientation" type="float">

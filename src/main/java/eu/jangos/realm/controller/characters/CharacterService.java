@@ -21,6 +21,7 @@ import eu.jangos.realm.controller.world.ProfessionService;
 import eu.jangos.realm.controller.world.GenderService;
 import eu.jangos.realm.controller.world.RaceService;
 import eu.jangos.realm.controller.world.StartingEquipmentService;
+import eu.jangos.realm.controller.world.StartingSpellService;
 import eu.jangos.realm.controller.world.WorldParameterService;
 import eu.jangos.realm.enums.characters.FactionEnum;
 import eu.jangos.realm.enums.characters.ProfessionsEnum;
@@ -42,10 +43,13 @@ import eu.jangos.realm.network.opcode.result.CharCreateEnum;
 import eu.jangos.realm.utils.StringUtils;
 import eu.jangos.realm.model.characters.Characters;
 import eu.jangos.realm.model.characters.ItemInstance;
+import eu.jangos.realm.model.characters.Spell;
+import eu.jangos.realm.model.characters.SpellId;
 import eu.jangos.realm.model.world.Gender;
 import eu.jangos.realm.model.world.Item;
 import eu.jangos.realm.model.world.Race;
 import eu.jangos.realm.model.world.Startingequipment;
+import eu.jangos.realm.model.world.Startingspell;
 import eu.jangos.realm.network.opcode.result.CharDeleteEnum;
 import eu.jangos.realm.utils.ItemUtils;
 import eu.jangos.realm.utils.WorldParameterConstants;
@@ -77,6 +81,7 @@ public class CharacterService {
     private static final ProfessionService professionService = new ProfessionService();
     private static final GenderService genderService = new GenderService();
     private static final StartingEquipmentService startingEquipmentService = new StartingEquipmentService();
+    private static final StartingSpellService startingSpellService = new StartingSpellService();
     private static final ItemStorageService iss = new ItemStorageService();
     private static final WorldParameterService wps = new WorldParameterService();
     private static final RealmAccountService ras = new RealmAccountService();
@@ -298,6 +303,21 @@ public class CharacterService {
 
         character.setItemInstances(listEquipment);
 
+        // Adding default spells
+        Set<Spell> listSpells = new HashSet<>();
+        
+        for(Startingspell s : startingSpellService.getStartingSpells(race, profession))
+        {
+            Spell spell = new Spell();           
+            spell.setActive(true);
+            spell.setCooldown(new Date());
+            spell.setItemInstance(null);
+            
+            spell.setId(new SpellId(null, s.getId().getFkDbcSpell()));
+            
+            listSpells.add(spell);
+        }                
+        
         // We update the account info for this account.
         accountInfo = ras.getAccountInfo(account, realm);
         if (accountInfo == null) {
@@ -318,8 +338,16 @@ public class CharacterService {
 
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             session.beginTransaction();
+            character = (Characters) session.merge(character);            
+            
+            // We re-assign the right ID to the spell and add the spells to the character.
+            for(Spell spell : listSpells)
+            {
+                spell.getId().setFkOwner(character);
+            }
+            character.setSpells(listSpells);
             session.merge(character);
-
+            
             try (Session authSession = HibernateUtil.getAuthSession().openSession()) {
                 authSession.beginTransaction();
                 authSession.merge(realm);
@@ -335,6 +363,7 @@ public class CharacterService {
             session.flush();
             session.getTransaction().commit();
         } catch (HibernateException he) {
+            he.printStackTrace();
             logger.debug("Error while connecting to the database.");
             return CharCreateEnum.CHAR_CREATE_FAILED;
         }

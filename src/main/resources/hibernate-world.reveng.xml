@@ -9,6 +9,7 @@
   <table-filter match-name="inventorytype"/>
   <table-filter match-name="professions"/>
   <table-filter match-name="startingequipment"/>
+  <table-filter match-name="startingspell"/>
   <table-filter match-name="gender"/>
   <table-filter match-name="language"/>
   <table-filter match-name="itemclass"/>

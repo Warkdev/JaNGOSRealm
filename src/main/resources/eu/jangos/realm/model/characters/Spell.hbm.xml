@@ -5,24 +5,17 @@
 <hibernate-mapping>
     <class name="eu.jangos.realm.model.characters.Spell" table="spell" catalog="jangoscharacters" optimistic-lock="version">
         <composite-id name="id" class="eu.jangos.realm.model.characters.SpellId">
-            <key-property name="fkOwner" type="int">
-                <column name="fk_owner" />
-            </key-property>
+            <key-many-to-one class="eu.jangos.realm.model.characters.Characters" name="fkOwner" column="fk_owner"/>                                        
             <key-property name="fkDbcSpell" type="int">
                 <column name="fk_dbc_spell" />
             </key-property>
-        </composite-id>
-        <many-to-one name="characters" class="eu.jangos.realm.model.characters.Characters" update="false" insert="false" fetch="select">
-            <column name="fk_owner" not-null="true">
-                <comment>The GUID (Global Unique Identifier) of the character. Foreign key to characters.</comment>
-            </column>
-        </many-to-one>
-        <property name="fkItem" type="int">
-            <column name="fk_item" not-null="true">
+        </composite-id>      
+        <many-to-one name="itemInstance" class="eu.jangos.realm.model.characters.ItemInstance" fetch="select">
+            <column name="fk_item">
                 <comment>Foreign key to the item that holds this spell.</comment>
             </column>
-        </property>
-        <property name="active" type="byte">
+        </many-to-one>     
+        <property name="active" type="boolean">
             <column name="active" not-null="true">
                 <comment>Boolean 1 or 0 signifying whether the spell is active (appears in the spell book).</comment>
             </column>

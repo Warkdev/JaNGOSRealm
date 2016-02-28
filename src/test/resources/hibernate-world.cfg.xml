@@ -20,5 +20,6 @@
     <mapping resource="eu/jangos/realm/model/world/Race.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Itemquality.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Parameter1.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Startingspell.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

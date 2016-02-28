@@ -1,6 +1,8 @@
+CREATE DATABASE  IF NOT EXISTS `jangosworld` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `jangosworld`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: je4wrealm
+-- Host: 127.0.0.1    Database: jangosworld
 -- ------------------------------------------------------
 -- Server version	5.6.26-log
 
@@ -14,6 +16,78 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `aurastate`
+--
+
+DROP TABLE IF EXISTS `aurastate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aurastate` (
+  `id` tinyint(2) unsigned NOT NULL COMMENT 'id of the aura state.',
+  `state` varchar(45) DEFAULT NULL COMMENT 'State of the aura.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the possible state of aura in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `aurastate`
+--
+
+LOCK TABLES `aurastate` WRITE;
+/*!40000 ALTER TABLE `aurastate` DISABLE KEYS */;
+INSERT INTO `aurastate` VALUES (1,'Defense'),(2,'Health less than 20 percent'),(3,'Berserking'),(4,'Frozen'),(5,'Judgement'),(7,'Hunter parry');
+/*!40000 ALTER TABLE `aurastate` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `creaturetype`
+--
+
+DROP TABLE IF EXISTS `creaturetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `creaturetype` (
+  `id` tinyint(3) unsigned NOT NULL COMMENT 'ID of the creature type.',
+  `type` varchar(30) NOT NULL COMMENT 'Type of the creature.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the creature types of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `creaturetype`
+--
+
+LOCK TABLES `creaturetype` WRITE;
+/*!40000 ALTER TABLE `creaturetype` DISABLE KEYS */;
+INSERT INTO `creaturetype` VALUES (1,'Beast'),(2,'Dragonkin'),(3,'Demon'),(4,'Elemental'),(5,'Giant'),(6,'Undead'),(7,'Humanoid'),(8,'Critter'),(9,'Mechanical'),(10,'Not specified'),(11,'Totem');
+/*!40000 ALTER TABLE `creaturetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dispeltype`
+--
+
+DROP TABLE IF EXISTS `dispeltype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dispeltype` (
+  `id` tinyint(3) unsigned NOT NULL COMMENT 'The ID of the dispel type.',
+  `dispel` varchar(45) NOT NULL COMMENT 'The name of the dispel type.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the possible dispel types of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dispeltype`
+--
+
+LOCK TABLES `dispeltype` WRITE;
+/*!40000 ALTER TABLE `dispeltype` DISABLE KEYS */;
+INSERT INTO `dispeltype` VALUES (1,'Magic'),(2,'Curse'),(3,'Disease'),(4,'Poison'),(5,'Stealth'),(6,'Invisibility'),(7,'All (M+C+D+P)'),(8,'Dispel NPC only'),(9,'Enrage'),(10,'ZG');
+/*!40000 ALTER TABLE `dispeltype` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `gender`
@@ -78,7 +152,7 @@ CREATE TABLE `item` (
   `displayid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `fk_quality` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `flags` int(10) unsigned NOT NULL DEFAULT '0',
-  `buycount` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `buycount` smallint(5) unsigned NOT NULL DEFAULT '1',
   `buyprice` int(10) unsigned NOT NULL DEFAULT '0',
   `sellprice` int(10) unsigned NOT NULL DEFAULT '0',
   `fk_inventorytype` tinyint(3) unsigned NOT NULL DEFAULT '0',
@@ -322,6 +396,55 @@ INSERT INTO `language` VALUES (0,'Universal'),(1,'Orcish'),(2,'Darnassian'),(3,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `parameter1`
+--
+
+DROP TABLE IF EXISTS `parameter1`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `parameter1` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID of the parameter, no meaning.',
+  `param` varchar(50) NOT NULL COMMENT 'key of the parameter',
+  `val` longtext NOT NULL COMMENT 'Value of the parameter.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Table parameters contains a range of parameters ordered following key/value';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `parameter1`
+--
+
+LOCK TABLES `parameter1` WRITE;
+/*!40000 ALTER TABLE `parameter1` DISABLE KEYS */;
+INSERT INTO `parameter1` VALUES (1,'worldName','Aegwynn'),(2,'worldTimeout','600'),(3,'worldVersion','v0.1BETA'),(4,'worldMaxCharacters','8'),(5,'worldStartLevel','1'),(6,'worldMaxLevel','60'),(7,'worldMaxLengthName','12'),(8,'worldMinLengthName','3');
+/*!40000 ALTER TABLE `parameter1` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `powertype`
+--
+
+DROP TABLE IF EXISTS `powertype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `powertype` (
+  `id` tinyint(2) unsigned NOT NULL COMMENT 'Id of the power type.',
+  `power` varchar(20) DEFAULT NULL COMMENT 'Name of the power type.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the power types available in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `powertype`
+--
+
+LOCK TABLES `powertype` WRITE;
+/*!40000 ALTER TABLE `powertype` DISABLE KEYS */;
+INSERT INTO `powertype` VALUES (0,'Mana'),(1,'Rage'),(2,'Focus'),(3,'Energy'),(4,'Happiness');
+/*!40000 ALTER TABLE `powertype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `professions`
 --
 
@@ -355,6 +478,12 @@ DROP TABLE IF EXISTS `race`;
 CREATE TABLE `race` (
   `id` tinyint(3) unsigned NOT NULL,
   `race` varchar(15) NOT NULL,
+  `position_x` float NOT NULL COMMENT 'The x position of the race starting location.',
+  `position_y` float NOT NULL COMMENT 'The y position of the race starting location.',
+  `position_z` float NOT NULL COMMENT 'The z position of the race starting location.',
+  `fk_dbc_map` int(11) unsigned NOT NULL COMMENT 'Map Identifier, Foreign key to Map.dbc',
+  `orientation` float NOT NULL COMMENT 'The orientation of the race starting location.',
+  `fk_dbc_zone` int(11) NOT NULL COMMENT 'The zone ID the race is starting in. Foreign key to WorldMapArea.dbc',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the information about the races available in game.';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -365,8 +494,65 @@ CREATE TABLE `race` (
 
 LOCK TABLES `race` WRITE;
 /*!40000 ALTER TABLE `race` DISABLE KEYS */;
-INSERT INTO `race` VALUES (1,'Human'),(2,'Orc'),(3,'Dwarf'),(4,'Nightelf'),(5,'Undead'),(6,'Tauren'),(7,'Gnome'),(8,'Troll');
+INSERT INTO `race` VALUES (1,'Human',0,0,0,0,0,0),(2,'Orc',0,0,0,0,0,0),(3,'Dwarf',0,0,0,0,0,0),(4,'Nightelf',0,0,0,0,0,0),(5,'Undead',0,0,0,0,0,0),(6,'Tauren',0,0,0,0,0,0),(7,'Gnome',0,0,0,0,0,0),(8,'Troll',0,0,0,0,0,0);
 /*!40000 ALTER TABLE `race` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `school`
+--
+
+DROP TABLE IF EXISTS `school`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `school` (
+  `id` tinyint(3) unsigned NOT NULL COMMENT 'ID of the spell school.',
+  `school` varchar(15) NOT NULL COMMENT 'Name of the school',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the sets of spell schools allowed in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `school`
+--
+
+LOCK TABLES `school` WRITE;
+/*!40000 ALTER TABLE `school` DISABLE KEYS */;
+INSERT INTO `school` VALUES (0,'Normal'),(1,'Holy'),(2,'Fire'),(3,'Nature'),(4,'Frost'),(5,'Shadow'),(6,'Arcane');
+/*!40000 ALTER TABLE `school` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shapeshift`
+--
+
+DROP TABLE IF EXISTS `shapeshift`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shapeshift` (
+  `id` tinyint(2) unsigned NOT NULL COMMENT 'ID of the shapeshift.',
+  `shapeshift` varchar(45) NOT NULL COMMENT 'Name of the shapeshift.',
+  `actionBar` tinyint(2) unsigned DEFAULT NULL COMMENT 'Indicates whether another action bar must be selected while shapeshifted.',
+  `fk_creaturetype` tinyint(3) unsigned DEFAULT NULL COMMENT 'Foreign key to the creature type table.',
+  `allowedMount` tinyint(1) unsigned DEFAULT NULL COMMENT 'This shapeshift is allowed to use the mount.',
+  `unshapeOnCast` tinyint(1) unsigned DEFAULT NULL COMMENT 'Boolean flag indicating whether this shapeshoft must unshape on cast. (e.g. Stealth).',
+  `warrior` tinyint(1) unsigned DEFAULT NULL COMMENT 'Indicates that this shapeshift is a warrior shapeshift.',
+  `priest` tinyint(1) unsigned DEFAULT NULL COMMENT 'Indicates that this shapeshift is a priest shapeshift.',
+  `unknown3` tinyint(1) unsigned DEFAULT NULL,
+  `modifyAPforAgility` tinyint(1) unsigned DEFAULT NULL COMMENT 'Incidates whether this shapeshift modifies the agility',
+  `unknown5` tinyint(1) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the possible shapeshift of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shapeshift`
+--
+
+LOCK TABLES `shapeshift` WRITE;
+/*!40000 ALTER TABLE `shapeshift` DISABLE KEYS */;
+INSERT INTO `shapeshift` VALUES (1,'Cat Form',1,7,0,0,0,0,1,1,1),(2,'Tree Form',0,0,0,0,0,0,1,0,0),(3,'Travel Form',0,7,0,0,0,0,1,0,1),(4,'Aquatic Form',0,7,0,0,0,0,1,0,1),(5,'Bear Form',3,7,0,0,0,0,1,0,1),(6,'Ambient',0,0,0,0,0,0,0,0,0),(7,'Ghoul',0,0,0,0,0,0,0,0,0),(8,'Dire Bear Form',3,7,0,0,0,0,1,0,1),(14,'Creature - Bear',0,7,0,0,0,0,0,0,0),(15,'Creature - Cat',0,7,0,0,0,0,0,0,0),(16,'Ghost Wolf',0,7,0,0,0,0,0,0,1),(17,'Battle Stance',1,0,1,1,1,0,0,0,0),(18,'Defensive Stance',2,0,1,1,1,0,0,0,0),(19,'Berserker Stance',3,0,1,1,1,0,0,0,0),(28,'Shadowform',0,0,1,0,0,1,0,0,0),(30,'Stealth',1,0,1,0,0,0,0,0,0),(31,'Moonkin Form',0,0,1,0,0,0,0,0,1),(32,'Spirit of Redemption',0,0,0,0,0,0,0,0,0);
+/*!40000 ALTER TABLE `shapeshift` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -391,6 +577,889 @@ LOCK TABLES `slot` WRITE;
 /*!40000 ALTER TABLE `slot` DISABLE KEYS */;
 INSERT INTO `slot` VALUES (0,'Head'),(1,'Neck'),(2,'Shoulders'),(3,'Shirt'),(4,'Chest'),(5,'Waist'),(6,'Legs'),(7,'Feet'),(8,'Wrists'),(9,'Hands'),(10,'Finger 1'),(11,'Finger 2'),(12,'Trinket 1'),(13,'Trinket 2'),(14,'Back'),(15,'Main hand'),(16,'Off Hand'),(17,'Ranged'),(18,'Tabard'),(19,'Bag 1');
 /*!40000 ALTER TABLE `slot` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellauras`
+--
+
+DROP TABLE IF EXISTS `spellauras`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellauras` (
+  `id` smallint(5) unsigned NOT NULL COMMENT 'ID of the spell aura.',
+  `aura` varchar(45) NOT NULL COMMENT 'Name of the spell aura.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all information about the various spell auras of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellauras`
+--
+
+LOCK TABLES `spellauras` WRITE;
+/*!40000 ALTER TABLE `spellauras` DISABLE KEYS */;
+INSERT INTO `spellauras` VALUES (0,'None'),(1,'Bind Sight'),(2,'Mod Possess'),(3,'Periodic Damage'),(4,'Dummy'),(5,'Mod Confuse'),(6,'Mod Charm'),(7,'Mod Fear'),(8,'Periodic Heal'),(9,'Mod Attack Speed'),(10,'Mod Threat'),(11,'Taunt'),(12,'Stun'),(13,'Mod Damage Done'),(14,'Mod Damage Taken'),(15,'Damage Shield'),(16,'Mod Stealth'),(17,'Mod Detect'),(18,'Mod Invisibility'),(19,'Mod Invisibility Detection'),(20,'OBS Mod Intellect'),(21,'OBS Mod Spirit'),(22,'Mod Resistance'),(23,'Periodic Trigger'),(24,'Periodic Energize'),(25,'Pacify'),(26,'Root'),(27,'Silence'),(28,'Reflect Spells \\%'),(29,'Mod Stat'),(30,'Mod Skill'),(31,'Mod Speed'),(32,'Mod Speed Mounted'),(33,'Mod Speed Slow'),(34,'Mod Increase Health'),(35,'Mod Increase Energy'),(36,'Shapeshift'),(37,'Immune Effect'),(38,'Immune State'),(39,'Immune School'),(40,'Immune Damage'),(41,'Immune Dispel Type'),(42,'Proc Trigger Spell'),(43,'Proc Trigger Damage'),(44,'Track Creatures'),(45,'Track Resources'),(46,'Mod Parry Skill'),(47,'Mod Parry Percent'),(48,'Mod Dodge Skill'),(49,'Mod Dodge Percent'),(50,'Mod Block Skill'),(51,'Mod Block Percent'),(52,'Mod Crit Percent'),(53,'Periodic Leech'),(54,'Mod Hit Chance'),(55,'Mod Spell Hit Chance'),(56,'Transform'),(57,'Mod Spell Crit Chance'),(58,'Mod Speed Swim'),(59,'Mod Creature Dmg Done'),(60,'Pacify & Silence'),(61,'Mod Scale'),(62,'Periodic Health Funnel'),(63,'Periodic Mana Funnel'),(64,'Periodic Mana Leech'),(65,'Haste - Spells'),(66,'Feign Death'),(67,'Disarm'),(68,'Mod Stalked'),(69,'School Absorb'),(70,'Extra Attacks'),(71,'Mod School Spell Crit Chance'),(72,'Mod Power Cost'),(73,'Mod School Power Cost'),(74,'Reflect School Spells \\%'),(75,'Mod Language'),(76,'Far Sight'),(77,'Immune Mechanic'),(78,'Mounted'),(79,'Mod Dmg \\%'),(80,'Mod Stat \\%'),(81,'Split Damage'),(82,'Water Breathing'),(83,'Mod Base Resistance'),(84,'Mod Health Regen'),(85,'Mod Power Regen'),(86,'Create Death Item'),(87,'Mod Dmg \\% Taken'),(88,'Mod Health Regen Percent'),(89,'Periodic Damage Percent'),(90,'Mod Resist Chance'),(91,'Mod Detect Range'),(92,'Prevent Fleeing'),(93,'Mod Uninteractible'),(94,'Interrupt Regen'),(95,'Ghost'),(96,'Spell Magnet'),(97,'Mana Shield'),(98,'Mod Skill Talent'),(99,'Mod Attack Power'),(100,'Auras Visible'),(101,'Mod Resistance \\%'),(102,'Mod Creature Attack Power'),(103,'Mod Total Threat (Fade)'),(104,'Water Walk'),(105,'Feather Fall'),(106,'Hover'),(107,'Add Flat Modifier'),(108,'Add \\% Modifier'),(109,'Add Class Target Trigger'),(110,'Mod Power Regen \\%'),(111,'Add Class Caster Hit Trigger'),(112,'Override Class Scripts'),(113,'Mod Ranged Dmg Taken'),(114,'Mod Ranged \\% Dmg Taken'),(115,'Mod Healing'),(116,'Regen During Combat'),(117,'Mod Mechanic Resistance'),(118,'Mod Healing \\%'),(119,'Share Pet Tracking'),(120,'Untrackable'),(121,'Empathy (Lore, whatever)'),(122,'Mod Offhand Dmg \\%'),(123,'Mod Power Cost \\%'),(124,'Mod Ranged Attack Power'),(125,'Mod Melee Dmg Taken'),(126,'Mod Melee \\% Dmg Taken'),(127,'Rngd Atk Pwr Attckr Bonus'),(128,'Mod Possess Pet'),(129,'Mod Speed Always'),(130,'Mod Mounted Speed Always'),(131,'Mod Creature Ranged Attack Power'),(132,'Mod Increase Energy \\%'),(133,'Mod Max Health \\%'),(134,'Mod Interrupted Mana Regen'),(135,'Mod Healing Done'),(136,'Mod Healing Done \\%'),(137,'Mod Total Stat \\%'),(138,'Haste - Melee'),(139,'Force Reaction'),(140,'Haste - Ranged'),(141,'Haste - Ranged (Ammo Only)'),(142,'Mod Base Resistance \\%'),(143,'Mod Resistance Exclusive'),(144,'Safe Fall'),(145,'Charisma'),(146,'Persuaded'),(147,'Add Creature Immunity'),(148,'Retain Combo Points'),(149,'Resist Pushback'),(150,'Mod Shield Block \\%'),(151,'Track Stealthed'),(152,'Mod Detected Range'),(153,'Split Damage Flat'),(154,'Stealth Level Modifier'),(155,'Mod Water Breathing'),(156,'Mod Reputation Gain'),(157,'Mod Pet Damage');
+/*!40000 ALTER TABLE `spellauras` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellcomponents`
+--
+
+DROP TABLE IF EXISTS `spellcomponents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellcomponents` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'The spell requiring this component.',
+  `fk_item` mediumint(8) unsigned NOT NULL COMMENT 'The item required by the spell.',
+  `amount` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'The required amount of this component.',
+  PRIMARY KEY (`fk_spell`,`fk_item`),
+  KEY `fk_components_item_idx` (`fk_item`),
+  CONSTRAINT `fk_components_item` FOREIGN KEY (`fk_item`) REFERENCES `item` (`entry`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_components_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spells components required to launch a spell.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellcomponents`
+--
+
+LOCK TABLES `spellcomponents` WRITE;
+/*!40000 ALTER TABLE `spellcomponents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spellcomponents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellcreaturetype`
+--
+
+DROP TABLE IF EXISTS `spellcreaturetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellcreaturetype` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell.',
+  `fk_creaturetype` tinyint(3) unsigned NOT NULL COMMENT 'Foreign key to the creature type on which this spell is castable.',
+  PRIMARY KEY (`fk_spell`,`fk_creaturetype`),
+  KEY `fk_spellcreaturetype_creaturetype_idx` (`fk_creaturetype`),
+  CONSTRAINT `fk_spellcreaturetype_creaturetype` FOREIGN KEY (`fk_creaturetype`) REFERENCES `creaturetype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellcreaturetype_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This relationship table holds all information about castable spells on creature types. If this table contains a record, it means you can cast the fk_spell on the fk_creaturetype.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellcreaturetype`
+--
+
+LOCK TABLES `spellcreaturetype` WRITE;
+/*!40000 ALTER TABLE `spellcreaturetype` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spellcreaturetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spelldamagetype`
+--
+
+DROP TABLE IF EXISTS `spelldamagetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spelldamagetype` (
+  `id` tinyint(3) unsigned NOT NULL COMMENT 'ID of the spell damage type.',
+  `type` varchar(45) DEFAULT NULL COMMENT 'Name of the damage type.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell damage types of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spelldamagetype`
+--
+
+LOCK TABLES `spelldamagetype` WRITE;
+/*!40000 ALTER TABLE `spelldamagetype` DISABLE KEYS */;
+INSERT INTO `spelldamagetype` VALUES (1,'Magic'),(2,'Melee'),(3,'Ranged');
+/*!40000 ALTER TABLE `spelldamagetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellduration`
+--
+
+DROP TABLE IF EXISTS `spellduration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellduration` (
+  `id` smallint(5) unsigned NOT NULL COMMENT 'ID of the duration',
+  `duration` int(11) unsigned DEFAULT NULL COMMENT 'Duration of the spell.',
+  `durationPerLevel` int(11) unsigned DEFAULT NULL COMMENT 'The extension of the duration each time this spell is re-applied.',
+  `durationMax` int(11) unsigned DEFAULT NULL COMMENT 'The maximum duration of this spell.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the various spell duration of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellduration`
+--
+
+LOCK TABLES `spellduration` WRITE;
+/*!40000 ALTER TABLE `spellduration` DISABLE KEYS */;
+INSERT INTO `spellduration` VALUES (1,10000,0,10000),(2,30000,0,30000),(3,60000,0,60000),(4,120000,0,120000),(5,300000,0,300000),(6,600000,0,600000),(7,5000,0,5000),(8,15000,0,15000),(9,30000,0,30000),(10,60000,0,60000),(11,10000,200,15000),(12,30000,200,40000),(13,60000,200,80000),(14,120000,10000,180000),(15,300000,10000,420000),(16,230000,0,230000),(17,5000,100,7000),(18,20000,0,20000),(19,30000,500,40000),(20,60000,1000,80000),(21,0,0,0),(22,45000,0,45000),(23,90000,0,90000),(24,160000,0,160000),(25,180000,0,180000),(26,240000,0,240000),(27,3000,0,3000),(28,5000,0,5000),(29,12000,0,12000),(30,1800000,0,1800000),(31,8000,0,8000),(32,6000,0,6000),(35,4000,0,4000),(36,1000,0,1000),(37,1,0,1),(38,11000,0,11000),(39,2000,0,2000),(40,1200000,0,1200000),(41,360000,0,360000),(42,3600000,0,3600000),(62,75000,0,75000),(63,25000,0,25000),(64,40000,0,40000),(65,1500,0,1500),(66,2500,0,2500),(85,18000,0,18000),(86,21000,0,21000),(105,9000,0,9000),(106,24000,0,24000),(125,35000,0,35000),(145,2700000,0,2700000),(165,7000,0,7000),(185,6000,0,21000),(186,2000,0,22000),(187,0,0,5000),(205,27000,0,27000),(225,604800000,0,604800000),(245,50000,0,50000),(265,55000,0,55000),(285,1000,0,6000),(305,14000,0,14000),(325,36000,0,36000),(326,44000,0,44000),(327,500,0,500),(328,250,0,250),(347,900000,0,900000),(367,7200000,0,7200000),(387,16000,0,16000),(407,100,0,100),(427,0,60000,600000),(447,2000,0,6000),(467,22000,0,22000),(468,26000,0,26000),(487,1700,0,1700),(507,1100,0,1100),(508,1100,0,1100),(527,14400000,0,14400000),(547,5400000,0,5400000),(548,10800000,0,10800000),(549,3800,0,3800),(552,210000,0,210000),(553,6000,0,16000);
+/*!40000 ALTER TABLE `spellduration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spelleffectitemtype`
+--
+
+DROP TABLE IF EXISTS `spelleffectitemtype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spelleffectitemtype` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell of the spell effect (root spell).',
+  `fk_effect` smallint(5) unsigned NOT NULL COMMENT 'Foreign key to the spell effect.',
+  `sequence` tinyint(2) unsigned NOT NULL COMMENT 'Sequence of the spell effect.',
+  `fk_applyOnSpell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell on which this effect can apply.',
+  PRIMARY KEY (`fk_spell`,`fk_effect`,`sequence`,`fk_applyOnSpell`),
+  KEY `fk_spelleffectitemtype_applyonspell_idx` (`fk_applyOnSpell`),
+  CONSTRAINT `fk_spelleffectitemtype_applyonspell` FOREIGN KEY (`fk_applyOnSpell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spelleffectitemtype_spellspelleffect` FOREIGN KEY (`fk_spell`, `fk_effect`, `sequence`) REFERENCES `spellspelleffects` (`fk_spell`, `fk_effect`, `sequence`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This relationship tables holds the information about the spells on which another effect will apply.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spelleffectitemtype`
+--
+
+LOCK TABLES `spelleffectitemtype` WRITE;
+/*!40000 ALTER TABLE `spelleffectitemtype` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spelleffectitemtype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spelleffects`
+--
+
+DROP TABLE IF EXISTS `spelleffects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spelleffects` (
+  `id` smallint(5) unsigned NOT NULL COMMENT 'ID of the spell effect.',
+  `effect` varchar(45) NOT NULL COMMENT 'The name of the spell effect.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell effects in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spelleffects`
+--
+
+LOCK TABLES `spelleffects` WRITE;
+/*!40000 ALTER TABLE `spelleffects` DISABLE KEYS */;
+INSERT INTO `spelleffects` VALUES (1,'Instakill'),(2,'School Damage'),(3,'Dummy'),(4,'Portal Teleport'),(5,'Teleport Units'),(6,'Apply Aura'),(7,'Environmental Damage'),(8,'Power Drain'),(9,'Health Leech'),(10,'Heal'),(11,'Bind'),(12,'Portal'),(13,'Ritual Base'),(14,'Ritual Specialize'),(15,'Ritual Activate Portal'),(16,'Quest Complete'),(17,'Weapon Damage + (noschool)'),(18,'Resurrect'),(19,'Extra Attacks'),(20,'Dodge'),(21,'Evade'),(22,'Parry'),(23,'Block'),(24,'Create Item'),(25,'Weapon'),(26,'Defense'),(27,'Persistent Area Aura'),(28,'Summon'),(29,'Leap'),(30,'Energize'),(31,'Weapon \\% Dmg'),(32,'Trigger Missile'),(33,'Open Lock'),(35,'Apply Area Aura'),(36,'Learn Spell'),(37,'Spell Defense'),(38,'Dispel'),(39,'Language'),(40,'Dual Wield'),(41,'Summon Wild'),(42,'Summon Guardian'),(44,'Skill Step'),(46,'Spawn'),(47,'Spell Cast UI'),(48,'Stealth'),(49,'Detect'),(50,'Summon Object'),(51,'Force Critical Hit'),(52,'Guarantee Hit'),(53,'Enchant Item Permanent'),(54,'Enchant Item Temporary'),(55,'Tame Creature'),(56,'Summon Pet'),(57,'Learn Pet Spell'),(58,'Weapon Damage +'),(59,'Open Lock (Item)'),(60,'Proficiency'),(61,'Send Event'),(62,'Power Burn'),(63,'Threat'),(64,'Trigger Spell'),(65,'Health Funnel'),(66,'Power Funnel'),(67,'Heal Max Health'),(68,'Interrupt Cast'),(69,'Distract'),(70,'Pull'),(71,'Pickpocket'),(72,'Add Farsight'),(73,'Summon Possessed'),(74,'Summon Totem'),(75,'Heal Mechanical'),(76,'Summon Object (Wild)'),(77,'Script Effect'),(78,'Attack'),(79,'Sanctuary'),(80,'Add Combo Points'),(81,'Create House'),(82,'Bind Sight'),(83,'Duel'),(84,'Stuck'),(85,'Summon Player'),(86,'Activate Object'),(87,'Summon Totem (slot 1)'),(88,'Summon Totem (slot 2)'),(89,'Summon Totem (slot 3)'),(90,'Summon Totem (slot 4)'),(91,'Threat (All)'),(92,'Enchant Held Item'),(93,'Summon Phantasm'),(94,'Self Resurrect'),(95,'Skinning'),(96,'Charge'),(97,'Summon Critter'),(98,'Knock Back'),(99,'Disenchant'),(100,'Inebriate'),(101,'Feed Pet'),(102,'Dismiss Pet'),(103,'Reputation'),(104,'Summon Object (slot 1)'),(105,'Summon Object (slot 2)'),(106,'Summon Object (slot 3)'),(107,'Summon Object (slot 4)'),(108,'Dispel Mechanic'),(109,'Summon Dead Pet'),(110,'Destroy All Totems'),(111,'Durability Damage'),(112,'Summon Demon'),(113,'Resurrect (Flat)'),(114,'Attack Me');
+/*!40000 ALTER TABLE `spelleffects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellfamily`
+--
+
+DROP TABLE IF EXISTS `spellfamily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellfamily` (
+  `id` tinyint(2) unsigned NOT NULL,
+  `family` varchar(45) NOT NULL COMMENT 'The name of the spell family.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell family information about the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellfamily`
+--
+
+LOCK TABLES `spellfamily` WRITE;
+/*!40000 ALTER TABLE `spellfamily` DISABLE KEYS */;
+INSERT INTO `spellfamily` VALUES (1,'Environment'),(2,'Unused'),(3,'Mage'),(4,'Warrior'),(5,'Warlock'),(6,'Priest'),(7,'Druid'),(8,'Rogue'),(9,'Hunter'),(10,'Paladin'),(11,'Shaman'),(12,'Unused'),(13,'Potion');
+/*!40000 ALTER TABLE `spellfamily` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellfocus`
+--
+
+DROP TABLE IF EXISTS `spellfocus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellfocus` (
+  `id` int(11) unsigned NOT NULL COMMENT 'ID of the spell focus',
+  `name` varchar(60) NOT NULL COMMENT 'Name of the focus required for this spell.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all spell focus required to cast some spells in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellfocus`
+--
+
+LOCK TABLES `spellfocus` WRITE;
+/*!40000 ALTER TABLE `spellfocus` DISABLE KEYS */;
+INSERT INTO `spellfocus` VALUES (1,'Anvil'),(2,'Loom'),(3,'Forge'),(4,'Cooking Fire'),(5,'Shards of Myzrael'),(6,'Winterhoof Water Well'),(7,'Thunderhorn Water Well'),(8,'Wildmane Water Well'),(9,'Tribal Fire'),(10,'Machine Shop'),(11,'Shadowglen Moonwell'),(12,'Starbreeze Village Moonwell'),(13,'Pools of Arlithrien Moonwell'),(14,'Oracle Glade Moonwell'),(15,'Venture Co. Airport'),(16,'Venture Co. Wagon (Blue)'),(17,'Venture Co. Wagon (Red)'),(18,'NG-5 Explosives (Red)'),(19,'NG-5 Explosives (Blue)'),(20,'Flame of Uzel'),(21,'Ashenvale Moonwell'),(22,'Seaworn Altar'),(23,'Nearby Tubers'),(43,'Undercity Summoning Circle'),(63,'Shaman Shrine'),(83,'Stormwind Summoning Circle'),(103,'Barrens Summoning Circle'),(123,'Mirror Lake Waterfall'),(143,'Talon Den'),(163,'Xavian Waterfall'),(164,'Stone of Outer Binding'),(183,'Mana Rift Disturbance'),(203,'Orgrimmar Summoning Circle'),(223,'Ruins of Stardust Fountain'),(224,'Quilboar Watering Hole'),(225,'Water Purity - Silverpine'),(226,'Spring Well'),(243,'Temple of the Moon Fountain'),(263,'Jintha\'Alor Altar'),(264,'Pirate Ship Bilge'),(283,'Equinex Monolith'),(303,'Witherbark Village'),(304,'Shadra\'Alor Altar'),(323,'Sandsorrow Watch Water Hole'),(343,'Hatetalon Stones'),(363,'Echeyakee\'s Lair'),(383,'The Dead Tree'),(403,'Makeshift Helipad'),(423,'Circle of Aquementas'),(424,'Sanctum of the Fallen God'),(443,'the First Tide Pool'),(444,'the Second Tide Pool'),(445,'the Third Tide Pool'),(446,'the Fourth Tide Pool'),(463,'Gorishi Hive Hatchery'),(483,'Miblon Snarltooth'),(503,'Gadgetzan Graveyard'),(523,'the ruins of Irontree Woods'),(543,'Black Forge'),(563,'Golakka Crater'),(583,'Tomb of the Seven'),(603,'Flat Un\'Goro Rock'),(604,'Preserved Threshadon Carcass'),(623,'Black Anvil'),(643,'Gorishi Silithid Crystal'),(644,'Corrupted Moonwell'),(663,'Alchemy Lab'),(683,'Unforged Seal of Ascension'),(703,'Auberdine Moonwell'),(704,'Blackwood Furbolg North Bonfire'),(705,'Cliffspring River Waterfall'),(723,'Fire Plume Ridge Hot Spot'),(743,'Urok\'s Tribute Pile'),(763,'Andorhal Silo Temporal Rift'),(783,'Stone of Shy-Rotam'),(803,'Sacred Fire of Life'),(804,'Scarlet Crusade Forward Camp'),(805,'Andorhal Tower'),(823,'Scholomance Viewing Room'),(843,'the Jaedenar Corrupt Moon Well'),(863,'Umi\'s Friend'),(883,'Moonwell'),(903,'Fire Plume Ridge Lava Lake'),(923,'the crate in the center of the Northridge Lumber Mill'),(943,'Moonkin Stone'),(944,'Darrowshire Town Square'),(963,'Bright Light Beam'),(983,'Mark of Detonation'),(1003,'Cliffspring Falls Cave Mouth'),(1004,'Dreadmist Peak Pool'),(1023,'The Dead Goliaths'),(1043,'Shrine of Remulos'),(1063,'Foulweald Totem Mound'),(1083,'Dire Pool'),(1103,'Maraudon Portal'),(1123,'Horde Globe of Scrying'),(1143,'Eastern Crater'),(1144,'Western Crater'),(1145,'Snowfall Graveyard'),(1163,'Alliance Globe of Scrying'),(1164,'Dun Baldar Courtyard'),(1165,'Frostwolf Keep Courtyard'),(1183,'Snowfall Graveyard'),(1184,'East Crater'),(1185,'West Crater'),(1203,'Orange Crystal Pool'),(1223,'Onyxia\'s Flame Breath'),(1243,'Kroshius\' Remains'),(1263,'Pedestal of Immol\'thar'),(1264,'Circle of Dark Summoning'),(1283,'The Great Ossuary'),(1284,'Terrordale Haunting Spirit'),(1303,'Aerie Peak Town Center'),(1323,'Uther\'s Tomb Statue'),(1324,'Grom\'s Monument'),(1343,'Pagle\'s Pointe'),(1344,'Altar of Zanza'),(1345,'Southshore'),(1346,'Bones of Grakkarond'),(1347,'Forsaken Stink Bomb'),(1348,'Drop-Off Point'),(1349,'Swirling Maelstrom'),(1350,'High Chief Winterfall\'s Cave'),(1351,'Firework Launcher'),(1352,'Cluster Launcher'),(1353,'Greater Moonlight'),(1354,'Voone\'s Chamber'),(1355,'Alzzin\'s Chamber'),(1356,'The Crimson Throne'),(1357,'Ras Frostwhisper\'s Chamber'),(1358,'The Beast\'s Chamber'),(1359,'Haunted Locus'),(1360,'Blackrock Depths Arena'),(1361,'[PH] Crystal Corpse'),(1362,'Icebellow Anvil'),(1364,'Consecrated Earth'),(1365,'Midsummer Bonfire'),(1366,'Maypole');
+/*!40000 ALTER TABLE `spellfocus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellinventorytype`
+--
+
+DROP TABLE IF EXISTS `spellinventorytype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellinventorytype` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell.',
+  `fk_inventorytype` tinyint(3) unsigned NOT NULL COMMENT 'Foreign key to the inventory type.',
+  PRIMARY KEY (`fk_spell`,`fk_inventorytype`),
+  KEY `fk_spellinventorytype_inventorytype_idx` (`fk_inventorytype`),
+  CONSTRAINT `fk_spellinventorytype_inventorytype` FOREIGN KEY (`fk_inventorytype`) REFERENCES `inventorytype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellinventorytype_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This relationship table holds all information about the inventory types required to cast a spell.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellinventorytype`
+--
+
+LOCK TABLES `spellinventorytype` WRITE;
+/*!40000 ALTER TABLE `spellinventorytype` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spellinventorytype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellitemsubclass`
+--
+
+DROP TABLE IF EXISTS `spellitemsubclass`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellitemsubclass` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell record.',
+  `fk_itemclass` tinyint(3) unsigned NOT NULL,
+  `fk_itemsublcass` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`fk_spell`,`fk_itemclass`,`fk_itemsublcass`),
+  KEY `fk_spellitemsubclass_itemsubclass_idx` (`fk_itemclass`,`fk_itemsublcass`),
+  CONSTRAINT `fk_spellitemsubclass_itemsubclass` FOREIGN KEY (`fk_itemclass`, `fk_itemsublcass`) REFERENCES `itemsubclass` (`fk_itemclass`, `id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellitemsubclass_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This relationship table is used to make the link between the spells and their requirements in term of subclass items.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellitemsubclass`
+--
+
+LOCK TABLES `spellitemsubclass` WRITE;
+/*!40000 ALTER TABLE `spellitemsubclass` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spellitemsubclass` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellmechanic`
+--
+
+DROP TABLE IF EXISTS `spellmechanic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellmechanic` (
+  `id` tinyint(3) unsigned NOT NULL COMMENT 'ID of the spell mechanic.',
+  `mechanic` varchar(45) NOT NULL COMMENT 'Name of the spell mechanic.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all information about spell mechanics in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellmechanic`
+--
+
+LOCK TABLES `spellmechanic` WRITE;
+/*!40000 ALTER TABLE `spellmechanic` DISABLE KEYS */;
+INSERT INTO `spellmechanic` VALUES (1,'Charm'),(2,'Disoriented'),(3,'Disarm'),(4,'Distract'),(5,'Fear'),(6,'Fumble'),(7,'Root'),(8,'Pacify'),(9,'Silence'),(10,'Sleep'),(11,'Snare'),(12,'Stun'),(13,'Freeze'),(14,'Knockout'),(15,'Bleed'),(16,'Bandage'),(17,'Polymorph'),(18,'Banish'),(19,'Shield'),(20,'Shackle'),(21,'Mount'),(22,'Persuade'),(23,'Turn'),(24,'Horror'),(25,'Invulnerability'),(26,'Interrupt'),(27,'Daze'),(28,'Discovery'),(29,'Immune Shield'),(30,'Sapped');
+/*!40000 ALTER TABLE `spellmechanic` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellpreventiontype`
+--
+
+DROP TABLE IF EXISTS `spellpreventiontype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellpreventiontype` (
+  `id` tinyint(3) unsigned NOT NULL COMMENT 'ID of the prevention type.',
+  `type` varchar(45) NOT NULL COMMENT 'Type of the prevention.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell prevention types.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellpreventiontype`
+--
+
+LOCK TABLES `spellpreventiontype` WRITE;
+/*!40000 ALTER TABLE `spellpreventiontype` DISABLE KEYS */;
+INSERT INTO `spellpreventiontype` VALUES (1,'Silence'),(2,'Pacify');
+/*!40000 ALTER TABLE `spellpreventiontype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellradius`
+--
+
+DROP TABLE IF EXISTS `spellradius`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellradius` (
+  `id` tinyint(2) unsigned NOT NULL COMMENT 'ID of the radius.',
+  `radius` smallint(5) unsigned NOT NULL COMMENT 'Radius corresponding to this ID.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell radius information of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellradius`
+--
+
+LOCK TABLES `spellradius` WRITE;
+/*!40000 ALTER TABLE `spellradius` DISABLE KEYS */;
+INSERT INTO `spellradius` VALUES (7,2),(8,5),(9,20),(10,30),(11,45),(12,100),(13,10),(14,8),(15,3),(16,1),(17,13),(18,15),(19,18),(20,25),(21,35),(22,200),(23,40),(24,65),(25,70),(26,4),(27,50),(28,50000),(29,6),(31,80);
+/*!40000 ALTER TABLE `spellradius` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellrange`
+--
+
+DROP TABLE IF EXISTS `spellrange`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellrange` (
+  `id` tinyint(2) unsigned NOT NULL,
+  `range` varchar(45) NOT NULL COMMENT 'Name of the range',
+  `minRange` smallint(5) unsigned DEFAULT NULL COMMENT 'The minimum range for this spell.',
+  `maxRange` smallint(5) unsigned DEFAULT NULL COMMENT 'The maximum range for this spell.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell range information of the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellrange`
+--
+
+LOCK TABLES `spellrange` WRITE;
+/*!40000 ALTER TABLE `spellrange` DISABLE KEYS */;
+INSERT INTO `spellrange` VALUES (1,'Self Only',0,0),(2,'Combat Range',0,5),(3,'Short Range',0,20),(4,'Medium Range',0,30),(5,'Long Range',0,40),(6,'Vision Range',0,100),(7,'Very Short Range',0,10),(8,'Short Range',10,20),(9,'Medium Range',10,30),(10,'Long Range',10,40),(11,'Shorter Range',0,15),(12,'Interact Range',0,5),(13,'Anywhere',0,50000),(14,'Extra Long Range',0,60),(34,'Medium-Short Range',0,25),(35,'Medium-Long Range',0,35),(36,'Longer Range',0,45),(37,'Extended Range',0,50),(38,'Extra Medium Range',10,25),(54,'Geoff Monster Shoot',5,30),(74,'Ranged Weapon',8,30),(94,'Sting',8,40),(95,'Charge',8,25),(96,'Trap',0,2),(114,'Hunter Range',8,35),(134,'Tower 80',0,80),(135,'Tower 100',0,100),(136,'Artillery Range',30,80);
+/*!40000 ALTER TABLE `spellrange` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spells`
+--
+
+DROP TABLE IF EXISTS `spells`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spells` (
+  `spellID` int(11) unsigned NOT NULL,
+  `fk_school` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `category` int(11) unsigned NOT NULL DEFAULT '0',
+  `castUI` int(11) unsigned NOT NULL DEFAULT '0',
+  `fk_dispelType` tinyint(2) unsigned DEFAULT NULL,
+  `fk_mechanic` tinyint(2) unsigned DEFAULT NULL,
+  `attrUnknown0` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrRanged` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrOnNextSwing` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown3` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown4` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrTrade` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrPassive` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrHide` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown8` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown9` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrOnNextSwing2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown11` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrDayOnly` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrNightOnly` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrIndoorsOnly` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrOutdoorsOnly` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrNotShapeshift` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrOnlyStealthed` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown18` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrLevelDamageCalc` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrStopAttack` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrNotAvoidable` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrTrackTarget` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown23` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrCastOnMount` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrDisabledWhileActive` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown26` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrCastSit` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrNotInCombat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnaffectedByInvuln` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrUnknown30` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrNotCancellable` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown0` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExDrainAllPower` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExChanneled` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown3` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown4` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExRemainStealth` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExChanneled2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExNegative` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExTargetNotInCombat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown9` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExNoThreat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown11` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown12` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExFarSight` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown14` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExRemoveAurasOnImmune` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnaffectedBySchoolImmune` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown17` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown18` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown19` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExTargetComboPoints` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown21` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExRequireComboPoints` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown23` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown24` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown25` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown26` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown27` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown28` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown29` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown30` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrExUnknown31` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown0` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown1` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2CantReflect` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown3` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown4` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2AutoRepeat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown6` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown7` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown8` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown9` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown10` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2HealthFunnel` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown12` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown13` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown14` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown15` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown16` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown17` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown18` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2NotRequireShapeshift` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown20` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Shield` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown22` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown23` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown24` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown25` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown26` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown27` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown28` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown29` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown30` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx2Unknown31` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown0` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown1` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown3` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown4` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown5` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown6` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown7` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3TargetPlayer` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown9` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3RequireMainHand` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3RequireBattleground` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3RequireTargetDeadPlayer` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown13` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown14` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown15` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown16` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3NoAggroOnSuccess` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3UnMissable` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown19` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3PersistWhileDeath` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown21` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3RequireWand` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown23` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3RequireOffHand` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown25` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown26` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown27` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown28` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown29` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown30` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx3Unknown31` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown0` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown1` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown3` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown4` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown5` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4NotStealable` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown7` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4StackDotModifier` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown9` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4SpellVsExtendCost` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown11` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown12` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown13` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown14` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown15` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4NotInArena` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4RequireArena` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown18` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown19` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown20` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown21` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown22` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown23` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown24` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown25` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4RequireOutland` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown27` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown28` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown29` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown30` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `attrEx4Unknown31` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `fk_spellfocus` int(11) unsigned DEFAULT NULL,
+  `fk_casterAuraState` tinyint(2) unsigned DEFAULT NULL,
+  `fk_targetAuraState` tinyint(2) unsigned DEFAULT NULL,
+  `spellcasttime` int(11) unsigned DEFAULT '0',
+  `recoveryTime` int(11) unsigned NOT NULL DEFAULT '0',
+  `categoryRecoveryTime` int(11) unsigned NOT NULL DEFAULT '0',
+  `startRecoveryCategory` int(11) unsigned NOT NULL DEFAULT '0',
+  `startRecoveryCategoryTime` int(11) unsigned NOT NULL DEFAULT '0',
+  `interruptMove` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `interruptDamage` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `interruptInterrupt` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `interruptAutoAttack` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `interruptAbordOnDamage` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown0` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptDamage` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptMove` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptTurning` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptEnterCombat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnmounting` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptEnterWater` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptLeavingWater` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnsheathing` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown10` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown11` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown12` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown13` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown14` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown15` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown16` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptMounting` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptStandUp` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptChangeMap` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptImmuneOrLostSelection` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown21` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptUnknown22` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptEnterPvPCombat` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `auraInterruptDirectDamage` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown1` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptDamage` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown4` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptMove` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptTurning` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown7` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown8` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptDamage2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown10` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown11` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown12` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown13` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown14` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptUnknown15` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `channelInterruptDelay` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procTypeMask` int(11) unsigned NOT NULL DEFAULT '0',
+  `procOnKilled` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnKill` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessMeleeAttackDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessMeleeAttackTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessMeleeSpellDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessMeleeSpellTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessRangedAttackDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessRangedAttackTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessRangedSpellDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessRangedSpellTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessPositiveAOEDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessPositiveAOETaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessAOEDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessAOETaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessPositiveSpellDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessPositiveSpellTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessNegativeSpellDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessNegativeSpellTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessDoTSpellDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessDoTSpellTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnDamageTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnTrapActivation` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessMeleeOffHandTaken` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procOnSuccessMeleeOffHandDone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnNormalHit` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnCriticalHit` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnMiss` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnResist` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnDodge` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnParry` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnBlock` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnEvade` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnImmune` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnDeflect` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnAbsorb` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnReflect` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOnInterrupt` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExReserved1` tinyint(1) unsigned DEFAULT '0',
+  `procExReserved2` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExReserved3` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExAlwaysTrigger` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExOneTimeTrigger` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procExPeriodicPositive` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `procChance` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `procCharges` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `maxLevel` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `baseLevel` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `spellLevel` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `maxTargetLevel` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `maxTargets` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `fk_spellduration` smallint(6) unsigned DEFAULT NULL,
+  `fk_power` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  `cost` int(11) unsigned NOT NULL DEFAULT '0',
+  `costPct` int(11) unsigned NOT NULL DEFAULT '0',
+  `costPerLevel` tinyint(11) unsigned NOT NULL DEFAULT '0',
+  `costPerSecond` tinyint(11) unsigned NOT NULL DEFAULT '0',
+  `costPerSecondPerLevel` tinyint(11) unsigned NOT NULL DEFAULT '0',
+  `fk_spellrange` tinyint(1) unsigned DEFAULT NULL,
+  `speed` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  `fk_modalNextSpell` int(11) unsigned DEFAULT NULL,
+  `stackAmount` int(11) unsigned NOT NULL DEFAULT '0',
+  `spellVisualID1` int(11) unsigned NOT NULL DEFAULT '0',
+  `spellVisualID2` int(11) unsigned NOT NULL DEFAULT '0',
+  `spellIconID` int(11) unsigned NOT NULL DEFAULT '0',
+  `activeIconID` int(11) unsigned NOT NULL DEFAULT '0',
+  `spellPriority` int(11) unsigned NOT NULL DEFAULT '0',
+  `name` text NOT NULL,
+  `name1` text NOT NULL,
+  `name2` text NOT NULL,
+  `name3` text NOT NULL,
+  `name4` text NOT NULL,
+  `name5` text NOT NULL,
+  `name6` text NOT NULL,
+  `name7` text NOT NULL,
+  `nameSubText` text NOT NULL,
+  `nameSubText1` text NOT NULL,
+  `nameSubText2` text NOT NULL,
+  `nameSubText3` text NOT NULL,
+  `nameSubText4` text NOT NULL,
+  `nameSubText5` text NOT NULL,
+  `nameSubText6` text NOT NULL,
+  `nameSubText7` text NOT NULL,
+  `description` text NOT NULL,
+  `description1` text NOT NULL,
+  `description2` text NOT NULL,
+  `description3` text NOT NULL,
+  `description4` text NOT NULL,
+  `description5` text NOT NULL,
+  `description6` text NOT NULL,
+  `description7` text NOT NULL,
+  `auraDescription` text NOT NULL,
+  `auraDescription1` text NOT NULL,
+  `auraDescription2` text NOT NULL,
+  `auraDescription3` text NOT NULL,
+  `auraDescription4` text NOT NULL,
+  `auraDescription5` text NOT NULL,
+  `auraDescription6` text NOT NULL,
+  `auraDescription7` text NOT NULL,
+  `fk_spellFamily` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  `spellFamilyFlags` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `fk_damageType` tinyint(2) unsigned DEFAULT NULL,
+  `fk_preventionType` tinyint(2) unsigned DEFAULT NULL,
+  `stanceBarOrder` tinyint(2) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`spellID`),
+  KEY `fk_spell_spellfocus_idx` (`fk_spellfocus`),
+  KEY `fk_spell_powertype_idx` (`fk_power`),
+  KEY `fk_spell_school_idx` (`fk_school`),
+  KEY `fk_spell_dispeltype_idx` (`fk_dispelType`),
+  KEY `fk_spell_mechanic_idx` (`fk_mechanic`),
+  KEY `fk_spell_casteraura_idx` (`fk_casterAuraState`),
+  KEY `fk_spell_targetaura_idx` (`fk_targetAuraState`),
+  KEY `fk_spell_duration_idx` (`fk_spellduration`),
+  KEY `fk_spell_range_idx` (`fk_spellrange`),
+  KEY `fk_spell_nextspell_idx` (`fk_modalNextSpell`),
+  KEY `fk_spell_family_idx` (`fk_spellFamily`),
+  KEY `fk_spell_damagetype_idx` (`fk_damageType`),
+  KEY `fk_spell_preventiontype_idx` (`fk_preventionType`),
+  CONSTRAINT `fk_spell_casteraura` FOREIGN KEY (`fk_casterAuraState`) REFERENCES `aurastate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_damagetype` FOREIGN KEY (`fk_damageType`) REFERENCES `spelldamagetype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_dispeltype` FOREIGN KEY (`fk_dispelType`) REFERENCES `dispeltype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_duration` FOREIGN KEY (`fk_spellduration`) REFERENCES `spellduration` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_family` FOREIGN KEY (`fk_spellFamily`) REFERENCES `spellfamily` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_mechanic` FOREIGN KEY (`fk_mechanic`) REFERENCES `spellmechanic` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_nextspell` FOREIGN KEY (`fk_modalNextSpell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_powertype` FOREIGN KEY (`fk_power`) REFERENCES `powertype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_preventiontype` FOREIGN KEY (`fk_preventionType`) REFERENCES `spellpreventiontype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_range` FOREIGN KEY (`fk_spellrange`) REFERENCES `spellrange` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_school` FOREIGN KEY (`fk_school`) REFERENCES `school` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_spellfocus` FOREIGN KEY (`fk_spellfocus`) REFERENCES `spellfocus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spell_targetaura` FOREIGN KEY (`fk_targetAuraState`) REFERENCES `aurastate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds all the spell data of the game';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spells`
+--
+
+LOCK TABLES `spells` WRITE;
+/*!40000 ALTER TABLE `spells` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spells` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellshapeshift`
+--
+
+DROP TABLE IF EXISTS `spellshapeshift`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellshapeshift` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell for which this info is required.',
+  `fk_shapeshift` tinyint(3) unsigned NOT NULL COMMENT 'Foreign key to the shapeshift for the corresponding spell.',
+  `excluded` tinyint(3) unsigned NOT NULL COMMENT 'Indicates whether this shapeshift prevents from casting this spell or not.',
+  PRIMARY KEY (`fk_spell`,`fk_shapeshift`),
+  KEY `fk_spellshapeshift_shapeshift_idx` (`fk_shapeshift`),
+  CONSTRAINT `fk_spellshapeshift_shapeshift` FOREIGN KEY (`fk_shapeshift`) REFERENCES `shapeshift` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellshapeshift_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the relationship information between the shapeshifts of the game and the spells.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellshapeshift`
+--
+
+LOCK TABLES `spellshapeshift` WRITE;
+/*!40000 ALTER TABLE `spellshapeshift` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spellshapeshift` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spellspelleffects`
+--
+
+DROP TABLE IF EXISTS `spellspelleffects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellspelleffects` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the source spell.',
+  `fk_effect` smallint(5) unsigned NOT NULL COMMENT 'Foreign key to the effect to be applied.',
+  `sequence` tinyint(2) unsigned NOT NULL COMMENT 'Numbering of this effect. Maximum numbering should be 3...',
+  `fk_spellaura` smallint(5) unsigned DEFAULT NULL COMMENT 'Foreign key to the aura triggered by this effect.',
+  `fk_spellradius` tinyint(2) unsigned DEFAULT NULL COMMENT 'Foreign key to the radius of this effect.',
+  `fk_targetA` tinyint(2) unsigned DEFAULT NULL COMMENT 'Foreign key to the targets A of this effect.',
+  `fk_targetB` tinyint(2) unsigned DEFAULT NULL COMMENT 'Foreign key to the target B of this effect.',
+  `fk_spellmechanic` tinyint(3) unsigned DEFAULT NULL COMMENT 'Foreign key to the mechanic triggered by this effect.',
+  `fk_triggeredspell` int(10) unsigned DEFAULT NULL COMMENT 'Foreign key to the triggered spell (if any).',
+  `dieSide` int(10) unsigned DEFAULT '0' COMMENT 'Amount of damages which added on the basic amount defines the range of amount for this effect.',
+  `basePoint` int(10) unsigned DEFAULT NULL COMMENT 'Base point for the amount calculation.',
+  `baseDice` int(10) unsigned DEFAULT '0',
+  `dicePerLevel` int(10) unsigned DEFAULT NULL COMMENT 'Unknown',
+  `realPointsPerLevel` int(10) unsigned DEFAULT NULL COMMENT 'Amount that should be multiplied by the level of the spell to get the final amount.',
+  `pointPerCombo` int(10) unsigned DEFAULT NULL COMMENT 'The number of points to be added to the amount per combo points available.',
+  `amplitude` bigint(20) unsigned DEFAULT NULL COMMENT 'Amplitude of this effect.',
+  `multiple` bigint(20) unsigned DEFAULT NULL COMMENT 'Multiple of this effect.',
+  `chainTarget` tinyint(2) unsigned DEFAULT NULL,
+  `miscValue` int(10) unsigned DEFAULT NULL COMMENT 'Misc value depending on the spell effect that needs to be applied.',
+  `multiplier` int(10) unsigned DEFAULT NULL COMMENT 'The damage multiplier for the amount calculation.',
+  PRIMARY KEY (`fk_spell`,`fk_effect`,`sequence`),
+  KEY `fk_spellspelleffects_effect_idx` (`fk_effect`),
+  KEY `fk_spellspelleffects_aura_idx` (`fk_spellaura`),
+  KEY `fk_spellspelleffects_radius_idx` (`fk_spellradius`),
+  KEY `fk_spellspelleffects_targetA_idx` (`fk_targetA`),
+  KEY `fk_spellspelleffects_targetB_idx` (`fk_targetB`),
+  KEY `fk_spellspelleffects_mechanic_idx` (`fk_spellmechanic`),
+  KEY `fk_spellspelleffects_triggeredspell_idx` (`fk_triggeredspell`),
+  CONSTRAINT `fk_spellspelleffects_aura` FOREIGN KEY (`fk_spellaura`) REFERENCES `spellauras` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_effect` FOREIGN KEY (`fk_effect`) REFERENCES `spelleffects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_mechanic` FOREIGN KEY (`fk_spellmechanic`) REFERENCES `spellmechanic` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_radius` FOREIGN KEY (`fk_spellradius`) REFERENCES `spellradius` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_spells` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_targetA` FOREIGN KEY (`fk_targetA`) REFERENCES `targets` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_targetB` FOREIGN KEY (`fk_targetB`) REFERENCES `targets` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spellspelleffects_triggeredspell` FOREIGN KEY (`fk_triggeredspell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This relationship table holds the information about the various effects that are triggered by the fk_spell.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spellspelleffects`
+--
+
+LOCK TABLES `spellspelleffects` WRITE;
+/*!40000 ALTER TABLE `spellspelleffects` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spellspelleffects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spelltargets`
+--
+
+DROP TABLE IF EXISTS `spelltargets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spelltargets` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Foreign key to the spell record.',
+  `fk_target` tinyint(2) unsigned NOT NULL COMMENT 'Foreign key to the target record.',
+  PRIMARY KEY (`fk_spell`,`fk_target`),
+  KEY `fk_spelltargets_target_idx` (`fk_target`),
+  CONSTRAINT `fk_spelltargets_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spelltargets_target` FOREIGN KEY (`fk_target`) REFERENCES `targets` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This relationship tables holds all the information about the targets on which this spell can be caster.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spelltargets`
+--
+
+LOCK TABLES `spelltargets` WRITE;
+/*!40000 ALTER TABLE `spelltargets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spelltargets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spelltools`
+--
+
+DROP TABLE IF EXISTS `spelltools`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spelltools` (
+  `fk_spell` int(10) unsigned NOT NULL COMMENT 'Link to the spell requiring this tool.',
+  `fk_item` mediumint(8) unsigned NOT NULL COMMENT 'Link to the item considered as a tool.',
+  PRIMARY KEY (`fk_spell`,`fk_item`),
+  KEY `fk_tools_items_idx` (`fk_item`),
+  CONSTRAINT `fk_tools_items` FOREIGN KEY (`fk_item`) REFERENCES `item` (`entry`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tools_spell` FOREIGN KEY (`fk_spell`) REFERENCES `spells` (`spellID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the relationship between required items to launch a spell and the spells themselves.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spelltools`
+--
+
+LOCK TABLES `spelltools` WRITE;
+/*!40000 ALTER TABLE `spelltools` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spelltools` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -425,6 +1494,58 @@ LOCK TABLES `startingequipment` WRITE;
 INSERT INTO `startingequipment` VALUES (1,25,1,0),(1,25,1,1),(1,38,1,0),(1,38,1,1),(1,39,1,0),(1,39,1,1),(1,40,1,0),(1,40,1,1),(1,117,1,0),(1,117,1,1),(1,2362,1,0),(1,2362,1,1),(1,6948,1,0),(1,6948,1,1),(2,43,1,0),(2,43,1,1),(2,44,1,0),(2,44,1,1),(2,45,1,0),(2,45,1,1),(2,159,1,0),(2,159,1,1),(2,2070,1,0),(2,2070,1,1),(2,2361,1,0),(2,2361,1,1),(2,6948,1,0),(2,6948,1,1),(4,47,1,0),(4,47,1,1),(4,48,1,0),(4,48,1,1),(4,49,1,0),(4,49,1,1),(4,2070,1,0),(4,2070,1,1),(4,2092,1,0),(4,2092,1,1),(4,2947,1,0),(4,2947,1,1),(4,6948,1,0),(4,6948,1,1),(5,36,1,0),(5,36,1,1),(5,51,1,0),(5,51,1,1),(5,52,1,0),(5,52,1,1),(5,53,1,0),(5,53,1,1),(5,159,1,0),(5,159,1,1),(5,2070,1,0),(5,2070,1,1),(5,6098,1,0),(5,6098,1,1),(5,6948,1,0),(5,6948,1,1),(8,35,1,0),(8,35,1,1),(8,55,1,0),(8,55,1,1),(8,56,1,0),(8,56,1,1),(8,159,1,0),(8,159,1,1),(8,1395,1,0),(8,1395,1,1),(8,2070,1,0),(8,2070,1,1),(8,6096,1,0),(8,6096,1,1),(8,6948,1,0),(8,6948,1,1),(9,57,1,0),(9,57,1,1),(9,59,1,0),(9,59,1,1),(9,159,1,0),(9,159,1,1),(9,1396,1,0),(9,1396,1,1),(9,2092,1,0),(9,2092,1,1),(9,4604,1,0),(9,4604,1,1),(9,6097,1,0),(9,6097,1,1),(9,6948,1,0),(9,6948,1,1),(1,117,2,0),(1,117,2,1),(1,139,2,0),(1,139,2,1),(1,140,2,0),(1,140,2,1),(1,6125,2,0),(1,6125,2,1),(1,6948,2,0),(1,6948,2,1),(1,12282,2,0),(1,12282,2,1),(3,37,2,0),(3,37,2,1),(3,117,2,0),(3,117,2,1),(3,127,2,0),(3,127,2,1),(3,159,2,0),(3,159,2,1),(3,2101,2,0),(3,2101,2,1),(3,2504,2,0),(3,2504,2,1),(3,2512,2,0),(3,2512,2,1),(3,6126,2,0),(3,6126,2,1),(3,6127,2,0),(3,6127,2,1),(3,6948,2,0),(3,6948,2,1),(4,117,2,0),(4,117,2,1),(4,120,2,0),(4,120,2,1),(4,121,2,0),(4,121,2,1),(4,2092,2,0),(4,2092,2,1),(4,2105,2,0),(4,2105,2,1),(4,3111,2,0),(4,3111,2,1),(4,6948,2,0),(4,6948,2,1),(7,36,2,0),(7,36,2,1),(7,117,2,0),(7,117,2,1),(7,153,2,0),(7,153,2,1),(7,154,2,0),(7,154,2,1),(7,159,2,0),(7,159,2,1),(7,6948,2,0),(7,6948,2,1),(9,59,2,0),(9,59,2,1),(9,117,2,0),(9,117,2,1),(9,159,2,0),(9,159,2,1),(9,1396,2,0),(9,1396,2,1),(9,2092,2,0),(9,2092,2,1),(9,6129,2,0),(9,6129,2,1),(9,6948,2,0),(9,6948,2,1),(1,38,3,0),(1,38,3,1),(1,39,3,0),(1,39,3,1),(1,40,3,0),(1,40,3,1),(1,117,3,0),(1,117,3,1),(1,6948,3,0),(1,6948,3,1),(1,12282,3,0),(1,12282,3,1),(2,43,3,0),(2,43,3,1),(2,159,3,0),(2,159,3,1),(2,2361,3,0),(2,2361,3,1),(2,4540,3,0),(2,4540,3,1),(2,6117,3,0),(2,6117,3,1),(2,6118,3,0),(2,6118,3,1),(2,6948,3,0),(2,6948,3,1),(3,37,3,0),(3,37,3,1),(3,117,3,0),(3,117,3,1),(3,129,3,0),(3,129,3,1),(3,147,3,0),(3,147,3,1),(3,148,3,0),(3,148,3,1),(3,159,3,0),(3,159,3,1),(3,2102,3,0),(3,2102,3,1),(3,2508,3,0),(3,2508,3,1),(3,2516,3,0),(3,2516,3,1),(3,6948,3,0),(3,6948,3,1),(4,47,3,0),(4,47,3,1),(4,48,3,0),(4,48,3,1),(4,49,3,0),(4,49,3,1),(4,2092,3,0),(4,2092,3,1),(4,3111,3,0),(4,3111,3,1),(4,4540,3,0),(4,4540,3,1),(4,6948,3,0),(4,6948,3,1),(5,36,3,0),(5,36,3,1),(5,51,3,0),(5,51,3,1),(5,52,3,0),(5,52,3,1),(5,53,3,0),(5,53,3,1),(5,159,3,0),(5,159,3,1),(5,4540,3,0),(5,4540,3,1),(5,6098,3,0),(5,6098,3,1),(5,6948,3,0),(5,6948,3,1),(8,35,3,0),(8,35,3,1),(8,55,3,0),(8,55,3,1),(8,159,3,0),(8,159,3,1),(8,1395,3,0),(8,1395,3,1),(8,4540,3,0),(8,4540,3,1),(8,6096,3,0),(8,6096,3,1),(8,6116,3,0),(8,6116,3,1),(8,6948,3,0),(8,6948,3,1),(1,25,4,0),(1,25,4,1),(1,117,4,0),(1,117,4,1),(1,2362,4,0),(1,2362,4,1),(1,6120,4,0),(1,6120,4,1),(1,6121,4,0),(1,6121,4,1),(1,6122,4,0),(1,6122,4,1),(1,6948,4,0),(1,6948,4,1),(3,117,4,0),(3,117,4,1),(3,129,4,0),(3,129,4,1),(3,147,4,0),(3,147,4,1),(3,148,4,0),(3,148,4,1),(3,159,4,0),(3,159,4,1),(3,2092,4,0),(3,2092,4,1),(3,2101,4,0),(3,2101,4,1),(3,2504,4,0),(3,2504,4,1),(3,2512,4,0),(3,2512,4,1),(3,6948,4,0),(3,6948,4,1),(4,47,4,0),(4,47,4,1),(4,48,4,0),(4,48,4,1),(4,49,4,0),(4,49,4,1),(4,2092,4,0),(4,2092,4,1),(4,2947,4,0),(4,2947,4,1),(4,4540,4,0),(4,4540,4,1),(4,6948,4,0),(4,6948,4,1),(5,36,4,0),(5,36,4,1),(5,51,4,0),(5,51,4,1),(5,52,4,0),(5,52,4,1),(5,53,4,0),(5,53,4,1),(5,159,4,0),(5,159,4,1),(5,2070,4,0),(5,2070,4,1),(5,6119,4,0),(5,6119,4,1),(5,6948,4,0),(5,6948,4,1),(11,159,4,0),(11,159,4,1),(11,3661,4,0),(11,3661,4,1),(11,4536,4,0),(11,4536,4,1),(11,6123,4,0),(11,6123,4,1),(11,6124,4,0),(11,6124,4,1),(11,6948,4,0),(11,6948,4,1),(1,25,5,0),(1,25,5,1),(1,139,5,0),(1,139,5,1),(1,140,5,0),(1,140,5,1),(1,2362,5,0),(1,2362,5,1),(1,4604,5,0),(1,4604,5,1),(1,6125,5,0),(1,6125,5,1),(1,6948,5,0),(1,6948,5,1),(4,120,5,0),(4,120,5,1),(4,121,5,0),(4,121,5,1),(4,2092,5,0),(4,2092,5,1),(4,2105,5,0),(4,2105,5,1),(4,2947,5,0),(4,2947,5,1),(4,4604,5,0),(4,4604,5,1),(4,6948,5,0),(4,6948,5,1),(5,36,5,0),(5,36,5,1),(5,51,5,0),(5,51,5,1),(5,52,5,0),(5,52,5,1),(5,53,5,0),(5,53,5,1),(5,159,5,0),(5,159,5,1),(5,4604,5,0),(5,4604,5,1),(5,6144,5,0),(5,6144,5,1),(5,6948,5,0),(5,6948,5,1),(8,35,5,0),(8,35,5,1),(8,55,5,0),(8,55,5,1),(8,159,5,0),(8,159,5,1),(8,1395,5,0),(8,1395,5,1),(8,4604,5,0),(8,4604,5,1),(8,6096,5,0),(8,6096,5,1),(8,6140,5,0),(8,6140,5,1),(8,6948,5,0),(8,6948,5,1),(9,59,5,0),(9,59,5,1),(9,159,5,0),(9,159,5,1),(9,1396,5,0),(9,1396,5,1),(9,2092,5,0),(9,2092,5,1),(9,4604,5,0),(9,4604,5,1),(9,6129,5,0),(9,6129,5,1),(9,6948,5,0),(9,6948,5,1),(1,139,6,0),(1,139,6,1),(1,2361,6,0),(1,2361,6,1),(1,4540,6,0),(1,4540,6,1),(1,6125,6,0),(1,6125,6,1),(1,6948,6,0),(1,6948,6,1),(3,37,6,0),(3,37,6,1),(3,117,6,0),(3,117,6,1),(3,127,6,0),(3,127,6,1),(3,159,6,0),(3,159,6,1),(3,2102,6,0),(3,2102,6,1),(3,2508,6,0),(3,2508,6,1),(3,2516,6,0),(3,2516,6,1),(3,6126,6,0),(3,6126,6,1),(3,6948,6,0),(3,6948,6,1),(7,36,6,0),(7,36,6,1),(7,153,6,0),(7,153,6,1),(7,154,6,0),(7,154,6,1),(7,159,6,0),(7,159,6,1),(7,4604,6,0),(7,4604,6,1),(7,6948,6,0),(7,6948,6,1),(11,35,6,0),(11,35,6,1),(11,159,6,0),(11,159,6,1),(11,4536,6,0),(11,4536,6,1),(11,6124,6,0),(11,6124,6,1),(11,6139,6,0),(11,6139,6,1),(11,6948,6,0),(11,6948,6,1),(1,25,7,0),(1,25,7,1),(1,38,7,0),(1,38,7,1),(1,39,7,0),(1,39,7,1),(1,40,7,0),(1,40,7,1),(1,117,7,0),(1,117,7,1),(1,2362,7,0),(1,2362,7,1),(1,6948,7,0),(1,6948,7,1),(4,47,7,0),(4,47,7,1),(4,48,7,0),(4,48,7,1),(4,49,7,0),(4,49,7,1),(4,117,7,0),(4,117,7,1),(4,2092,7,0),(4,2092,7,1),(4,2947,7,0),(4,2947,7,1),(4,6948,7,0),(4,6948,7,1),(8,35,7,0),(8,35,7,1),(8,55,7,0),(8,55,7,1),(8,56,7,0),(8,56,7,1),(8,159,7,0),(8,159,7,1),(8,1395,7,0),(8,1395,7,1),(8,4536,7,0),(8,4536,7,1),(8,6096,7,0),(8,6096,7,1),(8,6948,7,0),(8,6948,7,1),(9,57,7,0),(9,57,7,1),(9,59,7,0),(9,59,7,1),(9,159,7,0),(9,159,7,1),(9,1396,7,0),(9,1396,7,1),(9,2092,7,0),(9,2092,7,1),(9,4604,7,0),(9,4604,7,1),(9,6097,7,0),(9,6097,7,1),(9,6948,7,0),(9,6948,7,1),(1,37,8,0),(1,37,8,1),(1,117,8,0),(1,117,8,1),(1,139,8,0),(1,139,8,1),(1,2362,8,0),(1,2362,8,1),(1,3111,8,0),(1,3111,8,1),(1,6125,8,0),(1,6125,8,1),(1,6948,8,0),(1,6948,8,1),(3,37,8,0),(3,37,8,1),(3,127,8,0),(3,127,8,1),(3,159,8,0),(3,159,8,1),(3,2101,8,0),(3,2101,8,1),(3,2504,8,0),(3,2504,8,1),(3,2512,8,0),(3,2512,8,1),(3,4604,8,0),(3,4604,8,1),(3,6126,8,0),(3,6126,8,1),(3,6948,8,0),(3,6948,8,1),(4,117,8,0),(4,117,8,1),(4,2092,8,0),(4,2092,8,1),(4,3111,8,0),(4,3111,8,1),(4,6136,8,0),(4,6136,8,1),(4,6137,8,0),(4,6137,8,1),(4,6138,8,0),(4,6138,8,1),(4,6948,8,0),(4,6948,8,1),(5,36,8,0),(5,36,8,1),(5,52,8,0),(5,52,8,1),(5,53,8,0),(5,53,8,1),(5,159,8,0),(5,159,8,1),(5,4540,8,0),(5,4540,8,1),(5,6144,8,0),(5,6144,8,1),(5,6948,8,0),(5,6948,8,1),(7,36,8,0),(7,36,8,1),(7,117,8,0),(7,117,8,1),(7,159,8,0),(7,159,8,1),(7,6134,8,0),(7,6134,8,1),(7,6135,8,0),(7,6135,8,1),(7,6948,8,0),(7,6948,8,1),(8,35,8,0),(8,35,8,1),(8,55,8,0),(8,55,8,1),(8,117,8,0),(8,117,8,1),(8,159,8,0),(8,159,8,1),(8,1395,8,0),(8,1395,8,1),(8,6096,8,0),(8,6096,8,1),(8,6140,8,0),(8,6140,8,1),(8,6948,8,0),(8,6948,8,1);
 /*!40000 ALTER TABLE `startingequipment` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `startingspell`
+--
+
+DROP TABLE IF EXISTS `startingspell`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `startingspell` (
+  `fk_class` tinyint(3) unsigned NOT NULL,
+  `fk_race` tinyint(3) unsigned NOT NULL,
+  `fk_dbc_spell` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`fk_class`,`fk_race`,`fk_dbc_spell`),
+  KEY `fk_startingspell_race_idx` (`fk_race`),
+  CONSTRAINT `fk_startingspell_professions` FOREIGN KEY (`fk_class`) REFERENCES `professions` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_startingspell_race` FOREIGN KEY (`fk_race`) REFERENCES `race` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the starting spells for a given combination of race/profession.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `startingspell`
+--
+
+LOCK TABLES `startingspell` WRITE;
+/*!40000 ALTER TABLE `startingspell` DISABLE KEYS */;
+INSERT INTO `startingspell` VALUES (1,1,78),(1,1,81),(1,1,107),(1,1,196),(1,1,198),(1,1,201),(1,1,203),(1,1,204),(1,1,522),(1,1,668),(1,1,2382),(1,1,2457),(1,1,2479),(1,1,3050),(1,1,3365),(1,1,5301),(1,1,6233),(1,1,6246),(1,1,6247),(1,1,6477),(1,1,6478),(1,1,6603),(1,1,7266),(1,1,7267),(1,1,7355),(1,1,8386),(1,1,8737),(1,1,9077),(1,1,9078),(1,1,9116),(1,1,9125),(1,1,20597),(1,1,20598),(1,1,20599),(1,1,20600),(1,1,20864),(1,1,21651),(1,1,21652),(1,1,22027),(1,1,22810),(2,1,81),(2,1,107),(2,1,198),(2,1,199),(2,1,203),(2,1,204),(2,1,522),(2,1,635),(2,1,668),(2,1,2382),(2,1,2479),(2,1,3050),(2,1,3365),(2,1,6233),(2,1,6246),(2,1,6247),(2,1,6477),(2,1,6478),(2,1,6603),(2,1,7266),(2,1,7267),(2,1,7355),(2,1,8386),(2,1,8737),(2,1,9077),(2,1,9078),(2,1,9116),(2,1,9125),(2,1,20597),(2,1,20598),(2,1,20599),(2,1,20600),(2,1,20864),(2,1,21084),(2,1,21651),(2,1,21652),(2,1,22027),(2,1,22810),(2,1,27762),(4,1,81),(4,1,203),(4,1,204),(4,1,522),(4,1,668),(4,1,1180),(4,1,1752),(4,1,2098),(4,1,2382),(4,1,2479),(4,1,2567),(4,1,2764),(4,1,3050),(4,1,3365),(4,1,6233),(4,1,6246),(4,1,6247),(4,1,6477),(4,1,6478),(4,1,6603),(4,1,7266),(4,1,7267),(4,1,7355),(4,1,8386),(4,1,9077),(4,1,9078),(4,1,9125),(4,1,16092),(4,1,20597),(4,1,20598),(4,1,20599),(4,1,20600),(4,1,20864),(4,1,21184),(4,1,21651),(4,1,21652),(4,1,22027),(4,1,22810),(5,1,81),(5,1,198),(5,1,203),(5,1,204),(5,1,522),(5,1,585),(5,1,668),(5,1,2050),(5,1,2382),(5,1,2479),(5,1,3050),(5,1,3365),(5,1,5009),(5,1,5019),(5,1,6233),(5,1,6246),(5,1,6247),(5,1,6477),(5,1,6478),(5,1,6603),(5,1,7266),(5,1,7267),(5,1,7355),(5,1,8386),(5,1,9078),(5,1,9125),(5,1,20597),(5,1,20598),(5,1,20599),(5,1,20600),(5,1,20864),(5,1,21651),(5,1,21652),(5,1,22027),(5,1,22810),(8,1,81),(8,1,133),(8,1,168),(8,1,203),(8,1,204),(8,1,227),(8,1,522),(8,1,668),(8,1,2382),(8,1,2479),(8,1,3050),(8,1,3365),(8,1,5009),(8,1,5019),(8,1,6233),(8,1,6246),(8,1,6247),(8,1,6477),(8,1,6478),(8,1,6603),(8,1,7266),(8,1,7267),(8,1,7355),(8,1,8386),(8,1,9078),(8,1,9125),(8,1,20597),(8,1,20598),(8,1,20599),(8,1,20600),(8,1,20864),(8,1,21651),(8,1,21652),(8,1,22027),(8,1,22810),(9,1,81),(9,1,203),(9,1,204),(9,1,522),(9,1,668),(9,1,686),(9,1,687),(9,1,1180),(9,1,2382),(9,1,2479),(9,1,3050),(9,1,3365),(9,1,5009),(9,1,5019),(9,1,6233),(9,1,6246),(9,1,6247),(9,1,6477),(9,1,6478),(9,1,6603),(9,1,7266),(9,1,7267),(9,1,7355),(9,1,8386),(9,1,9078),(9,1,9125),(9,1,20597),(9,1,20598),(9,1,20599),(9,1,20600),(9,1,20864),(9,1,21651),(9,1,21652),(9,1,22027),(9,1,22810),(1,2,78),(1,2,81),(1,2,107),(1,2,196),(1,2,197),(1,2,201),(1,2,203),(1,2,204),(1,2,522),(1,2,669),(1,2,2382),(1,2,2457),(1,2,2479),(1,2,3050),(1,2,3365),(1,2,5301),(1,2,6233),(1,2,6246),(1,2,6247),(1,2,6477),(1,2,6478),(1,2,6603),(1,2,7266),(1,2,7267),(1,2,7355),(1,2,8386),(1,2,8737),(1,2,9077),(1,2,9078),(1,2,9116),(1,2,9125),(1,2,20572),(1,2,20573),(1,2,20574),(1,2,21563),(1,2,21651),(1,2,21652),(1,2,22027),(1,2,22810),(3,2,75),(3,2,81),(3,2,196),(3,2,203),(3,2,204),(3,2,264),(3,2,522),(3,2,669),(3,2,2382),(3,2,2479),(3,2,2973),(3,2,3050),(3,2,3365),(3,2,6233),(3,2,6246),(3,2,6247),(3,2,6477),(3,2,6478),(3,2,6603),(3,2,7266),(3,2,7267),(3,2,7355),(3,2,8386),(3,2,9077),(3,2,9078),(3,2,9125),(3,2,13358),(3,2,20572),(3,2,20573),(3,2,20574),(3,2,20576),(3,2,21651),(3,2,21652),(3,2,22027),(3,2,22810),(3,2,24949),(4,2,81),(4,2,203),(4,2,204),(4,2,522),(4,2,669),(4,2,1180),(4,2,1752),(4,2,2098),(4,2,2382),(4,2,2479),(4,2,2567),(4,2,2764),(4,2,3050),(4,2,3365),(4,2,6233),(4,2,6246),(4,2,6247),(4,2,6477),(4,2,6478),(4,2,6603),(4,2,7266),(4,2,7267),(4,2,7355),(4,2,8386),(4,2,9077),(4,2,9078),(4,2,9125),(4,2,16092),(4,2,20572),(4,2,20573),(4,2,20574),(4,2,21184),(4,2,21563),(4,2,21651),(4,2,21652),(4,2,22027),(4,2,22810),(7,2,81),(7,2,107),(7,2,198),(7,2,203),(7,2,204),(7,2,227),(7,2,331),(7,2,403),(7,2,522),(7,2,669),(7,2,2382),(7,2,2479),(7,2,3050),(7,2,3365),(7,2,6233),(7,2,6246),(7,2,6247),(7,2,6477),(7,2,6478),(7,2,6603),(7,2,7266),(7,2,7267),(7,2,7355),(7,2,8386),(7,2,9077),(7,2,9078),(7,2,9116),(7,2,9125),(7,2,20572),(7,2,20573),(7,2,20574),(7,2,21563),(7,2,21651),(7,2,21652),(7,2,22027),(7,2,22810),(7,2,27763),(9,2,81),(9,2,203),(9,2,204),(9,2,522),(9,2,669),(9,2,686),(9,2,687),(9,2,1180),(9,2,2382),(9,2,2479),(9,2,3050),(9,2,3365),(9,2,5009),(9,2,5019),(9,2,6233),(9,2,6246),(9,2,6247),(9,2,6477),(9,2,6478),(9,2,6603),(9,2,7266),(9,2,7267),(9,2,7355),(9,2,8386),(9,2,9078),(9,2,9125),(9,2,20572),(9,2,20573),(9,2,20574),(9,2,20575),(9,2,21651),(9,2,21652),(9,2,22027),(9,2,22810),(1,3,78),(1,3,81),(1,3,107),(1,3,196),(1,3,197),(1,3,198),(1,3,203),(1,3,204),(1,3,522),(1,3,668),(1,3,672),(1,3,2382),(1,3,2457),(1,3,2479),(1,3,2481),(1,3,3050),(1,3,3365),(1,3,5301),(1,3,6233),(1,3,6246),(1,3,6247),(1,3,6477),(1,3,6478),(1,3,6603),(1,3,7266),(1,3,7267),(1,3,7355),(1,3,8386),(1,3,8737),(1,3,9077),(1,3,9078),(1,3,9116),(1,3,9125),(1,3,20594),(1,3,20595),(1,3,20596),(1,3,21651),(1,3,21652),(1,3,22027),(1,3,22810),(2,3,81),(2,3,107),(2,3,198),(2,3,199),(2,3,203),(2,3,204),(2,3,522),(2,3,635),(2,3,668),(2,3,672),(2,3,2382),(2,3,2479),(2,3,2481),(2,3,3050),(2,3,3365),(2,3,6233),(2,3,6246),(2,3,6247),(2,3,6477),(2,3,6478),(2,3,6603),(2,3,7266),(2,3,7267),(2,3,7355),(2,3,8386),(2,3,8737),(2,3,9077),(2,3,9078),(2,3,9116),(2,3,9125),(2,3,20594),(2,3,20595),(2,3,20596),(2,3,21084),(2,3,21651),(2,3,21652),(2,3,22027),(2,3,22810),(2,3,27762),(3,3,75),(3,3,81),(3,3,196),(3,3,203),(3,3,204),(3,3,266),(3,3,522),(3,3,668),(3,3,672),(3,3,2382),(3,3,2479),(3,3,2481),(3,3,2973),(3,3,3050),(3,3,3365),(3,3,6233),(3,3,6246),(3,3,6247),(3,3,6477),(3,3,6478),(3,3,6603),(3,3,7266),(3,3,7267),(3,3,7355),(3,3,8386),(3,3,9077),(3,3,9078),(3,3,9125),(3,3,13358),(3,3,20594),(3,3,20595),(3,3,20596),(3,3,21651),(3,3,21652),(3,3,22027),(3,3,22810),(3,3,24949),(4,3,81),(4,3,203),(4,3,204),(4,3,522),(4,3,668),(4,3,672),(4,3,1180),(4,3,1752),(4,3,2098),(4,3,2382),(4,3,2479),(4,3,2481),(4,3,2567),(4,3,2764),(4,3,3050),(4,3,3365),(4,3,6233),(4,3,6246),(4,3,6247),(4,3,6477),(4,3,6478),(4,3,6603),(4,3,7266),(4,3,7267),(4,3,7355),(4,3,8386),(4,3,9077),(4,3,9078),(4,3,9125),(4,3,16092),(4,3,20594),(4,3,20595),(4,3,20596),(4,3,21184),(4,3,21651),(4,3,21652),(4,3,22027),(4,3,22810),(5,3,81),(5,3,198),(5,3,203),(5,3,204),(5,3,522),(5,3,585),(5,3,668),(5,3,672),(5,3,2050),(5,3,2382),(5,3,2479),(5,3,2481),(5,3,3050),(5,3,3365),(5,3,5009),(5,3,5019),(5,3,6233),(5,3,6246),(5,3,6247),(5,3,6477),(5,3,6478),(5,3,6603),(5,3,7266),(5,3,7267),(5,3,7355),(5,3,8386),(5,3,9078),(5,3,9125),(5,3,20594),(5,3,20595),(5,3,20596),(5,3,21651),(5,3,21652),(5,3,22027),(5,3,22810),(1,4,78),(1,4,81),(1,4,107),(1,4,198),(1,4,201),(1,4,203),(1,4,204),(1,4,522),(1,4,668),(1,4,671),(1,4,1180),(1,4,2382),(1,4,2457),(1,4,2479),(1,4,3050),(1,4,3365),(1,4,5301),(1,4,6233),(1,4,6246),(1,4,6247),(1,4,6477),(1,4,6478),(1,4,6603),(1,4,7266),(1,4,7267),(1,4,7355),(1,4,8386),(1,4,8737),(1,4,9077),(1,4,9078),(1,4,9116),(1,4,9125),(1,4,20580),(1,4,20582),(1,4,20583),(1,4,20585),(1,4,21009),(1,4,21651),(1,4,21652),(1,4,22027),(1,4,22810),(3,4,75),(3,4,81),(3,4,203),(3,4,204),(3,4,264),(3,4,522),(3,4,668),(3,4,671),(3,4,1180),(3,4,2382),(3,4,2479),(3,4,2973),(3,4,3050),(3,4,3365),(3,4,6233),(3,4,6246),(3,4,6247),(3,4,6477),(3,4,6478),(3,4,6603),(3,4,7266),(3,4,7267),(3,4,7355),(3,4,8386),(3,4,9077),(3,4,9078),(3,4,9125),(3,4,13358),(3,4,20580),(3,4,20582),(3,4,20583),(3,4,20585),(3,4,21009),(3,4,21651),(3,4,21652),(3,4,22027),(3,4,22810),(3,4,24949),(4,4,81),(4,4,203),(4,4,204),(4,4,522),(4,4,668),(4,4,671),(4,4,1180),(4,4,1752),(4,4,2098),(4,4,2382),(4,4,2479),(4,4,2567),(4,4,2764),(4,4,3050),(4,4,3365),(4,4,6233),(4,4,6246),(4,4,6247),(4,4,6477),(4,4,6478),(4,4,6603),(4,4,7266),(4,4,7267),(4,4,7355),(4,4,8386),(4,4,9077),(4,4,9078),(4,4,9125),(4,4,16092),(4,4,20580),(4,4,20582),(4,4,20583),(4,4,20585),(4,4,21009),(4,4,21184),(4,4,21651),(4,4,21652),(4,4,22027),(4,4,22810),(5,4,81),(5,4,198),(5,4,203),(5,4,204),(5,4,522),(5,4,585),(5,4,668),(5,4,671),(5,4,2050),(5,4,2382),(5,4,2479),(5,4,3050),(5,4,3365),(5,4,5009),(5,4,5019),(5,4,6233),(5,4,6246),(5,4,6247),(5,4,6477),(5,4,6478),(5,4,6603),(5,4,7266),(5,4,7267),(5,4,7355),(5,4,8386),(5,4,9078),(5,4,9125),(5,4,20580),(5,4,20582),(5,4,20583),(5,4,20585),(5,4,21009),(5,4,21651),(5,4,21652),(5,4,22027),(5,4,22810),(11,4,81),(11,4,203),(11,4,204),(11,4,227),(11,4,522),(11,4,668),(11,4,671),(11,4,1180),(11,4,2382),(11,4,2479),(11,4,3050),(11,4,3365),(11,4,5176),(11,4,5185),(11,4,6233),(11,4,6246),(11,4,6247),(11,4,6477),(11,4,6478),(11,4,6603),(11,4,7266),(11,4,7267),(11,4,7355),(11,4,8386),(11,4,9077),(11,4,9078),(11,4,9125),(11,4,20580),(11,4,20582),(11,4,20583),(11,4,20585),(11,4,21009),(11,4,21651),(11,4,21652),(11,4,22027),(11,4,22810),(11,4,27764),(1,5,78),(1,5,81),(1,5,107),(1,5,201),(1,5,202),(1,5,203),(1,5,204),(1,5,522),(1,5,669),(1,5,1180),(1,5,2382),(1,5,2457),(1,5,2479),(1,5,3050),(1,5,3365),(1,5,5227),(1,5,5301),(1,5,6233),(1,5,6246),(1,5,6247),(1,5,6477),(1,5,6478),(1,5,6603),(1,5,7266),(1,5,7267),(1,5,7355),(1,5,7744),(1,5,8386),(1,5,8737),(1,5,9077),(1,5,9078),(1,5,9116),(1,5,9125),(1,5,17737),(1,5,20577),(1,5,20579),(1,5,21651),(1,5,21652),(1,5,22027),(1,5,22810),(4,5,81),(4,5,203),(4,5,204),(4,5,522),(4,5,669),(4,5,1180),(4,5,1752),(4,5,2098),(4,5,2382),(4,5,2479),(4,5,2567),(4,5,2764),(4,5,3050),(4,5,3365),(4,5,5227),(4,5,6233),(4,5,6246),(4,5,6247),(4,5,6477),(4,5,6478),(4,5,6603),(4,5,7266),(4,5,7267),(4,5,7355),(4,5,7744),(4,5,8386),(4,5,9077),(4,5,9078),(4,5,9125),(4,5,16092),(4,5,17737),(4,5,20577),(4,5,20579),(4,5,21184),(4,5,21651),(4,5,21652),(4,5,22027),(4,5,22810),(5,5,81),(5,5,198),(5,5,203),(5,5,204),(5,5,522),(5,5,585),(5,5,669),(5,5,2050),(5,5,2382),(5,5,2479),(5,5,3050),(5,5,3365),(5,5,5009),(5,5,5019),(5,5,5227),(5,5,6233),(5,5,6246),(5,5,6247),(5,5,6477),(5,5,6478),(5,5,6603),(5,5,7266),(5,5,7267),(5,5,7355),(5,5,7744),(5,5,8386),(5,5,9078),(5,5,9125),(5,5,17737),(5,5,20577),(5,5,20579),(5,5,21651),(5,5,21652),(5,5,22027),(5,5,22810),(8,5,81),(8,5,133),(8,5,168),(8,5,203),(8,5,204),(8,5,227),(8,5,522),(8,5,669),(8,5,2382),(8,5,2479),(8,5,3050),(8,5,3365),(8,5,5009),(8,5,5019),(8,5,5227),(8,5,6233),(8,5,6246),(8,5,6247),(8,5,6477),(8,5,6478),(8,5,6603),(8,5,7266),(8,5,7267),(8,5,7355),(8,5,7744),(8,5,8386),(8,5,9078),(8,5,9125),(8,5,17737),(8,5,20577),(8,5,20579),(8,5,21651),(8,5,21652),(8,5,22027),(8,5,22810),(9,5,81),(9,5,203),(9,5,204),(9,5,522),(9,5,669),(9,5,686),(9,5,687),(9,5,1180),(9,5,2382),(9,5,2479),(9,5,3050),(9,5,3365),(9,5,5009),(9,5,5019),(9,5,5227),(9,5,6233),(9,5,6246),(9,5,6247),(9,5,6477),(9,5,6478),(9,5,6603),(9,5,7266),(9,5,7267),(9,5,7355),(9,5,7744),(9,5,8386),(9,5,9078),(9,5,9125),(9,5,17737),(9,5,20577),(9,5,20579),(9,5,21651),(9,5,21652),(9,5,22027),(9,5,22810),(1,6,78),(1,6,81),(1,6,107),(1,6,196),(1,6,198),(1,6,199),(1,6,203),(1,6,204),(1,6,522),(1,6,669),(1,6,670),(1,6,2382),(1,6,2457),(1,6,2479),(1,6,3050),(1,6,3365),(1,6,5301),(1,6,6233),(1,6,6246),(1,6,6247),(1,6,6477),(1,6,6478),(1,6,6603),(1,6,7266),(1,6,7267),(1,6,7355),(1,6,8386),(1,6,8737),(1,6,9077),(1,6,9078),(1,6,9116),(1,6,9125),(1,6,20549),(1,6,20550),(1,6,20551),(1,6,20552),(1,6,21651),(1,6,21652),(1,6,22027),(1,6,22810),(3,6,75),(3,6,81),(3,6,196),(3,6,203),(3,6,204),(3,6,266),(3,6,522),(3,6,669),(3,6,670),(3,6,2382),(3,6,2479),(3,6,2973),(3,6,3050),(3,6,3365),(3,6,6233),(3,6,6246),(3,6,6247),(3,6,6477),(3,6,6478),(3,6,6603),(3,6,7266),(3,6,7267),(3,6,7355),(3,6,8386),(3,6,9077),(3,6,9078),(3,6,9125),(3,6,13358),(3,6,20549),(3,6,20550),(3,6,20551),(3,6,20552),(3,6,21651),(3,6,21652),(3,6,22027),(3,6,22810),(3,6,24949),(7,6,81),(7,6,107),(7,6,198),(7,6,203),(7,6,204),(7,6,227),(7,6,331),(7,6,403),(7,6,522),(7,6,669),(7,6,670),(7,6,2382),(7,6,2479),(7,6,3050),(7,6,3365),(7,6,6233),(7,6,6246),(7,6,6247),(7,6,6477),(7,6,6478),(7,6,6603),(7,6,7266),(7,6,7267),(7,6,7355),(7,6,8386),(7,6,9077),(7,6,9078),(7,6,9116),(7,6,9125),(7,6,20549),(7,6,20550),(7,6,20551),(7,6,20552),(7,6,21651),(7,6,21652),(7,6,22027),(7,6,22810),(7,6,27763),(11,6,81),(11,6,198),(11,6,203),(11,6,204),(11,6,227),(11,6,522),(11,6,669),(11,6,670),(11,6,2382),(11,6,2479),(11,6,3050),(11,6,3365),(11,6,5176),(11,6,5185),(11,6,6233),(11,6,6246),(11,6,6247),(11,6,6477),(11,6,6478),(11,6,6603),(11,6,7266),(11,6,7267),(11,6,7355),(11,6,8386),(11,6,9077),(11,6,9078),(11,6,9125),(11,6,20549),(11,6,20550),(11,6,20551),(11,6,20552),(11,6,21651),(11,6,21652),(11,6,22027),(11,6,22810),(11,6,27764),(1,7,78),(1,7,81),(1,7,107),(1,7,198),(1,7,201),(1,7,203),(1,7,204),(1,7,522),(1,7,668),(1,7,1180),(1,7,2382),(1,7,2457),(1,7,2479),(1,7,3050),(1,7,3365),(1,7,5301),(1,7,6233),(1,7,6246),(1,7,6247),(1,7,6477),(1,7,6478),(1,7,6603),(1,7,7266),(1,7,7267),(1,7,7340),(1,7,7355),(1,7,8386),(1,7,8737),(1,7,9077),(1,7,9078),(1,7,9116),(1,7,9125),(1,7,20589),(1,7,20591),(1,7,20592),(1,7,20593),(1,7,21651),(1,7,21652),(1,7,22027),(1,7,22810),(4,7,81),(4,7,203),(4,7,204),(4,7,522),(4,7,668),(4,7,1180),(4,7,1752),(4,7,2098),(4,7,2382),(4,7,2479),(4,7,2567),(4,7,2764),(4,7,3050),(4,7,3365),(4,7,6233),(4,7,6246),(4,7,6247),(4,7,6477),(4,7,6478),(4,7,6603),(4,7,7266),(4,7,7267),(4,7,7340),(4,7,7355),(4,7,8386),(4,7,9077),(4,7,9078),(4,7,9125),(4,7,16092),(4,7,20589),(4,7,20591),(4,7,20592),(4,7,20593),(4,7,21184),(4,7,21651),(4,7,21652),(4,7,22027),(4,7,22810),(8,7,81),(8,7,133),(8,7,168),(8,7,203),(8,7,204),(8,7,227),(8,7,522),(8,7,668),(8,7,2382),(8,7,2479),(8,7,3050),(8,7,3365),(8,7,5009),(8,7,5019),(8,7,6233),(8,7,6246),(8,7,6247),(8,7,6477),(8,7,6478),(8,7,6603),(8,7,7266),(8,7,7267),(8,7,7340),(8,7,7355),(8,7,8386),(8,7,9078),(8,7,9125),(8,7,20589),(8,7,20591),(8,7,20592),(8,7,20593),(8,7,21651),(8,7,21652),(8,7,22027),(8,7,22810),(9,7,81),(9,7,203),(9,7,204),(9,7,522),(9,7,668),(9,7,686),(9,7,687),(9,7,1180),(9,7,2382),(9,7,2479),(9,7,3050),(9,7,3365),(9,7,5009),(9,7,5019),(9,7,6233),(9,7,6246),(9,7,6247),(9,7,6477),(9,7,6478),(9,7,6603),(9,7,7266),(9,7,7267),(9,7,7340),(9,7,7355),(9,7,8386),(9,7,9078),(9,7,9125),(9,7,20589),(9,7,20591),(9,7,20592),(9,7,20593),(9,7,21651),(9,7,21652),(9,7,22027),(9,7,22810),(1,8,78),(1,8,81),(1,8,107),(1,8,196),(1,8,203),(1,8,204),(1,8,522),(1,8,669),(1,8,1180),(1,8,2382),(1,8,2457),(1,8,2479),(1,8,2567),(1,8,2764),(1,8,3050),(1,8,3365),(1,8,5301),(1,8,6233),(1,8,6246),(1,8,6247),(1,8,6477),(1,8,6478),(1,8,6603),(1,8,7266),(1,8,7267),(1,8,7341),(1,8,7355),(1,8,8386),(1,8,8737),(1,8,9077),(1,8,9078),(1,8,9116),(1,8,9125),(1,8,20555),(1,8,20557),(1,8,20558),(1,8,21651),(1,8,21652),(1,8,22027),(1,8,22810),(1,8,26290),(1,8,26296),(3,8,75),(3,8,81),(3,8,196),(3,8,203),(3,8,204),(3,8,264),(3,8,522),(3,8,669),(3,8,2382),(3,8,2479),(3,8,2973),(3,8,3050),(3,8,3365),(3,8,6233),(3,8,6246),(3,8,6247),(3,8,6477),(3,8,6478),(3,8,6603),(3,8,7266),(3,8,7267),(3,8,7341),(3,8,7355),(3,8,8386),(3,8,9077),(3,8,9078),(3,8,9125),(3,8,13358),(3,8,20554),(3,8,20555),(3,8,20557),(3,8,20558),(3,8,21651),(3,8,21652),(3,8,22027),(3,8,22810),(3,8,24949),(3,8,26290),(4,8,81),(4,8,203),(4,8,204),(4,8,522),(4,8,669),(4,8,1180),(4,8,1752),(4,8,2098),(4,8,2382),(4,8,2479),(4,8,2567),(4,8,2764),(4,8,3050),(4,8,3365),(4,8,6233),(4,8,6246),(4,8,6247),(4,8,6477),(4,8,6478),(4,8,6603),(4,8,7266),(4,8,7267),(4,8,7341),(4,8,7355),(4,8,8386),(4,8,9077),(4,8,9078),(4,8,9125),(4,8,16092),(4,8,20555),(4,8,20557),(4,8,20558),(4,8,21184),(4,8,21651),(4,8,21652),(4,8,22027),(4,8,22810),(4,8,26290),(4,8,26297),(5,8,81),(5,8,198),(5,8,203),(5,8,204),(5,8,522),(5,8,585),(5,8,669),(5,8,2050),(5,8,2382),(5,8,2479),(5,8,3050),(5,8,3365),(5,8,5009),(5,8,5019),(5,8,6233),(5,8,6246),(5,8,6247),(5,8,6477),(5,8,6478),(5,8,6603),(5,8,7266),(5,8,7267),(5,8,7341),(5,8,7355),(5,8,8386),(5,8,9078),(5,8,9125),(5,8,20554),(5,8,20555),(5,8,20557),(5,8,20558),(5,8,21651),(5,8,21652),(5,8,22027),(5,8,22810),(5,8,26290),(7,8,81),(7,8,107),(7,8,198),(7,8,203),(7,8,204),(7,8,227),(7,8,331),(7,8,403),(7,8,522),(7,8,669),(7,8,2382),(7,8,2479),(7,8,3050),(7,8,3365),(7,8,6233),(7,8,6246),(7,8,6247),(7,8,6477),(7,8,6478),(7,8,6603),(7,8,7266),(7,8,7267),(7,8,7341),(7,8,7355),(7,8,8386),(7,8,9077),(7,8,9078),(7,8,9116),(7,8,9125),(7,8,20554),(7,8,20555),(7,8,20557),(7,8,20558),(7,8,21651),(7,8,21652),(7,8,22027),(7,8,22810),(7,8,26290),(7,8,27763),(8,8,81),(8,8,133),(8,8,168),(8,8,203),(8,8,204),(8,8,227),(8,8,522),(8,8,669),(8,8,2382),(8,8,2479),(8,8,3050),(8,8,3365),(8,8,5009),(8,8,5019),(8,8,6233),(8,8,6246),(8,8,6247),(8,8,6477),(8,8,6478),(8,8,6603),(8,8,7266),(8,8,7267),(8,8,7341),(8,8,7355),(8,8,8386),(8,8,9078),(8,8,9125),(8,8,20554),(8,8,20555),(8,8,20557),(8,8,20558),(8,8,21651),(8,8,21652),(8,8,22027),(8,8,22810),(8,8,26290);
+/*!40000 ALTER TABLE `startingspell` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `targets`
+--
+
+DROP TABLE IF EXISTS `targets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `targets` (
+  `id` tinyint(2) unsigned NOT NULL COMMENT 'ID of the target.',
+  `target` varchar(50) DEFAULT NULL COMMENT 'Type of target.',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table holds the various targets available in the game.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `targets`
+--
+
+LOCK TABLES `targets` WRITE;
+/*!40000 ALTER TABLE `targets` DISABLE KEYS */;
+INSERT INTO `targets` VALUES (0,'None'),(1,'Self'),(2,'Random Enemy in Area'),(3,'Random  Friend in Area'),(4,'Random Unit in Area'),(5,'Pet'),(6,'Chain Damage'),(7,'Instant Area Effect'),(8,'Custom Area Effect'),(9,'Inkeeper coordinates'),(11,'11'),(15,'All Enemy in Area'),(16,'Instant All Enemy in Area'),(17,'Table X Y Z coordinates'),(18,'Select Effect'),(20,'All Party around caster'),(21,'Single Friend'),(22,'Caster coordinates'),(23,'Gameobject'),(24,'In front of caster'),(25,'Duel versus Player'),(26,'Gameobject item'),(27,'Master'),(28,'Channeled All Enemy in area'),(29,'29'),(30,'All friendly units around caster'),(31,'All friendly units in area'),(32,'Minion'),(33,'All party'),(34,'All party around caster'),(35,'Single party'),(36,'All hostile unit around caster'),(37,'Area effect party'),(38,'Script'),(39,'Self fishing'),(40,'Focus or scripted gameobject'),(41,'Totem earth'),(42,'Totem water'),(43,'Totem air'),(44,'Totem fire'),(45,'Chain heal'),(46,'Script coordinates'),(47,'Dynamic object front'),(48,'Dynamic object behind'),(49,'Dynamic object left'),(50,'Dynamic object right'),(51,'Area effect gameobject around source'),(52,'Area effect gameobject around destination'),(53,'Current enemy coordinates'),(54,'Large cone in front'),(56,'All raid around caster'),(57,'Single friend'),(58,'58'),(60,'Narrow frontal cone'),(61,'Area effect party and class'),(63,'Duel versus player coordinates');
+/*!40000 ALTER TABLE `targets` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -435,4 +1556,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-02-19 19:29:56
+-- Dump completed on 2016-02-28 21:38:57

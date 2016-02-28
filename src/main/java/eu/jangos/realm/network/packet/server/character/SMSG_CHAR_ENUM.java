@@ -138,7 +138,7 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
     private int convertPlayersFlagsToInt(Characters c) {
         int flags = 0;
 
-        // flags+= (0*1) //UNKNOWN FLAG
+        // flags+= 1; //UNKNOWN FLAG
         // flags+= (0*2) // UNKNOWN FLAG
         // flags+= (0*4) // UNKNOWN
         // flags+= (0*8) // UNKNOWN

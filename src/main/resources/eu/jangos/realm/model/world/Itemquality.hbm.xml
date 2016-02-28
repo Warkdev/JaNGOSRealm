@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 19-f?vr.-2016 21:00:57 by Hibernate Tools 4.3.1 -->
+<!-- Generated 27-f?vr.-2016 16:07:34 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="eu.jangos.realm.model.world.Itemquality" table="itemquality" catalog="jangosworld" optimistic-lock="version">
+    <class name="eu.jangos.realm.model.world.Itemquality" table="itemquality" catalog="jangosworld">
         <id name="id" type="byte">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="assigned"></generator>
         </id>
         <property name="quality" type="string">
             <column name="quality" length="15" not-null="true" />

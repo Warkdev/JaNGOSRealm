@@ -14,6 +14,7 @@
     <mapping resource="eu/jangos/realm/model/world/Gender.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Itemsubclass.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Startingequipment.hbm.xml"/>
+    <mapping resource="eu/jangos/realm/model/world/Startingspell.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Inventorytype.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Professions.hbm.xml"/>
     <mapping resource="eu/jangos/realm/model/world/Item.hbm.xml"/>

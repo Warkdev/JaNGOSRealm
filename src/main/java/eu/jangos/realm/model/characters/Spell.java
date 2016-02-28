@@ -11,18 +11,16 @@ public class Spell  implements java.io.Serializable {
 
 
      private SpellId id;
-     private Characters characters;
-     private int fkItem;
-     private byte active;
+     private ItemInstance itemInstance;
+     private boolean active;
      private Date cooldown;
 
     public Spell() {
     }
 
-    public Spell(SpellId id, Characters characters, int fkItem, byte active, Date cooldown) {
+    public Spell(SpellId id, ItemInstance itemInstance, boolean active, Date cooldown) {
        this.id = id;
-       this.characters = characters;
-       this.fkItem = fkItem;
+       this.itemInstance = itemInstance;
        this.active = active;
        this.cooldown = cooldown;
     }
@@ -34,27 +32,23 @@ public class Spell  implements java.io.Serializable {
     public void setId(SpellId id) {
         this.id = id;
     }
-    public Characters getCharacters() {
-        return this.characters;
+
+    public ItemInstance getItemInstance() {
+        return itemInstance;
     }
-    
-    public void setCharacters(Characters characters) {
-        this.characters = characters;
+
+    public void setItemInstance(ItemInstance itemInstance) {
+        this.itemInstance = itemInstance;
+    }   
+
+    public boolean isActive() {
+        return active;
     }
-    public int getFkItem() {
-        return this.fkItem;
-    }
-    
-    public void setFkItem(int fkItem) {
-        this.fkItem = fkItem;
-    }
-    public byte getActive() {
-        return this.active;
-    }
-    
-    public void setActive(byte active) {
+
+    public void setActive(boolean active) {
         this.active = active;
     }
+    
     public Date getCooldown() {
         return this.cooldown;
     }

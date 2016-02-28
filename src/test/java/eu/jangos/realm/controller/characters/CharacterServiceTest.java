@@ -204,21 +204,6 @@ public class CharacterServiceTest {
     }
 
     /**
-     * Test of getCharactersForAccount method, of class CharacterService.
-     */
-    @Test
-    public void testGetCharactersForAccount() {
-        /**
-         * System.out.println("getCharactersForAccount"); Account account =
-         * null; CharacterService instance = new CharacterService();
-         * List<Characters> expResult = null; List<Characters> result =
-         * instance.getCharactersForAccount(account); assertEquals(expResult,
-         * result); // TODO review the generated test code and remove the
-         * default call to fail. fail("The test case is a prototype.");
-         */
-    }
-
-    /**
      * Test of createChar method, of class CharacterService.
      */
     @Test

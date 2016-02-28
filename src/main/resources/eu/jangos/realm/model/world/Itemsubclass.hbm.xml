@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 19-f?vr.-2016 21:00:57 by Hibernate Tools 4.3.1 -->
+<!-- Generated 27-f?vr.-2016 16:07:34 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="eu.jangos.realm.model.world.Itemsubclass" table="itemsubclass" catalog="jangosworld" optimistic-lock="version">
+    <class name="eu.jangos.realm.model.world.Itemsubclass" table="itemsubclass" catalog="jangosworld">
         <composite-id name="id" class="eu.jangos.realm.model.world.ItemsubclassId">
             <key-property name="fkItemclass" type="byte">
                 <column name="fk_itemclass" />
