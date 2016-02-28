@@ -202,7 +202,7 @@ CREATE TABLE jangosworld.`spells` (
   auraInterruptUnknown21 TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   auraInterruptUnknown22 TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   auraInterruptEnterPvPCombat TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-  auraInterruptDirectDamage TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  auraInterruptDirectDamage TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',  
   channelInterruptUnknown1 TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   channelInterruptDamage TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   channelInterruptUnknown4 TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
