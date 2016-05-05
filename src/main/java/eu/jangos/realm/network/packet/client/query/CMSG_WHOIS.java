@@ -1,4 +1,4 @@
-package eu.jangos.realm.network.packet.client;
+package eu.jangos.realm.network.packet.client.query;
 
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmClientPacket;
@@ -19,37 +19,31 @@ import io.netty.buffer.ByteBuf;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
- * CMSG_PING represents a packet sent by the client to ping the server.
+ * CMSG_WHOIS represents a packet sent by the client when it wants to
+ * retrieve other players information.
  *
  * @author Warkdev
  * @version v0.1 BETA.
  */
-public class CMSG_PING extends AbstractRealmClientPacket {
+public class CMSG_WHOIS extends AbstractRealmClientPacket {
 
     /**
      * Packet size.
      */
-    private short size;    
+    private short size;
 
     /**
-     * The ping time.
+     * Name
      */
-    private int ping;
-    
-    /**
-     * The client latency.
-     */
-    private int latency;
-    
+    private String name;
+
     /**
      * Constructor with opcode.
      *
      * @param opcode
-     * @param size
      */
-    public CMSG_PING(Opcodes opcode, short size) {
+    public CMSG_WHOIS(Opcodes opcode, short size) {
         super(opcode);
         this.size = size;
     }
@@ -62,40 +56,34 @@ public class CMSG_PING extends AbstractRealmClientPacket {
         this.size = size;
     }
 
-    public int getPing() {
-        return ping;
+    public String getName() {
+        return name;
     }
 
-    public void setPing(int ping) {
-        this.ping = ping;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getLatency() {
-        return latency;
-    }
-
-    public void setLatency(int latency) {
-        this.latency = latency;
-    }        
-    
     public String toString() {
-        String toString = "[CMSG_PING [ "
-                + " ping: " + this.ping
-                + " latency: " + this.latency
-                + " ]]";
+        String toString = "[CMSG_WHOIS [name: " + this.name
+                + "]]";
 
         return toString;
     }
 
     @Override
-    public void decode(ByteBuf buf) throws Exception {               
-        if((buf.readableBytes() + 4) < this.size)
-        {
+    public void decode(ByteBuf buf) throws Exception {
+        if ((buf.readableBytes() + 4) < this.size) {
             throw new Exception();
-        }                                
-        
-        this.ping = buf.readInt();
-        this.latency = buf.readInt();
+        }
+
+        StringBuilder b = new StringBuilder();
+        byte c;
+        while ((c = buf.readByte()) != 0) {
+            b.append((char) c);
+        }
+
+        this.name = b.toString();
     }
 
 }

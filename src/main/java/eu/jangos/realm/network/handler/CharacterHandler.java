@@ -26,7 +26,7 @@ import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmClientPacket;
 import eu.jangos.realm.network.packet.AbstractRealmServerPacket;
 import eu.jangos.realm.network.packet.client.CMSG_PING;
-import eu.jangos.realm.network.packet.client.auth.CMSG_PLAYER_LOGIN;
+import eu.jangos.realm.network.packet.client.login.CMSG_PLAYER_LOGIN;
 import eu.jangos.realm.network.packet.client.character.CMSG_CHAR_CREATE;
 import eu.jangos.realm.network.packet.client.character.CMSG_CHAR_DELETE;
 import eu.jangos.realm.network.packet.server.character.SMSG_CHAR_CREATE;
@@ -41,15 +41,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * RealmWorldHandler is responsible to handle all the business logic for auth
- * network packets. Managing requests and responses.
+ * CharacterHandler is responsible to handle all the business logic for auth
+ network packets. Managing requests and responses.
  *
  * @author Warkdev
  * @version v0.1 BETA.
  */
-public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
+public class CharacterHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(RealmWorldHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CharacterHandler.class);
 
     private static WorldService worldService;
     private final CharacterService characterService;
@@ -57,7 +57,7 @@ public class RealmWorldHandler extends ChannelInboundHandlerAdapter {
     /**
      * Constructor of RealmServerHandler.
      */
-    public RealmWorldHandler() {
+    public CharacterHandler() {
         super();
         worldService = WorldServiceFactory.getInstance();
         characterService = new CharacterService();

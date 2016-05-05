@@ -1,0 +1,1 @@
+UPDATE `jangosworld`.`spells` SET `fk_spellFamily`= NULL WHERE `spellID`='27640';

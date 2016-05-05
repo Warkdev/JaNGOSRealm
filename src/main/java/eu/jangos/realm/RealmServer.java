@@ -21,7 +21,7 @@ import eu.jangos.realm.model.auth.Realm;
 import eu.jangos.realm.network.decoder.RealmPacketDecoder;
 import eu.jangos.realm.network.encoder.RealmPacketEncoder;
 import eu.jangos.realm.network.handler.RealmAuthHandler;
-import eu.jangos.realm.network.handler.RealmWorldHandler;
+import eu.jangos.realm.network.handler.CharacterHandler;
 import eu.jangos.realm.utils.WorldParameterConstants;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -103,7 +103,7 @@ public class RealmServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
-                            p.addLast(new RealmPacketDecoder(), new RealmPacketEncoder(), new RealmAuthHandler(), new ReadTimeoutHandler(TIMEOUT), new RealmWorldHandler());                            
+                            p.addLast(new RealmPacketDecoder(), new RealmPacketEncoder(), new RealmAuthHandler(), new ReadTimeoutHandler(TIMEOUT), new CharacterHandler());                            
                         }
                     });
 

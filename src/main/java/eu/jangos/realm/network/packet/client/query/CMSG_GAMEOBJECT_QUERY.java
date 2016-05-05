@@ -1,4 +1,4 @@
-package eu.jangos.realm.network.packet.client;
+package eu.jangos.realm.network.packet.client.query;
 
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmClientPacket;
@@ -21,35 +21,34 @@ import io.netty.buffer.ByteBuf;
  */
 
 /**
- * CMSG_PING represents a packet sent by the client to ping the server.
+ * CMSG_GAMEOBJECT_QUERY represents a packet sent by the client when it wants to retrieve gameobject information.
  *
  * @author Warkdev
  * @version v0.1 BETA.
  */
-public class CMSG_PING extends AbstractRealmClientPacket {
+public class CMSG_GAMEOBJECT_QUERY extends AbstractRealmClientPacket {
 
     /**
      * Packet size.
      */
-    private short size;    
-
-    /**
-     * The ping time.
-     */
-    private int ping;
+    private short size;
     
     /**
-     * The client latency.
+     * Game object entry.
      */
-    private int latency;
+    private int entry;
+    
+    /**
+     * Game object guid.
+     */
+    private long guid;
     
     /**
      * Constructor with opcode.
      *
      * @param opcode
-     * @param size
      */
-    public CMSG_PING(Opcodes opcode, short size) {
+    public CMSG_GAMEOBJECT_QUERY(Opcodes opcode, short size) {
         super(opcode);
         this.size = size;
     }
@@ -62,40 +61,39 @@ public class CMSG_PING extends AbstractRealmClientPacket {
         this.size = size;
     }
 
-    public int getPing() {
-        return ping;
+    public int getEntry() {
+        return entry;
     }
 
-    public void setPing(int ping) {
-        this.ping = ping;
+    public void setEntry(int entry) {
+        this.entry = entry;
     }
 
-    public int getLatency() {
-        return latency;
+    public long getGuid() {
+        return guid;
     }
 
-    public void setLatency(int latency) {
-        this.latency = latency;
-    }        
+    public void setGuid(long guid) {
+        this.guid = guid;
+    }    
     
     public String toString() {
-        String toString = "[CMSG_PING [ "
-                + " ping: " + this.ping
-                + " latency: " + this.latency
-                + " ]]";
+        String toString = "[CMSG_GAMEOBJECT_QUERY [entry: "+this.entry
+                +", guid: "+this.guid
+                +"]]";
 
         return toString;
     }
 
     @Override
-    public void decode(ByteBuf buf) throws Exception {               
-        if((buf.readableBytes() + 4) < this.size)
+    public void decode(ByteBuf buf) throws Exception {           
+        if((buf.readableBytes()+4) < this.size)
         {
             throw new Exception();
-        }                                
+        }
         
-        this.ping = buf.readInt();
-        this.latency = buf.readInt();
+        this.entry = buf.readInt();   
+        this.guid = buf.readLong();
     }
 
 }

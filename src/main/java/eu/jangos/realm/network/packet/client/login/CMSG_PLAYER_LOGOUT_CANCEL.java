@@ -1,4 +1,4 @@
-package eu.jangos.realm.network.packet.client;
+package eu.jangos.realm.network.packet.client.login;
 
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmClientPacket;
@@ -21,35 +21,24 @@ import io.netty.buffer.ByteBuf;
  */
 
 /**
- * CMSG_PING represents a packet sent by the client to ping the server.
+ * CMSG_PLAYER_LOGOUT_CANCEL represents a packet sent by the client to cancel an on-going logout operation.
  *
  * @author Warkdev
  * @version v0.1 BETA.
  */
-public class CMSG_PING extends AbstractRealmClientPacket {
+public class CMSG_PLAYER_LOGOUT_CANCEL extends AbstractRealmClientPacket {
 
     /**
      * Packet size.
      */
-    private short size;    
-
-    /**
-     * The ping time.
-     */
-    private int ping;
-    
-    /**
-     * The client latency.
-     */
-    private int latency;
+    private short size;        
     
     /**
      * Constructor with opcode.
      *
      * @param opcode
-     * @param size
      */
-    public CMSG_PING(Opcodes opcode, short size) {
+    public CMSG_PLAYER_LOGOUT_CANCEL(Opcodes opcode, short size) {
         super(opcode);
         this.size = size;
     }
@@ -61,41 +50,20 @@ public class CMSG_PING extends AbstractRealmClientPacket {
     public void setSize(short size) {
         this.size = size;
     }
-
-    public int getPing() {
-        return ping;
-    }
-
-    public void setPing(int ping) {
-        this.ping = ping;
-    }
-
-    public int getLatency() {
-        return latency;
-    }
-
-    public void setLatency(int latency) {
-        this.latency = latency;
-    }        
     
     public String toString() {
-        String toString = "[CMSG_PING [ "
-                + " ping: " + this.ping
-                + " latency: " + this.latency
-                + " ]]";
+        String toString = "[CMSG_PLAYER_LOGOUT_CANCEL ["                 
+                +"]]";
 
         return toString;
     }
 
     @Override
-    public void decode(ByteBuf buf) throws Exception {               
-        if((buf.readableBytes() + 4) < this.size)
+    public void decode(ByteBuf buf) throws Exception {           
+        if((buf.readableBytes()+4) < this.size)
         {
             throw new Exception();
-        }                                
-        
-        this.ping = buf.readInt();
-        this.latency = buf.readInt();
+        }                
     }
 
 }

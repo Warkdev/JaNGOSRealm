@@ -1,4 +1,4 @@
-package eu.jangos.realm.network.packet.client;
+package eu.jangos.realm.network.packet.client.query;
 
 import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmClientPacket;
@@ -21,35 +21,29 @@ import io.netty.buffer.ByteBuf;
  */
 
 /**
- * CMSG_PING represents a packet sent by the client to ping the server.
+ * CMSG_ITEM_QUERY_SINGLE represents a packet sent by the client when it wants to retrieve item information.
  *
  * @author Warkdev
  * @version v0.1 BETA.
  */
-public class CMSG_PING extends AbstractRealmClientPacket {
+public class CMSG_ITEM_QUERY_SINGLE extends AbstractRealmClientPacket {
 
     /**
      * Packet size.
      */
-    private short size;    
-
-    /**
-     * The ping time.
-     */
-    private int ping;
+    private short size;
     
     /**
-     * The client latency.
+     * Item ID.
      */
-    private int latency;
+    private int id;
     
     /**
      * Constructor with opcode.
      *
      * @param opcode
-     * @param size
      */
-    public CMSG_PING(Opcodes opcode, short size) {
+    public CMSG_ITEM_QUERY_SINGLE(Opcodes opcode, short size) {
         super(opcode);
         this.size = size;
     }
@@ -62,40 +56,29 @@ public class CMSG_PING extends AbstractRealmClientPacket {
         this.size = size;
     }
 
-    public int getPing() {
-        return ping;
+    public int getId() {
+        return id;
     }
 
-    public void setPing(int ping) {
-        this.ping = ping;
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public int getLatency() {
-        return latency;
-    }
-
-    public void setLatency(int latency) {
-        this.latency = latency;
-    }        
     
     public String toString() {
-        String toString = "[CMSG_PING [ "
-                + " ping: " + this.ping
-                + " latency: " + this.latency
-                + " ]]";
+        String toString = "[CMSG_ITEM_QUERY_SINGLE [id: "+this.id                
+                +"]]";
 
         return toString;
     }
 
     @Override
-    public void decode(ByteBuf buf) throws Exception {               
-        if((buf.readableBytes() + 4) < this.size)
+    public void decode(ByteBuf buf) throws Exception {           
+        if((buf.readableBytes()+4) < this.size)
         {
             throw new Exception();
-        }                                
+        }
         
-        this.ping = buf.readInt();
-        this.latency = buf.readInt();
+        this.id = buf.readInt();   
     }
 
 }

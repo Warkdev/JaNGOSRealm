@@ -23,7 +23,7 @@ import eu.jangos.realm.network.opcode.Opcodes;
 import eu.jangos.realm.network.packet.AbstractRealmClientPacket;
 import eu.jangos.realm.network.packet.client.CMSG_PING;
 import eu.jangos.realm.network.packet.client.auth.CMSG_AUTH_SESSION;
-import eu.jangos.realm.network.packet.client.auth.CMSG_PLAYER_LOGIN;
+import eu.jangos.realm.network.packet.client.login.CMSG_PLAYER_LOGIN;
 import eu.jangos.realm.network.packet.client.character.CMSG_CHAR_CREATE;
 import eu.jangos.realm.network.packet.client.character.CMSG_CHAR_DELETE;
 import eu.jangos.realm.network.packet.client.character.CMSG_CHAR_ENUM;
