@@ -17,7 +17,7 @@ package eu.jangos.realm.controller.world;
  */
 
 import eu.jangos.realm.hibernate.HibernateUtil;
-import eu.jangos.realm.model.world.WParameter;
+import eu.jangos.realm.model.world.Wparameter;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -44,7 +44,7 @@ public class WorldParameterService {
         }                
         
         try (Session session = HibernateUtil.getWorldSession().openSession()) {                           
-            WParameter parameter = (WParameter) session.createCriteria(WParameter.class).add(Restrictions.like("param", key)).uniqueResult();
+            Wparameter parameter = (Wparameter) session.createCriteria(Wparameter.class).add(Restrictions.like("param", key)).uniqueResult();
             
             if(parameter == null)
             {

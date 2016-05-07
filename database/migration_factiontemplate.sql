@@ -1,0 +1,20 @@
+INSERT INTO factiontemplate
+SELECT id,
+	faction1id, 
+    (flags & b'1') as flagUnk1,
+	(flags >> 1 & b'1') as flagUnk2,
+    (flags >> 2 & b'1') as flagUnk3,
+    (flags >> 3 & b'1') as flagUnk4,
+    (flags >> 4 & b'1') as flagUnk5,
+    (flags >> 5 & b'1') as flagUnk6,
+    (flags >> 6 & b'1') as flagUnk7,
+    (flags >> 7 & b'1') as flagUnk8,
+    (flags >> 8 & b'1') as flagUnk9,
+    (flags >> 9 & b'1') as flagUnk10,
+    (flags >> 10 & b'1') as flagUnk11,
+    (flags >> 11 & b'1') as flagUnk12,
+    (flags >> 12 & b'1') as flagUnk13,
+    (flags >> 13 & b'1') as flagUnk14,
+    (flags >> 14 & b'1') as flagUnk15,
+    (flags >> 15 & b'1') as flagUnk16
+    FROM dbc.dbc0_factiontemplate;

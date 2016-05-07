@@ -49,12 +49,7 @@ public class SMSG_GUILD_QUERY extends AbstractRealmServerPacket {
     
     private int backgroundColor;       
     
-    private static final int GUILD_RANKS_MAX_COUNT = 10;
-    
-    /**
-     * Represents the class of the player.
-     */
-    private ProfessionsEnum prof;       
+    private static final int GUILD_RANKS_MAX_COUNT = 10;      
 
     public SMSG_GUILD_QUERY(Opcodes code) {
         super(code, 34);
@@ -122,17 +117,7 @@ public class SMSG_GUILD_QUERY extends AbstractRealmServerPacket {
 
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
-    }
-
-    public ProfessionsEnum getProf() {
-        return prof;
-    }
-
-    public void setProf(ProfessionsEnum prof) {
-        this.prof = prof;
-    }
-
-    
+    }    
     
     public String toString() {
         String toString = "[SMSG_GUILD_QUERY [ "

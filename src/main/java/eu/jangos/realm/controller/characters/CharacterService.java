@@ -265,6 +265,13 @@ public class CharacterService {
         character.setHomeFkDbcMap(race.getFkDbcMap());
         character.setHomeFkDbcZone(race.getFkDbcZone());
         character.setStableSlots((byte) 0);
+        character.setHidehelm(Boolean.FALSE);
+        character.setHidecloak(Boolean.FALSE);
+        character.setGhost(Boolean.FALSE);
+        character.setChangename(Boolean.FALSE);
+        character.setResetspell(Boolean.FALSE);
+        character.setResettalents(Boolean.FALSE);
+        character.setTotaltime(0);                
         
         // Adding default equipment.
         Set<ItemInstance> listEquipment = new HashSet<>();
@@ -294,8 +301,8 @@ public class CharacterService {
                     ii.setSlot(bagslot);
                     bagslot++;
                     break;
-            }
-
+            }            
+            
             ii.setCharacters(character);
 
             listEquipment.add(ii);
@@ -313,7 +320,7 @@ public class CharacterService {
             spell.setCooldown(new Date());
             spell.setItemInstance(null);
             
-            spell.setId(new SpellId(null, s.getId().getFkDbcSpell()));
+            spell.setId(new SpellId(0, s.getId().getFkDbcSpell()));
             
             listSpells.add(spell);
         }                
@@ -343,7 +350,7 @@ public class CharacterService {
             // We re-assign the right ID to the spell and add the spells to the character.
             for(Spell spell : listSpells)
             {
-                spell.getId().setFkOwner(character);
+                spell.getId().setFkOwner(character.getGuid());
             }
             character.setSpells(listSpells);
             session.merge(character);
@@ -469,7 +476,7 @@ public class CharacterService {
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             return session.createCriteria(Characters.class)
                     .add(Restrictions.and(
-                                    Restrictions.eq("deleted", false),
+                                    Restrictions.isNull("deleted"),
                                     Restrictions.eq("fkAccount", account.getId()
                                     ))).list();
         } catch (HibernateException he) {
@@ -494,7 +501,7 @@ public class CharacterService {
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             return (long) session.createCriteria(Characters.class)
                     .add(Restrictions.and(
-                                    Restrictions.eq("deleted", false),
+                                    Restrictions.isNull("deleted"),
                                     Restrictions.eq("fkAccount", account.getId()
                                     ))).setProjection(Projections.rowCount()).uniqueResult();
         } catch (HibernateException he) {
@@ -518,11 +525,11 @@ public class CharacterService {
             Disjunction or = Restrictions.disjunction();
             for (RaceEnum race : FactionEnum.getRacesForFactions(faction)) {
                 or.add(Restrictions.eq("race", race.getValue()));
-            }
-
+            }            
+            
             return (((long) session.createCriteria(Characters.class)
                     .add(Restrictions.and(
-                                    Restrictions.eq("deleted", false),
+                                    Restrictions.isNull("deleted"),
                                     Restrictions.eq("fkAccount", account.getId()),
                                     or
                             )).setProjection(Projections.rowCount()).uniqueResult()) != 0);
@@ -547,7 +554,7 @@ public class CharacterService {
         try (Session session = HibernateUtil.getCharSession().openSession()) {
             Characters character = (Characters) session.createCriteria(Characters.class)
                     .add(Restrictions.and(
-                                    Restrictions.eq("deleted", false),
+                                    Restrictions.isNull("deleted"),
                                     Restrictions.like("name", name)))
                     .uniqueResult();
             logger.debug("The character " + name + " is found.");

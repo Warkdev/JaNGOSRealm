@@ -63,4 +63,35 @@ public class WorldParameterConstants {
     public static final String KEY_WORLD_MAX_LENGTH_NAME = "worldMaxLengthName";
             
     public static final String COMMAND_SEPARATOR = ":";
+    
+    /**
+     * QUEST CONSTANTS
+     */
+    
+    /**
+     * Maximum number of quests in the log.
+     */
+    public static final int QUEST_MAX_QUEST_LOG_SIZE = 20;
+    
+    /**
+     * Maximum number of objectives to complete a quest.
+     */
+    public static final int QUEST_OBJECTIVES_COUNT = 4;
+    
+    /**
+     * Maximum number of items to achieve an objective for a quest.
+     */
+    public static final int QUEST_ITEM_OBJECTIVES_COUNT = 4;
+    
+    public static final int QUEST_SOURCE_ITEM_IDS_COUNT = 4;
+    
+    public static final int QUEST_REWARD_CHOICES_COUNT = 6;
+    
+    public static final int QUEST_REWARDS_COUNT = 4;
+    
+    public static final int QUEST_DEPLINK_COUNT = 10;
+    
+    public static final int QUEST_REPUTATIONS_COUNT = 5;
+    
+    public static final int QUEST_EMOTE_COUNT = 4;            
 }

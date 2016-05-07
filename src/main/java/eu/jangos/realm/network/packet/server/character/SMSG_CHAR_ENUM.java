@@ -119,9 +119,9 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
     private byte convertLoginFlagsToByte(Characters c) {
         byte flags = 0; // NONE
         
-        flags+=(c.isChangename() ? 1 : 0); // RENAME
-        flags+=(c.isResetspell()? 2 : 0); // RESET SPELLS
-        flags+=(c.isResettalents()? 4 : 0); // RESET TALENTS
+        flags+=(c.getChangename() ? 1 : 0); // RENAME
+        flags+=(c.getResetspell() ? 2 : 0); // RESET SPELLS
+        flags+=(c.getResettalents() ? 4 : 0); // RESET TALENTS
         //flags+=(c.isCharcustom()? 8 : 0); // CUSTOMIZE -- Not used
         //flags+=(c.isre() ? 16 : 0); // RESET PET TALENTS -- Not used
         flags+=(c.getTotaltime() == 0 ? 32 : 0); // FIRST LOGIN        
@@ -147,12 +147,12 @@ public class SMSG_CHAR_ENUM extends AbstractRealmServerPacket {
         // flags+= (0*64) // UNKNOWN
         // flags+= (0*128) // UNKNOWN
         // flags+= (0*256) // UNKNOWN
-        // flags+= (0*512) // UNKNOWN
-        flags += (c.isHidehelm() ? 1024 : 0); // HIDE_HELM
-        flags += (c.isHidecloak() ? 2048 : 0); // HIDE_CLOAK
+        // flags+= (0*512) // UNKNOWN        
+        flags += (c.getHidehelm() ? 1024 : 0); // HIDE_HELM
+        flags += (c.getHidecloak() ? 2048 : 0); // HIDE_CLOAK
         // flags+= (0*4096) // UNKNOWN
-        flags += (c.isGhost() ? 8192 : 0); // GHOST
-        flags += (c.isChangename() ? 16384 : 0); // RENAME
+        flags += (c.getGhost() ? 8192 : 0); // GHOST
+        flags += (c.getChangename() ? 16384 : 0); // RENAME
         // flags+= (0*32768) // UNKNOWN
         // flags+= (0*65536) // UNKNOWN
         // flags+= (0*131072) // UNKNOWN

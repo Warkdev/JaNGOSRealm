@@ -18,14 +18,11 @@ package eu.jangos.realm.controller.world;
 import eu.jangos.realm.hibernate.HibernateUtil;
 import eu.jangos.realm.model.world.Item;
 import java.util.List;
-import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +34,17 @@ import org.slf4j.LoggerFactory;
 public class ItemService {
     
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);   
+    
+    public List<Item> getAll(){
+        logger.debug("Loading all items information from the database.");
+        
+        try(Session session = HibernateUtil.getWorldSession().openSession()) {
+            return session.createCriteria(Item.class).list();
+        } catch (HibernateException he) {
+            logger.debug("There was an error connecting to the database.");
+            return null;
+        }
+    }
     
     /**
      * Return the item which has the given ID.
